@@ -1,0 +1,32 @@
+#version: "3.8"
+#
+#services:
+#  #Postgres configuration
+#  mui-postgres:
+#    container_name: mui-postgres-container
+#    image: postgres:alpine
+#    restart: always
+#    ports:
+#      - ${TYPEORM_PORT}:${TYPEORM_PORT}
+#    environment:
+#      POSTGRES_USER: ${TYPEORM_USERNAME}
+#      POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
+#      POSTGRES_DB: ${TYPEORM_DATABASE}
+#    volumes:
+#      - ./pgdata:/var/lib/postgresql/data
+#
+
+version: '3.8'
+services:
+  db:
+    container_name: Users
+    image:  postgres:14-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${TYPEORM_USERNAME}
+      - POSTGRES_PASSWORD=${TYPEORM_PASSWORD}
+      - POSTGRES_DB=${TYPEORM_DATABASE}
+    volumes:
+      - ./pddata:/var/lib/postgresql/data
+    ports:
+      - ${TYPEORM_PORT}:${TYPEORM_PORT}
