@@ -1,7 +1,14 @@
-import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { CssBaseline } from "@mui/material";
+import { Router } from "routes";
 
-function App() {
-  return <div>Test</div>;
+export default function App(): JSX.Element {
+  return (
+    <>
+      <CssBaseline />
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </>
+  );
 }
-
-export default App;
