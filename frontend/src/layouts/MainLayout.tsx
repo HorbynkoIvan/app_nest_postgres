@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { AppBar } from "common/componets";
+import { AppBar } from "common/components";
 import { Outlet } from "react-router-dom";
 
 export const MainLayout = (): JSX.Element => (

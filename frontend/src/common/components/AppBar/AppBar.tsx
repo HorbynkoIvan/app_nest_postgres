@@ -9,9 +9,16 @@ import {
   Switch,
   Typography,
   Toolbar,
+  Button,
 } from "@mui/material";
 import { ChangeEvent, MouseEvent, useState } from "react";
 import { AccountCircle } from "@mui/icons-material";
+import { NavLink } from "react-router-dom";
+
+const navLinks = [
+  { name: "Team", route: "team" },
+  { name: "Profile form", route: "profile" },
+];
 
 export const AppBar = () => {
   const [auth, setAuth] = useState(true);
@@ -39,11 +46,19 @@ export const AppBar = () => {
         />
       </FormGroup>
       {/* ToDo remove above*/}
+
       <AppBarMui position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Logo
           </Typography>
+
+          {navLinks.map(({ name, route }) => (
+            <Box component={NavLink} key={name} to={route} sx={{ textDecoration: "none" }}>
+              <Button sx={{ color: "#fff" }}>{name}</Button>
+            </Box>
+          ))}
+
           {auth && (
             <div>
               <IconButton
