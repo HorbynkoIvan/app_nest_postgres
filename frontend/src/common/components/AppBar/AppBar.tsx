@@ -18,7 +18,7 @@ const navLinks = [
 ];
 
 export const AppBar = () => {
-  const [auth, setAuth] = useState(true);
+  const [auth] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenu = (event: MouseEvent<HTMLElement>) => {

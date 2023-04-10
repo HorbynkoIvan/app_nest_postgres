@@ -1,5 +1,5 @@
 import { MainLayout } from "layouts";
-import { TeamFeature } from "features";
+import { TeamFeature, ProfileFeature } from "features";
 
 export const routes = [
   {
@@ -7,7 +7,7 @@ export const routes = [
     children: [
       { path: "/", element: <h1>Dashboard</h1> },
       { path: "/team", element: <TeamFeature /> },
-      { path: "/profile", element: <h1>Profile form</h1> },
+      { path: "/profile", element: <ProfileFeature /> },
     ],
   },
 ];
