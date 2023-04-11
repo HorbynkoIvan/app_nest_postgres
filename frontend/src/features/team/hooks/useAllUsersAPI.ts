@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { UserType } from "../interfaces";
-import { GET_ALL_USERS_QUERY } from "../graphql";
+import { GET_ALL_USERS_QUERY } from "common/graphql";
 
 type Return = {
   users: UserType[];

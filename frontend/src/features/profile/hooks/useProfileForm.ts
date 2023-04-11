@@ -1,8 +1,7 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useMutation } from "@apollo/client";
-import { CREATE_USER_MUTATION } from "../graphql";
-import { GET_ALL_USERS_QUERY } from "../../team/graphql";
+import { CREATE_USER_MUTATION, GET_ALL_USERS_QUERY } from "common/graphql";
 
 const defaultValues = {
   name: "",

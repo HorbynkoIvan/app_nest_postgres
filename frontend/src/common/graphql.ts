@@ -17,3 +17,15 @@ export const REMOVE_USER_BY_ID_QUERY = gql`
     removeUser(id: $id)
   }
 `;
+
+export const CREATE_USER_MUTATION = gql`
+  mutation createUser($user: CreateUserInput!) {
+    createUser(createUser: $user) {
+      id
+      name
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;

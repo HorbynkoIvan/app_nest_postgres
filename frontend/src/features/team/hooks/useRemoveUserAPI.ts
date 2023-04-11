@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { GET_ALL_USERS_QUERY, REMOVE_USER_BY_ID_QUERY } from "../graphql";
+import { GET_ALL_USERS_QUERY, REMOVE_USER_BY_ID_QUERY } from "common/graphql";
 
 type Return = any;
 
