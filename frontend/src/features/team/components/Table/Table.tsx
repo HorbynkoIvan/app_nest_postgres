@@ -7,8 +7,9 @@ import { BoxScrolled } from "common/components";
 import { UserType } from "../../interfaces";
 import moment from "moment";
 import { MdClear, MdModeEdit } from "react-icons/md";
-import { IconButton, IconButtonRouter } from "../IconButton";
+import { IconButton } from "../IconButton";
 import { useRemoveUserAPI } from "../../hooks/useRemoveUserAPI";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   users: UserType[];
@@ -16,6 +17,8 @@ type Props = {
 
 export const Table = ({ users }: Props): JSX.Element => {
   const { removeUserById } = useRemoveUserAPI();
+  const navigate = useNavigate();
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID" },
     {
@@ -72,9 +75,9 @@ export const Table = ({ users }: Props): JSX.Element => {
       renderCell: ({ row: { id } }) => {
         return (
           <Stack spacing={1} direction="row">
-            <IconButtonRouter aria-label="edit" size="small" to="/edit">
+            <IconButton aria-label="edit" size="small" onClick={() => navigate(id.toString())}>
               <MdModeEdit fontSize="small" />
-            </IconButtonRouter>
+            </IconButton>
 
             <IconButton aria-label="delete" size="small" onClick={() => removeUserById(Number(id))}>
               <MdClear fontSize="small" />
