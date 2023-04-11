@@ -11,3 +11,9 @@ export const GET_ALL_USERS_QUERY = gql`
     }
   }
 `;
+
+export const REMOVE_USER_BY_ID_QUERY = gql`
+  mutation RemoveUser($id: Float!) {
+    removeUser(id: $id)
+  }
+`;

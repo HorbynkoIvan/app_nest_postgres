@@ -8,12 +8,14 @@ import { UserType } from "../../interfaces";
 import moment from "moment";
 import { MdClear, MdModeEdit } from "react-icons/md";
 import { IconButton, IconButtonRouter } from "../IconButton";
+import { useRemoveUserAPI } from "../../hooks/useRemoveUserAPI";
 
 type Props = {
   users: UserType[];
 };
 
 export const Table = ({ users }: Props): JSX.Element => {
+  const { removeUserById } = useRemoveUserAPI();
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID" },
     {
@@ -67,14 +69,14 @@ export const Table = ({ users }: Props): JSX.Element => {
       align: "center",
       sortable: false,
       disableColumnMenu: true,
-      renderCell: () => {
+      renderCell: ({ row: { id } }) => {
         return (
           <Stack spacing={1} direction="row">
             <IconButtonRouter aria-label="edit" size="small" to="/edit">
               <MdModeEdit fontSize="small" />
             </IconButtonRouter>
 
-            <IconButton aria-label="delete" size="small" onClick={() => console.log("click")}>
+            <IconButton aria-label="delete" size="small" onClick={() => removeUserById(Number(id))}>
               <MdClear fontSize="small" />
             </IconButton>
           </Stack>
