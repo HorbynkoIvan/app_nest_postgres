@@ -7,8 +7,6 @@ export const useRemoveUserAPI = (): Return => {
   const [removeUserMutation] = useMutation(REMOVE_USER_BY_ID_QUERY);
 
   const removeUserById = async (id: number) => {
-    console.log("id ", typeof id);
-
     await removeUserMutation({
       variables: { id },
       refetchQueries: [{ query: GET_ALL_USERS_QUERY }],

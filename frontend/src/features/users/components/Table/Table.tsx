@@ -3,13 +3,13 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import { useNavigate } from "react-router-dom";
 import { BoxScrolled } from "common/components";
-import { UserType } from "../../interfaces";
+import { UserType } from "common/interfaces";
 import moment from "moment";
 import { MdClear, MdModeEdit } from "react-icons/md";
 import { IconButton } from "../IconButton";
-import { useRemoveUserAPI } from "../../hooks/useRemoveUserAPI";
-import { useNavigate } from "react-router-dom";
+import { useRemoveUserAPI } from "../../hooks/";
 
 type Props = {
   users: UserType[];
@@ -92,7 +92,18 @@ export const Table = ({ users }: Props): JSX.Element => {
     <Box sx={{ position: "relative", height: "100%" }}>
       <BoxScrolled>
         <TableContainer sx={{ minWidth: 800, height: "100%" }}>
-          <DataGrid checkboxSelection rows={users} columns={columns} pageSize={10} />
+          <DataGrid
+            rows={users}
+            columns={columns}
+            pageSize={10}
+            initialState={{
+              pagination: {
+                pageSize: 5,
+              },
+            }}
+            checkboxSelection
+            disableSelectionOnClick
+          />
         </TableContainer>
       </BoxScrolled>
     </Box>

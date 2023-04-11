@@ -13,8 +13,8 @@ import { AccountCircle } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
 
 const navLinks = [
-  { name: "Team", route: "team" },
-  { name: "Profile form", route: "profile" },
+  { name: "Create User", route: "userCreate" },
+  { name: "Users", route: "users" },
 ];
 
 export const AppBar = () => {

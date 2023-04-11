@@ -11,7 +11,6 @@ const defaultValues = {
 export const useUserEditForm = (user: any) => {
   const [updateUserMutation, { loading }] = useMutation(UPDATE_USER_MUTATION);
 
-  console.log(user);
   return useFormik({
     initialValues: { ...defaultValues, ...user },
     validationSchema: yup.object({

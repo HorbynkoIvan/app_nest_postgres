@@ -3,7 +3,7 @@ import { Header, PaperWrapper } from "common/components";
 import { useAllUsersAPI } from "./hooks";
 import { Table } from "./components";
 
-export const TeamFeature = () => {
+export const UsersFeature = () => {
   const { users, loading } = useAllUsersAPI();
 
   if (loading)
@@ -13,7 +13,6 @@ export const TeamFeature = () => {
       </Stack>
     );
 
-  console.log(users);
   return (
     <>
       <Header title="TEAM" subtitle="Managing the Team Members" />

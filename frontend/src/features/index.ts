@@ -1,3 +1,3 @@
-export { TeamFeature } from "./team";
-export { ProfileFeature } from "./profile";
-export { UserEditFeature } from "./usersEdit";
+export { UsersFeature } from "./users";
+export { UserCreateFeature } from "./userCreate";
+export { UserEditFeature } from "./userEdit";

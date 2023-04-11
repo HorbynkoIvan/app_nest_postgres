@@ -1,5 +1,5 @@
 import { MainLayout } from "layouts";
-import { TeamFeature, ProfileFeature, UserEditFeature } from "features";
+import { UsersFeature, UserCreateFeature, UserEditFeature } from "features";
 
 export const routes = [
   {
@@ -7,13 +7,13 @@ export const routes = [
     children: [
       { path: "/", element: <h1>Dashboard</h1> },
       {
-        path: "/team",
+        path: "/users",
         children: [
-          { path: "", element: <TeamFeature /> },
+          { path: "", element: <UsersFeature /> },
           { path: ":userId", element: <UserEditFeature /> },
         ],
       },
-      { path: "/profile", element: <ProfileFeature /> },
+      { path: "/userCreate", element: <UserCreateFeature /> },
     ],
   },
 ];
