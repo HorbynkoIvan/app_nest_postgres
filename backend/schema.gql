@@ -8,13 +8,18 @@ input CreateUserInput {
   email: String!
   firstName: String
   lastName: String
-  name: String
+  role: String
+  username: String
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+input GetUsersInput {
+  roles: [String!]
+}
 
 type Mutation {
   createUser(createUser: CreateUserInput!): UserEntity!
@@ -28,11 +33,14 @@ type ProfileEntity {
   firstName: String!
   id: ID!
   lastName: String!
+  role: String
 }
 
 type Query {
-  getAllUsers: [UserEntity!]!
-  getOneUser(id: Float!): UserEntity!
+  getUser(id: Float!): UserEntity!
+
+  """This graphql method for getting all users"""
+  getUsers(usersInput: GetUsersInput!): [UserEntity!]!
 }
 
 input UpdateUserInput {
@@ -45,7 +53,7 @@ type UserEntity {
   createdAt: DateTime!
   email: String!
   id: ID!
-  name: String
   profile: ProfileEntity
   updatedAt: DateTime!
+  username: String
 }

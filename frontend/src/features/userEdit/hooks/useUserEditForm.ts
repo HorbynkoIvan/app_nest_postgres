@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useMutation } from "@apollo/client";
-import { UPDATE_USER_MUTATION, GET_ALL_USERS_QUERY } from "common/graphql";
+import { GET_USERS_QUERY, UPDATE_USER_MUTATION } from "common/graphql";
 
 const defaultValues = {
   name: "",
@@ -28,7 +28,7 @@ export const useUserEditForm = (user: any) => {
             email: values.email,
           },
         },
-        refetchQueries: [{ query: GET_ALL_USERS_QUERY }],
+        refetchQueries: [{ query: GET_USERS_QUERY }],
       });
     },
   });

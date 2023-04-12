@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const GET_ALL_USERS_QUERY = gql`
-  query GetAllUsers {
-    getAllUsers {
+export const GET_USERS_QUERY = gql`
+  query GetUsers {
+    getUsers {
       createdAt
       email
       id
@@ -12,9 +12,9 @@ export const GET_ALL_USERS_QUERY = gql`
   }
 `;
 
-export const GET_ONE_USER_QUERY = gql`
-  query GetOneUser($id: Float!) {
-    getOneUser(id: $id) {
+export const GET_USER_QUERY = gql`
+  query GetUser($id: Float!) {
+    getUser(id: $id) {
       createdAt
       email
       id

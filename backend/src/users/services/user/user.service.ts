@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../../entities/user.entity';
 import { Repository } from 'typeorm';
 import { UpdateUserInput } from '../../inputs/update-user.input';
+import { GetUsersInput } from '../../inputs/get-users.input';
 
 @Injectable()
 export class UserService {
@@ -15,13 +16,18 @@ export class UserService {
     return await this.userRepository.save({ ...createUserInput });
   }
 
-  async getAllUsers(): Promise<UserEntity[]> {
-    return await this.userRepository.find({
-      relations: { profile: true },
-    });
+  async getUsers({ roles }: GetUsersInput): Promise<UserEntity[]> {
+    const query = this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.profile', 'profile');
+
+    if (roles && roles.length > 0) {
+      query.andWhere('profile.role IN (:...roles)', { roles });
+    }
+    return await query.getMany();
   }
 
-  async getOneUser(id: number): Promise<UserEntity> {
+  async getUser(id: number): Promise<UserEntity> {
     return await this.userRepository.findOne({
       where: { id },
       relations: { profile: true },
@@ -38,6 +44,6 @@ export class UserService {
       { id: updateUserInput.id },
       { ...updateUserInput },
     );
-    return await this.getOneUser(updateUserInput.id);
+    return await this.getUser(updateUserInput.id);
   }
 }

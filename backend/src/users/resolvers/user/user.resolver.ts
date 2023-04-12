@@ -4,6 +4,7 @@ import { UserEntity } from '../../entities/user.entity';
 import { CreateUserInput } from '../../inputs/create-user.input';
 import { UpdateUserInput } from '../../inputs/update-user.input';
 import { ProfileEntity } from '../../entities/profile.entity';
+import { GetUsersInput } from '../../inputs/get-users.input';
 
 @Resolver('User')
 export class UserResolver {
@@ -13,7 +14,8 @@ export class UserResolver {
   async createUser(
     @Args('createUser') createUserInput: CreateUserInput,
   ): Promise<UserEntity> {
-    const { email, name, firstName, lastName, age, city } = createUserInput;
+    const { email, username, firstName, lastName, age, city, role } =
+      createUserInput;
 
     // создаем профиль и связываем его с пользователем
     const profile = new ProfileEntity();
@@ -21,11 +23,12 @@ export class UserResolver {
     profile.lastName = lastName;
     profile.age = age;
     profile.city = city;
+    profile.role = role;
 
     // создаем пользователя и связываем его с профилем
     const user = new UserEntity();
     user.email = email;
-    user.name = name;
+    user.username = username;
     user.profile = profile;
 
     // сохраняем профиль и пользователя в базе данных
@@ -44,13 +47,18 @@ export class UserResolver {
     return await this.userService.removeUser(id);
   }
 
-  @Query(() => [UserEntity])
-  async getAllUsers(): Promise<UserEntity[]> {
-    return await this.userService.getAllUsers();
+  @Query(() => [UserEntity], {
+    description: 'This graphql method for getting all users',
+  })
+  async getUsers(
+    @Args('usersInput')
+    userInput: GetUsersInput,
+  ): Promise<UserEntity[]> {
+    return await this.userService.getUsers(userInput);
   }
 
   @Query(() => UserEntity)
-  async getOneUser(@Args('id') id: number): Promise<UserEntity> {
-    return await this.userService.getOneUser(id);
+  async getUser(@Args('id') id: number): Promise<UserEntity> {
+    return await this.userService.getUser(id);
   }
 }

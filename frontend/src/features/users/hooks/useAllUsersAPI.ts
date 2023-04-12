@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { UserType } from "common/interfaces";
-import { GET_ALL_USERS_QUERY } from "common/graphql";
+import { GET_USERS_QUERY } from "common/graphql";
 
 type Return = {
   users: UserType[];
@@ -8,10 +8,10 @@ type Return = {
 };
 
 export const useAllUsersAPI = (): Return => {
-  const { data, loading } = useQuery(GET_ALL_USERS_QUERY);
+  const { data, loading } = useQuery(GET_USERS_QUERY);
 
   return {
-    users: data ? data.getAllUsers : [],
+    users: data ? data.getUsers : [],
     loading,
   };
 };
