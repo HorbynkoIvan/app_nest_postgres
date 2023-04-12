@@ -2,10 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { ProfileEntity } from './profile.entity';
 
 @ObjectType()
 @Entity('users')
@@ -29,4 +32,9 @@ export class UserEntity {
   @Field({ nullable: true })
   @Column({ nullable: true })
   name: string;
+
+  @Field({ nullable: true })
+  @OneToOne(() => ProfileEntity, (profile) => profile.user, { cascade: true })
+  @JoinColumn({ name: 'profile_id' })
+  profile: ProfileEntity;
 }

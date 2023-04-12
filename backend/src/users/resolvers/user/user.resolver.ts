@@ -1,8 +1,9 @@
-import { Args, Query, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserService } from '../../services/user/user.service';
 import { UserEntity } from '../../entities/user.entity';
 import { CreateUserInput } from '../../inputs/create-user.input';
 import { UpdateUserInput } from '../../inputs/update-user.input';
+import { ProfileEntity } from '../../entities/profile.entity';
 
 @Resolver('User')
 export class UserResolver {
@@ -12,7 +13,23 @@ export class UserResolver {
   async createUser(
     @Args('createUser') createUserInput: CreateUserInput,
   ): Promise<UserEntity> {
-    return await this.userService.createUser(createUserInput);
+    const { email, name, firstName, lastName, age, city } = createUserInput;
+
+    // создаем профиль и связываем его с пользователем
+    const profile = new ProfileEntity();
+    profile.firstName = firstName;
+    profile.lastName = lastName;
+    profile.age = age;
+    profile.city = city;
+
+    // создаем пользователя и связываем его с профилем
+    const user = new UserEntity();
+    user.email = email;
+    user.name = name;
+    user.profile = profile;
+
+    // сохраняем профиль и пользователя в базе данных
+    return await this.userService.createUser(user);
   }
 
   @Mutation(() => UserEntity)

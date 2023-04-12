@@ -7,4 +7,16 @@ export class CreateUserInput {
 
   @Field({ nullable: true })
   name: string;
+
+  @Field({ nullable: true })
+  firstName: string;
+
+  @Field({ nullable: true })
+  lastName: string;
+
+  @Field({ nullable: true })
+  age: number;
+
+  @Field({ nullable: true })
+  city: string;
 }

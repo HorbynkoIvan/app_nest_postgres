@@ -3,7 +3,11 @@
 # ------------------------------------------------------
 
 input CreateUserInput {
+  age: Float
+  city: String
   email: String!
+  firstName: String
+  lastName: String
   name: String
 }
 
@@ -16,6 +20,14 @@ type Mutation {
   createUser(createUser: CreateUserInput!): UserEntity!
   removeUser(id: Float!): Float!
   updateUser(updateUser: UpdateUserInput!): UserEntity!
+}
+
+type ProfileEntity {
+  age: Float!
+  city: String!
+  firstName: String!
+  id: ID!
+  lastName: String!
 }
 
 type Query {
@@ -34,5 +46,6 @@ type UserEntity {
   email: String!
   id: ID!
   name: String
+  profile: ProfileEntity
   updatedAt: DateTime!
 }
