@@ -1,11 +1,11 @@
 import { Stack, Typography } from "@mui/material";
 import { Header, PaperWrapper } from "common/components";
-import { useAllUsersAPI } from "./hooks";
+import { useUsersAPI } from "./hooks";
 import { Table } from "./components";
 
 export const UsersFeature = () => {
-  const { users, loading } = useAllUsersAPI();
-
+  const { users, loading } = useUsersAPI();
+  console.log(users);
   if (loading)
     return (
       <Stack justifyContent="center" alignItems="center" height="100%">

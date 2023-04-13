@@ -7,7 +7,7 @@ type Return = {
   loading: boolean;
 };
 
-export const useAllUsersAPI = (): Return => {
+export const useUsersAPI = (): Return => {
   const { data, loading } = useQuery(GET_USERS_QUERY);
 
   return {

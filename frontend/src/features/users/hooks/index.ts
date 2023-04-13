@@ -1,2 +1,2 @@
-export * from "./useAllUsersAPI";
+export * from "./useUsersAPI";
 export * from "./useRemoveUserAPI";

@@ -1,4 +1,4 @@
-import { TableContainer, Box, Typography, Stack } from "@mui/material";
+import { Box, Stack, TableContainer, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
@@ -22,7 +22,7 @@ export const Table = ({ users }: Props): JSX.Element => {
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID" },
     {
-      field: "name",
+      field: "username",
       headerName: "Name",
       flex: 1,
     },
@@ -47,18 +47,16 @@ export const Table = ({ users }: Props): JSX.Element => {
       field: "role",
       headerName: "Role",
       flex: 1,
-      renderCell: ({ row: { role } }: any) => {
+      renderCell: ({
+        row: {
+          profile: { role },
+        },
+      }: any) => {
         return (
-          <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
-            display="flex"
-            justifyContent="center"
-            borderRadius={1}>
-            {role === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {role === "manager" && <SecurityOutlinedIcon />}
-            {role === "user" && <LockOpenOutlinedIcon />}
+          <Box width="60%" m="0 auto" p="5px" display="flex" alignItems="center" borderRadius={1}>
+            {role === "superAdmin" && <AdminPanelSettingsOutlinedIcon />}
+            {role === "admin" && <SecurityOutlinedIcon />}
+            {role === "staff" && <LockOpenOutlinedIcon />}
             <Typography sx={{ ml: "5px" }}>{role}</Typography>
           </Box>
         );
