@@ -2,6 +2,7 @@ import { Box, Button, Divider, InputAdornment, Stack, TextField, Typography } fr
 import { FormikProvider } from "formik";
 import { MdMode } from "react-icons/md";
 import { useUserCreateForm } from "../../hooks";
+import { SelectPrimary } from "common/components";
 
 export const UserForm = (): JSX.Element => {
   const formik = useUserCreateForm();
@@ -127,16 +128,13 @@ export const UserForm = (): JSX.Element => {
             />
           </Stack>
 
-          {/* <Select*/}
-          {/*    label="Default Admin Role"*/}
-          {/*    options={[*/}
-          {/*      { id: 1, name: "admin" },*/}
-          {/*      { id: 2, name: "superAdmin" },*/}
-          {/*    ]}*/}
-          {/*    onChange={handleChange}*/}
-          {/*    value={values.role}*/}
-          {/*    name="role"*/}
-          {/* />*/}
+          <SelectPrimary
+            label="User Role"
+            options={["superAdmin", "admin", "staff"]}
+            onChange={handleChange}
+            value={values.role}
+            name="role"
+          />
         </Stack>
 
         <Stack direction="row" justifyContent="center" mt={10}>

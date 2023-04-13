@@ -6,7 +6,7 @@ import { CREATE_USER_MUTATION, GET_USERS_QUERY } from "common/graphql";
 const defaultValues = {
   userName: "",
   email: "",
-  role: "",
+  role: "staff",
   firstName: "",
   lastName: "",
   age: "",
@@ -38,6 +38,7 @@ export const useUserCreateForm = () => {
             lastName: values.lastName,
             age: Number(values.age),
             city: values.city,
+            role: values.role,
           },
         },
         refetchQueries: [{ query: GET_USERS_QUERY }],
