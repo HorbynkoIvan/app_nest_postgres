@@ -1,1 +1,1 @@
-export { ProfileForm } from "./UserForm";
+export { UserForm } from "./UserForm";

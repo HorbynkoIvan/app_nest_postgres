@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { PaperWrapper } from "../../common/components";
-import { ProfileForm } from "./components/UserForm";
+import { UserForm } from "./components";
 
 export const UserCreateFeature = () => {
   return (
@@ -14,7 +14,7 @@ export const UserCreateFeature = () => {
           here you can create new user
         </Typography>
 
-        <ProfileForm />
+        <UserForm />
 
         <Typography align="center" variant="subtitle2" sx={{ mt: "auto", mb: "40px" }}>
           Changed your mind?{" "}

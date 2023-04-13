@@ -5,7 +5,7 @@ import { Table } from "./components";
 
 export const UsersFeature = () => {
   const { users, loading } = useUsersAPI();
-  console.log(users);
+
   if (loading)
     return (
       <Stack justifyContent="center" alignItems="center" height="100%">
