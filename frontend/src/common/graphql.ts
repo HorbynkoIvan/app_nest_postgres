@@ -6,12 +6,14 @@ export const GET_USERS_QUERY = gql`
       createdAt
       email
       id
-      username
+      userName
       updatedAt
       profile {
         id
         age
         role
+        firstName
+        lastName
       }
     }
   }
@@ -39,7 +41,7 @@ export const CREATE_USER_MUTATION = gql`
   mutation createUser($user: CreateUserInput!) {
     createUser(createUser: $user) {
       id
-      username
+      userName
       email
       createdAt
       updatedAt

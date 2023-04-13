@@ -9,7 +9,7 @@ export class CreateUserInput {
   email: string;
 
   @Field({ nullable: true })
-  username: string;
+  userName: string;
 
   @Field({ nullable: true })
   firstName: string;

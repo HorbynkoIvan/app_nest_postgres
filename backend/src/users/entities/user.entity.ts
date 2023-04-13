@@ -31,7 +31,7 @@ export class UserEntity {
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  username: string;
+  userName: string;
 
   @Field({ nullable: true })
   @OneToOne(() => ProfileEntity, (profile) => profile.user, { cascade: true })

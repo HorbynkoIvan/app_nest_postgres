@@ -9,7 +9,7 @@ input CreateUserInput {
   firstName: String
   lastName: String
   role: String
-  username: String
+  userName: String
 }
 
 """
@@ -55,5 +55,5 @@ type UserEntity {
   id: ID!
   profile: ProfileEntity
   updatedAt: DateTime!
-  username: String
+  userName: String
 }

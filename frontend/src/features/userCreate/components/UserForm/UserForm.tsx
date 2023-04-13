@@ -27,10 +27,10 @@ export const UserForm = (): JSX.Element => {
             }}
             onBlur={handleBlur}
             onChange={handleChange}
-            value={values.username}
-            name="username"
-            error={!!touched.username && !!errors.username}
-            helperText={touched.username && errors.username && String(errors.username)}
+            value={values.userName}
+            name="userName"
+            error={!!touched.userName && !!errors.userName}
+            helperText={touched.userName && errors.userName && String(errors.userName)}
           />
 
           <TextField

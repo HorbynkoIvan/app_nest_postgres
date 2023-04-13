@@ -1,13 +1,16 @@
 import { Box, Stack, TableContainer, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import {
+  MdAdminPanelSettings,
+  MdClear,
+  MdModeEdit,
+  MdSecurity,
+  MdVerifiedUser,
+} from "react-icons/md";
+import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { BoxScrolled } from "common/components";
 import { UserType } from "common/interfaces";
-import moment from "moment";
-import { MdClear, MdModeEdit } from "react-icons/md";
 import { IconButton } from "../IconButton";
 import { useRemoveUserAPI } from "../../hooks/";
 
@@ -18,11 +21,11 @@ type Props = {
 export const Table = ({ users }: Props): JSX.Element => {
   const { removeUserById } = useRemoveUserAPI();
   const navigate = useNavigate();
-
+  console.log(users);
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID" },
     {
-      field: "username",
+      field: "userName",
       headerName: "Name",
       flex: 1,
     },
@@ -32,35 +35,65 @@ export const Table = ({ users }: Props): JSX.Element => {
       flex: 1,
     },
     {
+      field: "firstName",
+      headerName: "FirstName",
+      flex: 1,
+      renderCell: ({
+        row: {
+          profile: { firstName },
+        },
+      }: any) => firstName,
+    },
+    {
+      field: "lastName",
+      headerName: "LastName",
+      flex: 1,
+      renderCell: ({
+        row: {
+          profile: { lastName },
+        },
+      }: any) => lastName,
+    },
+    {
+      field: "age",
+      headerName: "age",
+      flex: 1 / 2,
+      renderCell: ({
+        row: {
+          profile: { age },
+        },
+      }: any) => age,
+    },
+
+    {
       field: "createdAt",
-      headerName: "created",
+      headerName: "Created",
       flex: 1,
       renderCell: ({ row: { createdAt } }: any) => moment(createdAt).format("DD.MM.YYYY"),
     },
     {
       field: "updatedAt",
-      headerName: "updated",
+      headerName: "Updated",
       flex: 1,
       renderCell: ({ row: { updatedAt } }: any) => moment(updatedAt).format("DD.MM.YYYY"),
     },
     {
       field: "role",
       headerName: "Role",
+      align: "left",
       flex: 1,
       renderCell: ({
         row: {
           profile: { role },
         },
-      }: any) => {
-        return (
-          <Box width="60%" m="0 auto" p="5px" display="flex" alignItems="center" borderRadius={1}>
-            {role === "superAdmin" && <AdminPanelSettingsOutlinedIcon />}
-            {role === "admin" && <SecurityOutlinedIcon />}
-            {role === "staff" && <LockOpenOutlinedIcon />}
-            <Typography sx={{ ml: "5px" }}>{role}</Typography>
-          </Box>
-        );
-      },
+      }: any) => (
+        <Box p="5px" display="flex" alignItems="center" justifyContent={"start"} borderRadius={1}>
+          {role === "superAdmin" && <MdAdminPanelSettings size={30} />}
+          {role === "admin" && <MdSecurity size={30} />}
+          {role === "staff" && <MdVerifiedUser size={30} />}
+          <Typography sx={{ ml: "5px" }}>{role}</Typography>
+        </Box>
+      ),
     },
     {
       field: "actions",

@@ -14,7 +14,7 @@ export class UserResolver {
   async createUser(
     @Args('createUser') createUserInput: CreateUserInput,
   ): Promise<UserEntity> {
-    const { email, username, firstName, lastName, age, city, role } =
+    const { email, userName, firstName, lastName, age, city, role } =
       createUserInput;
 
     // создаем профиль и связываем его с пользователем
@@ -28,7 +28,7 @@ export class UserResolver {
     // создаем пользователя и связываем его с профилем
     const user = new UserEntity();
     user.email = email;
-    user.username = username;
+    user.userName = userName;
     user.profile = profile;
 
     // сохраняем профиль и пользователя в базе данных
