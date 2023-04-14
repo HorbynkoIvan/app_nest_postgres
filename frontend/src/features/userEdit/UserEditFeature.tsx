@@ -1,12 +1,13 @@
 import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { PaperWrapper } from "../../common/components";
-import { UserForm } from "./components";
-import { useUserAPI } from "./hooks/useUserAPI";
+import { PaperWrapper, UserForm } from "common/components";
+import { useUserAPI, useUserEditForm } from "./hooks";
 
 export const UserEditFeature = () => {
   const { user, loading } = useUserAPI();
+  const formik = useUserEditForm(user);
 
+  // console.log("user1", user);
   if (loading)
     return (
       <Stack justifyContent="center" alignItems="center" height="100%">
@@ -24,7 +25,7 @@ export const UserEditFeature = () => {
           here you can edit user
         </Typography>
 
-        <UserForm user={user} />
+        <UserForm formik={formik} />
 
         <Typography align="center" variant="subtitle2" sx={{ mt: "auto", mb: "40px" }}>
           Changed your mind?{" "}

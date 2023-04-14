@@ -1,9 +1,11 @@
 import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { PaperWrapper } from "../../common/components";
-import { UserForm } from "./components";
+import { UserForm, PaperWrapper } from "common/components";
+import { useUserCreateForm } from "./hooks";
 
 export const UserCreateFeature = () => {
+  const formik = useUserCreateForm();
+
   return (
     <PaperWrapper sx={{ maxWidth: 400, margin: "30px auto 0" }}>
       <Stack sx={{ height: "100%" }}>
@@ -14,7 +16,7 @@ export const UserCreateFeature = () => {
           here you can create new user
         </Typography>
 
-        <UserForm />
+        <UserForm formik={formik} />
 
         <Typography align="center" variant="subtitle2" sx={{ mt: "auto", mb: "40px" }}>
           Changed your mind?{" "}

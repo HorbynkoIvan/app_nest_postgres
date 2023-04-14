@@ -25,8 +25,15 @@ export const GET_USER_QUERY = gql`
       createdAt
       email
       id
-      name
+      userName
       updatedAt
+      profile {
+        id
+        age
+        role
+        firstName
+        lastName
+      }
     }
   }
 `;
@@ -59,11 +66,18 @@ export const CREATE_USER_MUTATION = gql`
 export const UPDATE_USER_MUTATION = gql`
   mutation updateUser($user: UpdateUserInput!) {
     updateUser(updateUser: $user) {
-      createdAt
-      email
       id
-      name
+      userName
+      email
+      createdAt
       updatedAt
+      profile {
+        id
+        age
+        role
+        lastName
+        firstName
+      }
     }
   }
 `;

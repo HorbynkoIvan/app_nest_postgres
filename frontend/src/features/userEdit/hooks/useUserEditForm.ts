@@ -4,18 +4,28 @@ import { useMutation } from "@apollo/client";
 import { GET_USERS_QUERY, UPDATE_USER_MUTATION } from "common/graphql";
 
 const defaultValues = {
-  name: "",
+  userName: "",
   email: "",
+  role: "staff",
+  firstName: "",
+  lastName: "",
+  age: "",
+  city: "",
 };
 
 export const useUserEditForm = (user: any) => {
   const [updateUserMutation, { loading }] = useMutation(UPDATE_USER_MUTATION);
 
+  console.log("user", user);
   return useFormik({
     initialValues: { ...defaultValues, ...user },
     validationSchema: yup.object({
-      name: yup.string().required("required"),
+      userName: yup.string().required("required"),
       email: yup.string().email("Invalid email format").required("required"),
+      firstName: yup.string().required("required"),
+      lastName: yup.string().required("required"),
+      age: yup.number().required("required"),
+      city: yup.string().required("required"),
     }),
     onSubmit: async (values) => {
       if (loading) return;
@@ -24,8 +34,13 @@ export const useUserEditForm = (user: any) => {
         variables: {
           user: {
             id: values.id,
-            name: values.name,
+            userName: values.userName,
             email: values.email,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            age: Number(values.age),
+            city: values.city,
+            role: values.role,
           },
         },
         refetchQueries: [{ query: GET_USERS_QUERY }],

@@ -44,9 +44,14 @@ type Query {
 }
 
 input UpdateUserInput {
-  email: String
+  age: Float
+  city: String
+  email: String!
+  firstName: String
   id: ID!
-  name: String
+  lastName: String
+  role: String
+  userName: String
 }
 
 type UserEntity {

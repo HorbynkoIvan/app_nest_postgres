@@ -1,13 +1,12 @@
 import { Box, Button, Divider, InputAdornment, Stack, TextField, Typography } from "@mui/material";
 import { FormikProvider } from "formik";
 import { MdMode } from "react-icons/md";
-import { useUserCreateForm } from "../../hooks";
 import { SelectPrimary } from "common/ui";
 
-export const UserForm = (): JSX.Element => {
-  const formik = useUserCreateForm();
+export const UserForm = ({ formik }: any): JSX.Element => {
   const { values, handleChange, handleBlur, errors, touched } = formik;
 
+  console.log("formik", values);
   return (
     <FormikProvider value={formik}>
       <Box component="form" noValidate autoComplete="off" onSubmit={formik.handleSubmit}>
