@@ -1,1 +1,0 @@
-export { SelectPrimary } from "./SelectPrimary";

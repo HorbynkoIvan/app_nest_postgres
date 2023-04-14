@@ -2,7 +2,7 @@ import { Box, Button, Divider, InputAdornment, Stack, TextField, Typography } fr
 import { FormikProvider } from "formik";
 import { MdMode } from "react-icons/md";
 import { useUserCreateForm } from "../../hooks";
-import { SelectPrimary } from "common/components";
+import { SelectPrimary } from "common/ui";
 
 export const UserForm = (): JSX.Element => {
   const formik = useUserCreateForm();

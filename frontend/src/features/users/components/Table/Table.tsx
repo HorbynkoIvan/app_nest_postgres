@@ -13,6 +13,7 @@ import { BoxScrolled } from "common/components";
 import { UserType } from "common/interfaces";
 import { IconButton } from "../IconButton";
 import { useRemoveUserAPI } from "../../hooks/";
+import { SelectCheckboxes } from "common/ui";
 
 type Props = {
   users: UserType[];
@@ -121,8 +122,18 @@ export const Table = ({ users }: Props): JSX.Element => {
 
   return (
     <Box sx={{ position: "relative", height: "100%" }}>
+      <Stack direction="row" justifyContent="end">
+        <SelectCheckboxes
+          sx={{ width: "212px", mb: 5 }}
+          options={["superAdmin", "admin", "staff"]}
+          // value={selectedSubjects}
+          // onChange={handleChangeSubjects}
+          initialLabel="Roles"
+          value={[]}
+        />
+      </Stack>
       <BoxScrolled>
-        <TableContainer sx={{ minWidth: 800, height: "100%" }}>
+        <TableContainer sx={{ minWidth: 800, height: "calc(100% - 60px)" }}>
           <DataGrid
             rows={users}
             columns={columns}
