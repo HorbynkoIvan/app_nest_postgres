@@ -27,7 +27,6 @@ export const useUserEditForm = (user: any) => {
     role: user.profile.role,
   };
 
-  // console.log(userApi);
   return useFormik({
     initialValues: { ...defaultValues, ...userApi },
     validationSchema: yup.object({
@@ -40,7 +39,7 @@ export const useUserEditForm = (user: any) => {
     }),
     onSubmit: async (values) => {
       if (loading) return;
-      console.log("values", values);
+
       await updateUserMutation({
         variables: {
           user: {

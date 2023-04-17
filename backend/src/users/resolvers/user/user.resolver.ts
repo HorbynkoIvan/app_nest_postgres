@@ -3,7 +3,6 @@ import { UserService } from '../../services/user/user.service';
 import { UserEntity } from '../../entities/user.entity';
 import { CreateUserInput } from '../../inputs/create-user.input';
 import { UpdateUserInput } from '../../inputs/update-user.input';
-import { ProfileEntity } from '../../entities/profile.entity';
 import { GetUsersInput } from '../../inputs/get-users.input';
 
 @Resolver('User')
@@ -14,25 +13,29 @@ export class UserResolver {
   async createUser(
     @Args('createUser') createUserInput: CreateUserInput,
   ): Promise<UserEntity> {
-    const { email, userName, firstName, lastName, age, city, role } =
-      createUserInput;
-
-    // создаем профиль и связываем его с пользователем
-    const profile = new ProfileEntity();
-    profile.firstName = firstName;
-    profile.lastName = lastName;
-    profile.age = age;
-    profile.city = city;
-    profile.role = role;
-
-    // создаем пользователя и связываем его с профилем
-    const user = new UserEntity();
-    user.email = email;
-    user.userName = userName;
-    user.profile = profile;
-
-    // сохраняем профиль и пользователя в базе данных
-    return await this.userService.createUser(user);
+    return await this.userService.createUser(createUserInput);
+    // Создаем транзакцию
+    // const queryRunner = this.connection.createQueryRunner();
+    // await queryRunner.connect();
+    // await queryRunner.startTransaction();
+    //
+    // try {
+    //   // Сохраняем профиль и пользователя в базе данных
+    //   await queryRunner.manager.save(profile);
+    //   await queryRunner.manager.save(user);
+    //
+    //   // Фиксируем транзакцию
+    //   await queryRunner.commitTransaction();
+    //
+    //   return user;
+    // } catch (error) {
+    //   // Откатываем транзакцию в случае ошибки
+    //   await queryRunner.rollbackTransaction();
+    //   throw new InternalServerErrorException(error.message);
+    // } finally {
+    //   // Освобождаем ресурсы
+    //   await queryRunner.release();
+    // }
   }
 
   @Mutation(() => UserEntity)
