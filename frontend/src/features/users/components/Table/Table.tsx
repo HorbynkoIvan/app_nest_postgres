@@ -1,4 +1,4 @@
-import { Box, Select, MenuItem, Stack, TableContainer, Typography, Checkbox } from "@mui/material";
+import { Box, Stack, TableContainer, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import {
   MdAdminPanelSettings,
@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { BoxScrolled } from "common/components";
+import { SelectCheckboxes } from "common/ui";
 import { UserType } from "common/interfaces";
 import { IconButton } from "../IconButton";
 import { useRemoveUserAPI, useSelectRoles } from "../../hooks/";
@@ -23,8 +24,9 @@ const rolesOptions = [
   { value: "admin", label: "admin" },
   { value: "staff", label: "staff" },
 ];
+
 export const Table = ({ users }: Props): JSX.Element => {
-  const { selectedValues, handleSelectChange, isSelected } = useSelectRoles();
+  const { selectedValues, handleSelectChange } = useSelectRoles();
 
   const { removeUserById } = useRemoveUserAPI();
   const navigate = useNavigate();
@@ -129,20 +131,13 @@ export const Table = ({ users }: Props): JSX.Element => {
   return (
     <Box sx={{ position: "relative", height: "100%" }}>
       <Stack direction="row" justifyContent="end">
-        <Select
-          labelId="multi-select-checkbox-label"
-          id="multi-select-checkbox"
-          multiple
+        <SelectCheckboxes
+          sx={{ width: 300, mb: 4 }}
+          options={rolesOptions}
           value={selectedValues}
           onChange={handleSelectChange}
-          renderValue={(selected) => selected.join(", ")}>
-          {rolesOptions.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              <Checkbox checked={isSelected(option.value)} />
-              {option.label}
-            </MenuItem>
-          ))}
-        </Select>
+          initialLabel="Roles filter"
+        />
       </Stack>
       <BoxScrolled>
         <TableContainer sx={{ minWidth: 800, height: "calc(100% - 60px)" }}>

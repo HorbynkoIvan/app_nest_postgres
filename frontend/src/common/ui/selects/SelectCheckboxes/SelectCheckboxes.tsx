@@ -18,7 +18,7 @@ export const SelectCheckboxes = ({ options, initialLabel, value, ...props }: Pro
     displayEmpty
     renderValue={(selected: any) => (
       <Typography component="span" variant="subtitle2" pl={4} color={grey[600]}>
-        {selected.length === 0 ? initialLabel : selected.map((item: any) => item.label).join(", ")}
+        {selected.length === 0 ? initialLabel : selected.map((item: any) => item).join(", ")}
       </Typography>
     )}
     MenuProps={{
@@ -34,8 +34,8 @@ export const SelectCheckboxes = ({ options, initialLabel, value, ...props }: Pro
     {...props}>
     {options.map((option: any) => (
       <MenuItem
-        key={option.id}
-        value={option}
+        key={option.value}
+        value={option.value}
         dense
         sx={{
           "&.Mui-selected": { background: "transparent" },
@@ -43,7 +43,10 @@ export const SelectCheckboxes = ({ options, initialLabel, value, ...props }: Pro
         }}>
         <CheckboxGrey
           label=""
-          checked={value.some((selected: SelectOption) => selected.id === option.id)}
+          checked={value.some((selected: any) => {
+            console.log("selected ", selected, "option ", option);
+            return selected === option.value;
+          })}
         />
         <ListItemText>
           <Typography variant="subtitle2" color={`${grey[800]}`}>

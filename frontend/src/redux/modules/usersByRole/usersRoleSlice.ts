@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../interfaces";
 
 const initialState = {
@@ -9,13 +9,8 @@ export const usersRoleSlice = createSlice({
   name: "usersRoles",
   initialState,
   reducers: {
-    setUsersRolesAction: (state: any, { payload }: any) => {
-      // console.log(
-      //   state,
-      //   payload.value.map((item: any) => item.label)
-      // );
-      // console.log(payload);
-      state.usersRole.roles = payload;
+    setUsersRolesAction: (state: any, action: PayloadAction<string[]>) => {
+      state.roles = action.payload;
     },
   },
 });

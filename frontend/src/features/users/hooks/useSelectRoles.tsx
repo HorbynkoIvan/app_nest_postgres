@@ -1,20 +1,17 @@
-import { useState } from "react";
 import { SelectChangeEvent } from "@mui/material";
+import { useSelector, useActions } from "redux/hooks";
+import { selectorUsersRoles, setUsersRolesAction } from "redux/modules/usersByRole";
 
 export const useSelectRoles = (): any => {
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
-
+  const userRoles = useSelector(selectorUsersRoles);
+  const setUsersRoles = useActions(setUsersRolesAction);
+  console.log(userRoles);
   const handleSelectChange = (event: SelectChangeEvent<any>) => {
-    setSelectedValues(event.target.value);
-  };
-
-  const isSelected = (value: string) => {
-    return selectedValues.indexOf(value) !== -1;
+    setUsersRoles(event.target.value);
   };
 
   return {
-    selectedValues,
+    selectedValues: userRoles,
     handleSelectChange,
-    isSelected,
   };
 };
