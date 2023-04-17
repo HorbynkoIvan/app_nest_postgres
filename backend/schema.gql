@@ -37,6 +37,7 @@ type ProfileEntity {
 }
 
 type Query {
+  """This graphql method for getting a user by id"""
   getUser(id: Float!): UserEntity!
 
   """This graphql method for getting all users"""

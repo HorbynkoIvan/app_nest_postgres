@@ -14,28 +14,6 @@ export class UserResolver {
     @Args('createUser') createUserInput: CreateUserInput,
   ): Promise<UserEntity> {
     return await this.userService.createUser(createUserInput);
-    // Создаем транзакцию
-    // const queryRunner = this.connection.createQueryRunner();
-    // await queryRunner.connect();
-    // await queryRunner.startTransaction();
-    //
-    // try {
-    //   // Сохраняем профиль и пользователя в базе данных
-    //   await queryRunner.manager.save(profile);
-    //   await queryRunner.manager.save(user);
-    //
-    //   // Фиксируем транзакцию
-    //   await queryRunner.commitTransaction();
-    //
-    //   return user;
-    // } catch (error) {
-    //   // Откатываем транзакцию в случае ошибки
-    //   await queryRunner.rollbackTransaction();
-    //   throw new InternalServerErrorException(error.message);
-    // } finally {
-    //   // Освобождаем ресурсы
-    //   await queryRunner.release();
-    // }
   }
 
   @Mutation(() => UserEntity)
@@ -60,7 +38,9 @@ export class UserResolver {
     return await this.userService.getUsers(userInput);
   }
 
-  @Query(() => UserEntity)
+  @Query(() => UserEntity, {
+    description: 'This graphql method for getting a user by id',
+  })
   async getUser(@Args('id') id: number): Promise<UserEntity> {
     return await this.userService.getUser(id);
   }
