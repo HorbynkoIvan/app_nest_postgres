@@ -1,4 +1,4 @@
-import { Box, Stack, TableContainer, Typography } from "@mui/material";
+import { Box, Select, MenuItem, Stack, TableContainer, Typography, Checkbox } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import {
   MdAdminPanelSettings,
@@ -12,14 +12,20 @@ import { useNavigate } from "react-router-dom";
 import { BoxScrolled } from "common/components";
 import { UserType } from "common/interfaces";
 import { IconButton } from "../IconButton";
-import { useRemoveUserAPI } from "../../hooks/";
-import { SelectCheckboxes } from "common/ui";
+import { useRemoveUserAPI, useSelectRoles } from "../../hooks/";
 
 type Props = {
   users: UserType[];
 };
 
+const rolesOptions = [
+  { value: "superAdmin", label: "superAdmin" },
+  { value: "admin", label: "admin" },
+  { value: "staff", label: "staff" },
+];
 export const Table = ({ users }: Props): JSX.Element => {
+  const { selectedValues, handleSelectChange, isSelected } = useSelectRoles();
+
   const { removeUserById } = useRemoveUserAPI();
   const navigate = useNavigate();
 
@@ -123,14 +129,20 @@ export const Table = ({ users }: Props): JSX.Element => {
   return (
     <Box sx={{ position: "relative", height: "100%" }}>
       <Stack direction="row" justifyContent="end">
-        <SelectCheckboxes
-          sx={{ width: "212px", mb: 5 }}
-          options={["superAdmin", "admin", "staff"]}
-          // value={selectedSubjects}
-          // onChange={handleChangeSubjects}
-          initialLabel="Roles"
-          value={[]}
-        />
+        <Select
+          labelId="multi-select-checkbox-label"
+          id="multi-select-checkbox"
+          multiple
+          value={selectedValues}
+          onChange={handleSelectChange}
+          renderValue={(selected) => selected.join(", ")}>
+          {rolesOptions.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              <Checkbox checked={isSelected(option.value)} />
+              {option.label}
+            </MenuItem>
+          ))}
+        </Select>
       </Stack>
       <BoxScrolled>
         <TableContainer sx={{ minWidth: 800, height: "calc(100% - 60px)" }}>

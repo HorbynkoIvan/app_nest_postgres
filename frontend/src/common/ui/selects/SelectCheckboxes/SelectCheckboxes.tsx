@@ -10,15 +10,10 @@ type Props = SelectProps & {
   value: SelectOption[];
 };
 
-export const SelectCheckboxes = ({
-  options,
-  initialLabel,
-  value: selectedValues,
-  ...props
-}: Props) => (
+export const SelectCheckboxes = ({ options, initialLabel, value, ...props }: Props) => (
   <SelectWrapper
     id="demo-multiple-checkbox"
-    value={selectedValues}
+    value={value}
     multiple
     displayEmpty
     renderValue={(selected: any) => (
@@ -43,12 +38,12 @@ export const SelectCheckboxes = ({
         value={option}
         dense
         sx={{
-          "&.Mui-selected ": { background: "transparent" },
+          "&.Mui-selected": { background: "transparent" },
           "&.Mui-selected:hover": { background: "rgba(0, 0, 0, 0.04)" },
         }}>
         <CheckboxGrey
           label=""
-          checked={selectedValues.some((selected: SelectOption) => selected.id === option.id)}
+          checked={value.some((selected: SelectOption) => selected.id === option.id)}
         />
         <ListItemText>
           <Typography variant="subtitle2" color={`${grey[800]}`}>
