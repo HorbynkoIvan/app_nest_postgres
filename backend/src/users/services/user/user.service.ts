@@ -39,14 +39,13 @@ export class UserService {
     });
 
     // Создаем пользователя и связываем его с профилем
-    const user = new UserEntity();
-    user.email = email;
-    user.userName = userName;
-    user.profile = profile;
+    const user = this.userRepository.create({
+      email,
+      userName,
+      profile,
+    });
 
     // Сохраняем пользователя и профиль в базе данных
-    const savedProfile = await this.profileRepository.save(profile);
-    user.profile = savedProfile;
     return await this.userRepository.save(user);
   }
 
@@ -62,34 +61,35 @@ export class UserService {
   }
 
   async getUser(id: number): Promise<UserEntity> {
-    const user = await this.userRepository.findOne({
-      where: { id },
-      relations: { profile: true },
-    });
-
-    if (!user) {
+    try {
+      return await this.userRepository.findOneOrFail({
+        where: { id },
+        relations: { profile: true },
+      });
+    } catch (error) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
-
-    return user;
   }
 
   async removeUser(id: number): Promise<number> {
-    const user = await this.getUser(id);
-
-    if (!user) {
-      throw new Error(`User with id ${id} not found`);
-    }
-
     await this.userRepository.delete({ id });
     return id;
   }
 
   async updateUser(updateUserInput: UpdateUserInput): Promise<UserEntity> {
-    await this.userRepository.update(
-      { id: updateUserInput.id },
-      { ...updateUserInput },
-    );
-    return await this.getUser(updateUserInput.id);
+    const user = await this.userRepository.findOne({
+      where: { id: updateUserInput.id },
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        `User with ID ${updateUserInput.id} not found`,
+      );
+    }
+
+    await this.userRepository.update(updateUserInput.id, updateUserInput);
+    return this.userRepository.findOne({
+      where: { id: updateUserInput.id },
+    });
   }
 }
