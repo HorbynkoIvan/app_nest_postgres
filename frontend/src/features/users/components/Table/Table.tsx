@@ -22,7 +22,7 @@ type Props = {
 export const Table = ({ users }: Props): JSX.Element => {
   const { removeUserById } = useRemoveUserAPI();
   const navigate = useNavigate();
-  console.log(users);
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID" },
     {

@@ -7,8 +7,10 @@ type Return = {
   loading: boolean;
 };
 
-export const useUsersAPI = (): Return => {
-  const { data, loading } = useQuery(GET_USERS_QUERY);
+export const useUsersAPI = (roles: string[]): Return => {
+  const { data, loading } = useQuery(GET_USERS_QUERY, {
+    variables: { usersInput: { roles } },
+  });
 
   return {
     users: data ? data.getUsers : [],

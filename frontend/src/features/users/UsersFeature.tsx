@@ -4,7 +4,7 @@ import { useUsersAPI } from "./hooks";
 import { Table } from "./components";
 
 export const UsersFeature = () => {
-  const { users, loading } = useUsersAPI();
+  const { users, loading } = useUsersAPI(["admin"]);
 
   if (loading)
     return (

@@ -1,20 +1,17 @@
 import { gql } from "@apollo/client";
 
 export const GET_USERS_QUERY = gql`
-  query GetUsers {
-    getUsers(usersInput: {}) {
-      createdAt
-      email
+  query getUsers($usersInput: GetUsersInput!) {
+    getUsers(usersInput: $usersInput) {
       id
+      email
       userName
+      createdAt
       updatedAt
       profile {
         id
         age
         role
-        city
-        firstName
-        lastName
       }
     }
   }
