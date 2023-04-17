@@ -6,7 +6,6 @@ import { SelectPrimary } from "common/ui";
 export const UserForm = ({ formik }: any): JSX.Element => {
   const { values, handleChange, handleBlur, errors, touched } = formik;
 
-  console.log("formik", values);
   return (
     <FormikProvider value={formik}>
       <Box component="form" noValidate autoComplete="off" onSubmit={formik.handleSubmit}>

@@ -16,9 +16,20 @@ const defaultValues = {
 export const useUserEditForm = (user: any) => {
   const [updateUserMutation, { loading }] = useMutation(UPDATE_USER_MUTATION);
 
-  console.log("user", user);
+  const userApi = {
+    id: user.id,
+    userName: user.userName,
+    email: user.email,
+    firstName: user.profile.firstName,
+    lastName: user.profile.lastName,
+    age: Number(user.profile.age),
+    city: user.profile.city,
+    role: user.profile.role,
+  };
+
+  // console.log(userApi);
   return useFormik({
-    initialValues: { ...defaultValues, ...user },
+    initialValues: { ...defaultValues, ...userApi },
     validationSchema: yup.object({
       userName: yup.string().required("required"),
       email: yup.string().email("Invalid email format").required("required"),
@@ -29,11 +40,11 @@ export const useUserEditForm = (user: any) => {
     }),
     onSubmit: async (values) => {
       if (loading) return;
-
+      console.log("values", values);
       await updateUserMutation({
         variables: {
           user: {
-            id: values.id,
+            id: Number(values.id),
             userName: values.userName,
             email: values.email,
             firstName: values.firstName,
