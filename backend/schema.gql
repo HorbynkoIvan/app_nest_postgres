@@ -28,7 +28,7 @@ type Mutation {
 }
 
 type ProfileEntity {
-  age: Float!
+  age: Float
   city: String!
   firstName: String!
   id: ID!

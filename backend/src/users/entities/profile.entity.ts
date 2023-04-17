@@ -18,8 +18,8 @@ export class ProfileEntity {
   @Column()
   lastName: string;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   age: number;
 
   @Field()

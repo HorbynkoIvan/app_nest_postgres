@@ -77,19 +77,35 @@ export class UserService {
   }
 
   async updateUser(updateUserInput: UpdateUserInput): Promise<UserEntity> {
-    const user = await this.userRepository.findOne({
-      where: { id: updateUserInput.id },
-    });
+    const { id, email, userName, firstName, lastName, age, city, role } =
+      updateUserInput;
 
-    if (!user) {
-      throw new NotFoundException(
-        `User with ID ${updateUserInput.id} not found`,
-      );
+    // Проверяем наличие обязательных полей
+    if (!email || !userName) {
+      throw new BadRequestException('Email and userName are required');
     }
 
-    await this.userRepository.update(updateUserInput.id, updateUserInput);
-    return this.userRepository.findOne({
-      where: { id: updateUserInput.id },
+    // Получаем существующего пользователя
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: { profile: true },
     });
+
+    // Обновляем поля пользователя
+    user.email = email;
+    user.userName = userName;
+
+    // Получаем профиль пользователя
+    const profile = user.profile;
+
+    // Обновляем поля профиля
+    profile.firstName = firstName;
+    profile.lastName = lastName;
+    profile.age = age;
+    profile.city = city;
+    profile.role = role;
+
+    // Сохраняем изменения в базе данных
+    return await this.userRepository.save(user);
   }
 }
