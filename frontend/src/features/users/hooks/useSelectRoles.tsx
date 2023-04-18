@@ -5,7 +5,6 @@ import { selectorUsersRoles, setUsersRolesAction } from "redux/modules/usersByRo
 export const useSelectRoles = (): any => {
   const userRoles = useSelector(selectorUsersRoles);
   const setUsersRoles = useActions(setUsersRolesAction);
-  console.log(userRoles);
   const handleSelectChange = (event: SelectChangeEvent<any>) => {
     setUsersRoles(event.target.value);
   };

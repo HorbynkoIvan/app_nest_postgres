@@ -41,13 +41,7 @@ export const SelectCheckboxes = ({ options, initialLabel, value, ...props }: Pro
           "&.Mui-selected": { background: "transparent" },
           "&.Mui-selected:hover": { background: "rgba(0, 0, 0, 0.04)" },
         }}>
-        <CheckboxGrey
-          label=""
-          checked={value.some((selected: any) => {
-            console.log("selected ", selected, "option ", option);
-            return selected === option.value;
-          })}
-        />
+        <CheckboxGrey label="" checked={value.some((selected: any) => selected === option.value)} />
         <ListItemText>
           <Typography variant="subtitle2" color={`${grey[800]}`}>
             {option.label}

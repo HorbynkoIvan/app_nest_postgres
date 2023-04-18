@@ -143,9 +143,10 @@ export const Table = ({ users }: Props): JSX.Element => {
             rows={users}
             columns={columns}
             pageSize={10}
+            rowsPerPageOptions={[5, 10, 20]}
             initialState={{
               pagination: {
-                pageSize: 5,
+                pageSize: 10,
               },
             }}
             checkboxSelection
