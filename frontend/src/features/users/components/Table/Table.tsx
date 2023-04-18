@@ -51,7 +51,7 @@ export const Table = ({ users }: Props): JSX.Element => {
         row: {
           profile: { firstName },
         },
-      }: any) => firstName,
+      }) => firstName,
     },
     {
       field: "lastName",
@@ -61,7 +61,7 @@ export const Table = ({ users }: Props): JSX.Element => {
         row: {
           profile: { lastName },
         },
-      }: any) => lastName,
+      }) => lastName,
     },
     {
       field: "age",
@@ -71,20 +71,20 @@ export const Table = ({ users }: Props): JSX.Element => {
         row: {
           profile: { age },
         },
-      }: any) => age,
+      }) => age,
     },
 
     {
       field: "createdAt",
       headerName: "Created",
       flex: 1,
-      renderCell: ({ row: { createdAt } }: any) => moment(createdAt).format("DD.MM.YYYY"),
+      renderCell: ({ row: { createdAt } }) => moment(createdAt).format("DD.MM.YYYY"),
     },
     {
       field: "updatedAt",
       headerName: "Updated",
       flex: 1,
-      renderCell: ({ row: { updatedAt } }: any) => moment(updatedAt).format("DD.MM.YYYY"),
+      renderCell: ({ row: { updatedAt } }) => moment(updatedAt).format("DD.MM.YYYY"),
     },
     {
       field: "role",
@@ -95,7 +95,7 @@ export const Table = ({ users }: Props): JSX.Element => {
         row: {
           profile: { role },
         },
-      }: any) => (
+      }) => (
         <Box p="5px" display="flex" alignItems="center" justifyContent={"start"} borderRadius={1}>
           {role === "superAdmin" && <MdAdminPanelSettings size={30} />}
           {role === "admin" && <MdSecurity size={30} />}
@@ -112,19 +112,17 @@ export const Table = ({ users }: Props): JSX.Element => {
       align: "center",
       sortable: false,
       disableColumnMenu: true,
-      renderCell: ({ row: { id } }) => {
-        return (
-          <Stack spacing={1} direction="row">
-            <IconButton aria-label="edit" size="small" onClick={() => navigate(id.toString())}>
-              <MdModeEdit fontSize="small" />
-            </IconButton>
+      renderCell: ({ row: { id } }) => (
+        <Stack spacing={1} direction="row">
+          <IconButton aria-label="edit" size="small" onClick={() => navigate(id.toString())}>
+            <MdModeEdit fontSize="small" />
+          </IconButton>
 
-            <IconButton aria-label="delete" size="small" onClick={() => removeUserById(Number(id))}>
-              <MdClear fontSize="small" />
-            </IconButton>
-          </Stack>
-        );
-      },
+          <IconButton aria-label="delete" size="small" onClick={() => removeUserById(Number(id))}>
+            <MdClear fontSize="small" />
+          </IconButton>
+        </Stack>
+      ),
     },
   ];
 
