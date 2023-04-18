@@ -41,7 +41,12 @@ export const useUserCreateForm = () => {
             role: values.role,
           },
         },
-        refetchQueries: [{ query: GET_USERS_QUERY }],
+        refetchQueries: [
+          {
+            query: GET_USERS_QUERY,
+            variables: { usersInput: { roles: [] } },
+          },
+        ],
       });
       resetForm();
     },

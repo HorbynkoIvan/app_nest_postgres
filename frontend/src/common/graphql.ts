@@ -12,6 +12,9 @@ export const GET_USERS_QUERY = gql`
         id
         age
         role
+        city
+        lastName
+        firstName
       }
     }
   }
@@ -75,6 +78,7 @@ export const UPDATE_USER_MUTATION = gql`
         id
         age
         role
+        city
         lastName
         firstName
       }
