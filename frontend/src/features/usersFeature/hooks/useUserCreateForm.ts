@@ -14,7 +14,7 @@ const defaultValues = {
 };
 
 export const useUserCreateForm = () => {
-  const [createUserMutation, { loading }] = useMutation(CREATE_USER_MUTATION);
+  const [createUserMutation] = useMutation(CREATE_USER_MUTATION);
 
   return useFormik({
     initialValues: { ...defaultValues },
@@ -26,29 +26,33 @@ export const useUserCreateForm = () => {
       age: yup.number().required("required"),
       city: yup.string().required("required"),
     }),
-    onSubmit: async (values, { resetForm }) => {
-      if (loading) return;
-
-      await createUserMutation({
-        variables: {
-          user: {
-            userName: values.userName,
-            email: values.email,
-            firstName: values.firstName,
-            lastName: values.lastName,
-            age: Number(values.age),
-            city: values.city,
-            role: values.role,
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      try {
+        await createUserMutation({
+          variables: {
+            user: {
+              userName: values.userName,
+              email: values.email,
+              firstName: values.firstName,
+              lastName: values.lastName,
+              age: Number(values.age),
+              city: values.city,
+              role: values.role,
+            },
           },
-        },
-        refetchQueries: [
-          {
-            query: GET_USERS_QUERY,
-            variables: { usersInput: { roles: [] } },
-          },
-        ],
-      });
-      resetForm();
+          refetchQueries: [
+            {
+              query: GET_USERS_QUERY,
+              variables: { usersInput: { roles: [] } },
+            },
+          ],
+        });
+        resetForm();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setSubmitting(false);
+      }
     },
   });
 };

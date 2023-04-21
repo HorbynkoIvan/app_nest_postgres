@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { UserForm, PaperWrapper } from "common/components";
 import { useUserCreateForm } from "../../hooks";
@@ -8,7 +8,7 @@ export const UserCreate = () => {
 
   return (
     <PaperWrapper sx={{ maxWidth: 400, margin: "30px auto 0" }}>
-      <Stack sx={{ height: "100%" }}>
+      <Box height="100%">
         <Typography variant="h3" component="h3" textAlign="center">
           New User Form
         </Typography>
@@ -24,7 +24,7 @@ export const UserCreate = () => {
             Return to list of users
           </Typography>
         </Typography>
-      </Stack>{" "}
+      </Box>{" "}
     </PaperWrapper>
   );
 };

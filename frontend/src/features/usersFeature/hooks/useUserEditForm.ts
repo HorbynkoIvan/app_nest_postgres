@@ -14,7 +14,7 @@ const defaultValues = {
 };
 
 export const useUserEditForm = (user: any) => {
-  const [updateUserMutation, { loading }] = useMutation(UPDATE_USER_MUTATION);
+  const [updateUserMutation] = useMutation(UPDATE_USER_MUTATION);
 
   const userApi = {
     id: user.id,
@@ -37,24 +37,28 @@ export const useUserEditForm = (user: any) => {
       age: yup.number().required("required"),
       city: yup.string().required("required"),
     }),
-    onSubmit: async (values) => {
-      if (loading) return;
-
-      await updateUserMutation({
-        variables: {
-          user: {
-            id: Number(values.id),
-            userName: values.userName,
-            email: values.email,
-            firstName: values.firstName,
-            lastName: values.lastName,
-            age: Number(values.age),
-            city: values.city,
-            role: values.role,
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        await updateUserMutation({
+          variables: {
+            user: {
+              id: Number(values.id),
+              userName: values.userName,
+              email: values.email,
+              firstName: values.firstName,
+              lastName: values.lastName,
+              age: Number(values.age),
+              city: values.city,
+              role: values.role,
+            },
           },
-        },
-        refetchQueries: [{ query: GET_USERS_QUERY }],
-      });
+          refetchQueries: [{ query: GET_USERS_QUERY }],
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setSubmitting(false);
+      }
     },
   });
 };

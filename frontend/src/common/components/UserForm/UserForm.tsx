@@ -1,10 +1,34 @@
 import { Box, Button, Divider, InputAdornment, Stack, TextField, Typography } from "@mui/material";
-import { FormikProvider } from "formik";
+import { FormikProps, FormikProvider } from "formik";
 import { MdMode } from "react-icons/md";
 import { SelectPrimary } from "common/ui";
 
-export const UserForm = ({ formik }: any): JSX.Element => {
+type UserFormType = {
+  formik: FormikProps<any>;
+};
+
+export const UserForm = ({ formik }: UserFormType): JSX.Element => {
   const { values, handleChange, handleBlur, errors, touched } = formik;
+
+  const renderTextField = (label: string, name: string, value: string) => (
+    <TextField
+      label={label}
+      placeholder={label}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <MdMode />
+          </InputAdornment>
+        ),
+      }}
+      onBlur={handleBlur}
+      onChange={handleChange}
+      value={value}
+      name={name}
+      error={!!touched[name] && !!errors[name]}
+      helperText={touched[name] && errors[name] && String(errors[name])}
+    />
+  );
 
   return (
     <FormikProvider value={formik}>
@@ -14,116 +38,19 @@ export const UserForm = ({ formik }: any): JSX.Element => {
             Personal details
           </Typography>
 
-          <TextField
-            label="UserName:"
-            placeholder="UserName"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <MdMode />
-                </InputAdornment>
-              ),
-            }}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            value={values.userName}
-            name="userName"
-            error={!!touched.userName && !!errors.userName}
-            helperText={touched.userName && errors.userName && String(errors.userName)}
-          />
-
-          <TextField
-            label="E-mail:"
-            placeholder="E-mail"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <MdMode />
-                </InputAdornment>
-              ),
-            }}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            value={values.email}
-            name="email"
-            error={!!touched.email && !!errors.email}
-            helperText={touched.email && errors.email && String(errors.email)}
-          />
+          {renderTextField("UserName:", "userName", values.userName)}
+          {renderTextField("E-mail:", "email", values.email)}
 
           <Box component={Divider} mx={2} />
+
           <Stack direction="row" spacing={4}>
-            <TextField
-              label="FirstName:"
-              placeholder="FirstName"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <MdMode />
-                  </InputAdornment>
-                ),
-              }}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.firstName}
-              name="firstName"
-              error={!!touched.firstName && !!errors.firstName}
-              helperText={touched.firstName && errors.firstName && String(errors.firstName)}
-            />
-            <TextField
-              label="LastName:"
-              placeholder="LastName"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <MdMode />
-                  </InputAdornment>
-                ),
-              }}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.lastName}
-              name="lastName"
-              error={!!touched.lastName && !!errors.lastName}
-              helperText={touched.lastName && errors.lastName && String(errors.lastName)}
-            />
+            {renderTextField("FirstName:", "firstName", values.firstName)}
+            {renderTextField("LastName:", "lastName", values.lastName)}
           </Stack>
 
           <Stack direction="row" spacing={4}>
-            <TextField
-              label="City:"
-              placeholder="City"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <MdMode />
-                  </InputAdornment>
-                ),
-              }}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.city}
-              name="city"
-              error={!!touched.city && !!errors.city}
-              helperText={touched.city && errors.city && String(errors.city)}
-            />
-
-            <TextField
-              label="Age:"
-              placeholder="Age"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <MdMode />
-                  </InputAdornment>
-                ),
-              }}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.age}
-              name="age"
-              error={!!touched.age && !!errors.age}
-              helperText={touched.age && errors.age && String(errors.age)}
-            />
+            {renderTextField("City:", "city", values.city)}
+            {renderTextField("Age:", "age", values.age)}
           </Stack>
 
           <SelectPrimary
