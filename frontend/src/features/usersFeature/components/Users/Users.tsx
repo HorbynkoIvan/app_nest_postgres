@@ -1,11 +1,11 @@
 import { Stack, Typography } from "@mui/material";
 import { Header, PaperWrapper } from "common/components";
-import { Table } from "./components";
+import { Table } from "../../components";
 import { useSelector } from "redux/hooks";
 import { selectorUsersRoles } from "redux/modules/usersByRole";
-import { useUsersAPI } from "./hooks";
+import { useUsersAPI } from "../../hooks";
 
-export const UsersFeature = () => {
+export const Users = () => {
   const usersRoles = useSelector(selectorUsersRoles);
   const { users, loading } = useUsersAPI(usersRoles);
 

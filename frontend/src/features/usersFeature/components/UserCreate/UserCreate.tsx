@@ -1,9 +1,9 @@
 import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { UserForm, PaperWrapper } from "common/components";
-import { useUserCreateForm } from "./hooks";
+import { useUserCreateForm } from "../../hooks";
 
-export const UserCreateFeature = () => {
+export const UserCreate = () => {
   const formik = useUserCreateForm();
 
   return (

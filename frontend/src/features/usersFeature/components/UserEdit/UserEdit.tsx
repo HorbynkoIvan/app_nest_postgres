@@ -1,10 +1,10 @@
 import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { PaperWrapper } from "common/components";
-import { useUserAPI } from "./hooks";
+import { useUserAPI } from "../../hooks";
 import { EditFormWrapper } from "./EditFormWrapper";
 
-export const UserEditFeature = () => {
+export const UserEdit = () => {
   const { user, loading } = useUserAPI();
 
   if (loading)

@@ -114,7 +114,7 @@ export const Table = ({ users }: Props): JSX.Element => {
       disableColumnMenu: true,
       renderCell: ({ row: { id } }) => (
         <Stack spacing={1} direction="row">
-          <IconButton aria-label="edit" size="small" onClick={() => navigate(id.toString())}>
+          <IconButton aria-label="edit" size="small" onClick={() => navigate(`${id}/edit`)}>
             <MdModeEdit fontSize="small" />
           </IconButton>
 
