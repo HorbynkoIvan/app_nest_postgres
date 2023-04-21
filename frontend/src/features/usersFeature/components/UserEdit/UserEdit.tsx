@@ -1,18 +1,13 @@
 import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { PaperWrapper } from "common/components";
+import { Loader, PaperWrapper } from "common/components";
 import { useUserAPI } from "../../hooks";
 import { EditFormWrapper } from "./EditFormWrapper";
 
 export const UserEdit = () => {
   const { user, loading } = useUserAPI();
 
-  if (loading)
-    return (
-      <Stack justifyContent="center" alignItems="center" height="100%">
-        <Typography variant="h1">Loading...</Typography>
-      </Stack>
-    );
+  if (loading) return <Loader />;
 
   return (
     <PaperWrapper sx={{ maxWidth: 400, margin: "30px auto 0" }}>

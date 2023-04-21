@@ -1,5 +1,4 @@
-import { Stack, Typography } from "@mui/material";
-import { Header, PaperWrapper } from "common/components";
+import { Header, PaperWrapper, Loader } from "common/components";
 import { Table } from "../../components";
 import { useSelector } from "redux/hooks";
 import { selectorUsersRoles } from "redux/modules/usersByRole";
@@ -9,12 +8,7 @@ export const Users = () => {
   const usersRoles = useSelector(selectorUsersRoles);
   const { users, loading } = useUsersAPI(usersRoles);
 
-  if (loading)
-    return (
-      <Stack justifyContent="center" alignItems="center" height="100%">
-        <Typography variant="h1">Loading...</Typography>
-      </Stack>
-    );
+  if (loading) return <Loader />;
 
   return (
     <>

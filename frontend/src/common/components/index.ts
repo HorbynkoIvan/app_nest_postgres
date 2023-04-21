@@ -3,3 +3,4 @@ export { Header } from "./Header";
 export { PaperWrapper } from "./PaperWrapper";
 export { UserForm } from "./UserForm";
 export { BoxScrolled } from "./BoxScrolled";
+export { Loader } from "./Loader";
