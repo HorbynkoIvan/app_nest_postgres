@@ -19,14 +19,14 @@ export class AgencyEntity {
   // @Field(() => AgencyType)
   @Field()
   @Column({ type: 'enum', enum: AgencyType, default: AgencyType.SYSTEM })
-  type: AgencyType;
+  type: string;
 
   @Field()
   @Column({ type: 'varchar' })
   title: string;
 
   @Field()
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @Field(() => AgencyEntity, { nullable: true })
