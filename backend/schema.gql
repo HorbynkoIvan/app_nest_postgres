@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AgencyEntity {
+  create_date: DateTime!
+  description: String!
+  edit_date: DateTime!
+  id: ID!
+  parent: AgencyEntity
+  title: String!
+  type: String!
+}
+
 input CreateUserInput {
   age: Float
   city: String
