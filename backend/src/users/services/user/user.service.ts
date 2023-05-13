@@ -6,10 +6,10 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../../entities/user.entity';
 import { Repository } from 'typeorm';
-import { UpdateUserInput } from '../../inputs/update-user.input';
-import { GetUsersInput } from '../../inputs/get-users.input';
+import { UpdateUserInput } from '../../dto/update-user.input';
+import { GetUsersInput } from '../../dto/get-users.input';
 import { ProfileEntity } from '../../entities/profile.entity';
-import { CreateUserInput } from '../../inputs/create-user.input';
+import { CreateUserInput } from '../../dto/create-user.input';
 
 @Injectable()
 export class UserService {

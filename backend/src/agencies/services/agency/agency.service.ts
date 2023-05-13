@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AgencyEntity } from '../../entities/agency.entity';
-import { UpdateAgencyInput } from '../../inputs/update-agency.input';
-import { CreateAgencyInput } from '../../inputs/create-agency.input';
-import { GetAgenciesInput } from '../../inputs/get-agencies.input';
+import { UpdateAgencyInput } from '../../dto/update-agency.input';
+import { CreateAgencyInput } from '../../dto/create-agency.input';
+import { GetAgenciesInput } from '../../dto/get-agencies.input';
 
 @Injectable()
 export class AgencyService {
@@ -21,8 +21,14 @@ export class AgencyService {
     return await this.agencyRepository.save(agency);
   }
 
-  async getAgencies({ type }: GetAgenciesInput): Promise<AgencyEntity[]> {
-    return await this.agencyRepository.find();
+  async getAgencies({ types }: GetAgenciesInput): Promise<AgencyEntity[]> {
+    const query = this.agencyRepository.createQueryBuilder('agency');
+
+    if (types && types.length > 0) {
+      query.where('agency.type IN (:...types)', { types });
+    }
+
+    return await query.getMany();
   }
 
   async getAgency(id: number): Promise<AgencyEntity> {

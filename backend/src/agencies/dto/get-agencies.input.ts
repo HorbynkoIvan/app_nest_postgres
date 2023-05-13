@@ -9,8 +9,8 @@ export class GetAgenciesInput {
   @IsEnum(AgencyType, {
     each: true,
     message:
-      'Value type must be one of [system, state, district, school, cohort, other]',
+      'Value types must be one of [system, state, district, school, cohort, other]',
   })
   @IsOptional()
-  type?: string[];
+  types?: string[];
 }

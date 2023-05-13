@@ -17,7 +17,7 @@ export class AgencyEntity {
   id: number;
 
   // @Field(() => AgencyType)
-  @Field()
+  @Field({ nullable: true })
   @Column({ type: 'enum', enum: AgencyType, default: AgencyType.SYSTEM })
   type: string;
 
@@ -31,13 +31,13 @@ export class AgencyEntity {
 
   @Field(() => AgencyEntity, { nullable: true })
   @ManyToOne(() => AgencyEntity, { nullable: true })
-  parent: AgencyEntity;
+  parentId: AgencyEntity;
 
   @Field(() => Date)
   @CreateDateColumn()
-  create_date: Date;
+  createDate: Date;
 
   @Field(() => Date)
   @UpdateDateColumn()
-  edit_date: Date;
+  editDate: Date;
 }

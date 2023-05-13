@@ -3,13 +3,19 @@
 # ------------------------------------------------------
 
 type AgencyEntity {
-  create_date: DateTime!
+  createDate: DateTime!
   description: String!
-  edit_date: DateTime!
+  editDate: DateTime!
   id: ID!
-  parent: AgencyEntity
+  parentId: AgencyEntity
   title: String!
-  type: String!
+  type: String
+}
+
+input CreateAgencyInput {
+  description: String
+  title: String!
+  type: String
 }
 
 input CreateUserInput {
@@ -27,13 +33,20 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input GetAgenciesInput {
+  types: [String!]
+}
+
 input GetUsersInput {
   roles: [String!]
 }
 
 type Mutation {
+  createAgency(createAgency: CreateAgencyInput!): AgencyEntity!
   createUser(createUser: CreateUserInput!): UserEntity!
+  removeAgency(id: ID!): ID!
   removeUser(id: Float!): Float!
+  updateAgency(updateAgency: UpdateAgencyInput!): AgencyEntity!
   updateUser(updateUser: UpdateUserInput!): UserEntity!
 }
 
@@ -47,11 +60,21 @@ type ProfileEntity {
 }
 
 type Query {
+  getAgencies(usersInput: GetAgenciesInput!): [AgencyEntity!]!
+  getAgency(id: ID!): AgencyEntity!
+
   """This graphql method for getting a user by id"""
   getUser(id: Float!): UserEntity!
 
   """This graphql method for getting all users"""
   getUsers(usersInput: GetUsersInput!): [UserEntity!]!
+}
+
+input UpdateAgencyInput {
+  description: String
+  id: ID!
+  title: String!
+  type: String
 }
 
 input UpdateUserInput {
