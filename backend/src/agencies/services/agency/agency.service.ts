@@ -31,18 +31,21 @@ export class AgencyService {
     return await query.getMany();
   }
 
-  async getAgency(id: number): Promise<AgencyEntity> {
+  async getAgency(id: number): Promise<AgencyEntity | undefined> {
     const agency = await this.agencyRepository.findOne({
       where: { id },
     });
+
     if (!agency) {
       throw new NotFoundException(`Agency with ID ${id} not found`);
     }
+
     return agency;
   }
 
   async removeAgency(id: number): Promise<number> {
     await this.agencyRepository.delete({ id });
+
     return id;
   }
 
@@ -51,6 +54,7 @@ export class AgencyService {
   ): Promise<AgencyEntity> {
     const { id, ...agencyData } = updateAgencyInput;
     await this.agencyRepository.update(id, agencyData);
+
     return await this.agencyRepository.findOne({
       where: { id },
     });

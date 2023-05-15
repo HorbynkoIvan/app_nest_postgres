@@ -16,7 +16,7 @@ export class AgencyResolver {
 
   @Query(() => [AgencyEntity])
   async getAgencies(
-    @Args('usersInput')
+    @Args('agenciesInput')
     agenciesInput: GetAgenciesInput,
   ): Promise<AgencyEntity[]> {
     return this.agencyService.getAgencies(agenciesInput);

@@ -18,6 +18,7 @@
 
 # IDEs and editors
 /.idea
+/backend/.idea
 /frontend/.idea
 /.vscode
 

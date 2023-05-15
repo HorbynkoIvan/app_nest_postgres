@@ -60,7 +60,7 @@ type ProfileEntity {
 }
 
 type Query {
-  getAgencies(usersInput: GetAgenciesInput!): [AgencyEntity!]!
+  getAgencies(agenciesInput: GetAgenciesInput!): [AgencyEntity!]!
   getAgency(id: ID!): AgencyEntity!
 
   """This graphql method for getting a user by id"""
