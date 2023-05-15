@@ -21,11 +21,29 @@ export class AgencyService {
     return await this.agencyRepository.save(agency);
   }
 
-  async getAgencies({ types }: GetAgenciesInput): Promise<AgencyEntity[]> {
+  async getAgencies(filterInput: GetAgenciesInput): Promise<AgencyEntity[]> {
     const query = this.agencyRepository.createQueryBuilder('agency');
 
-    if (types && types.length > 0) {
-      query.where('agency.type IN (:...types)', { types });
+    if (filterInput) {
+      const { id, types, title, parentId } = filterInput;
+
+      if (id) {
+        query.andWhere('agency.id = :id', { id });
+      }
+
+      if (parentId) {
+        query.andWhere('agency.parentId = :parentId', { parentId });
+      }
+
+      if (types && types.length > 0) {
+        query.andWhere('agency.type IN (:...types)', { types });
+      }
+
+      //ILIKE performs a case-insensitive search
+      //LIKE - case-sensitive
+      if (title) {
+        query.andWhere('agency.title ILIKE :title', { title: `%${title}%` });
+      }
     }
 
     return await query.getMany();

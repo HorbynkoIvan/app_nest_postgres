@@ -1,9 +1,12 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { AgencyType } from '../enums';
 import { IsArray, IsEnum, IsOptional } from 'class-validator';
 
 @InputType()
 export class GetAgenciesInput {
+  @Field(() => Int, { nullable: true })
+  id?: number;
+
   @Field(() => [String], { nullable: true })
   @IsArray()
   @IsEnum(AgencyType, {
@@ -13,4 +16,10 @@ export class GetAgenciesInput {
   })
   @IsOptional()
   types?: string[];
+
+  @Field(() => String, { nullable: true })
+  title?: string;
+
+  @Field(() => Int, { nullable: true })
+  parentId?: number;
 }
