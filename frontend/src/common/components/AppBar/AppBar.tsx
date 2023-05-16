@@ -30,7 +30,13 @@ export const AppBar = () => {
   };
 
   return (
-    <AppBarMui position="static">
+    <AppBarMui
+      sx={{
+        width: "100%",
+        height: 65,
+        boxShadow: "0px 6px 8px rgba(94, 129, 170, 0.08)",
+        mb: 2,
+      }}>
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Logo

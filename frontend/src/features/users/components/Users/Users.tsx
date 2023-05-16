@@ -1,4 +1,5 @@
-import { Header, PaperWrapper, Loader } from "common/components";
+import { Header, Loader } from "common/components";
+import {  PaperWrapper } from "common/ui";
 import { Table } from "../../components";
 import { useSelector } from "redux/hooks";
 import { selectorUsersRoles } from "redux/modules/usersByRole";

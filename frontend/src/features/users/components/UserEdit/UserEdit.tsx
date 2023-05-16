@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Loader, PaperWrapper } from "common/components";
+import { Loader } from "common/components";
+import { PaperWrapper } from "common/ui";
 import { useUserAPI } from "../../hooks";
 import { EditFormWrapper } from "./EditFormWrapper";
 

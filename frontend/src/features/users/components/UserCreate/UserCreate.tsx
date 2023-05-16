@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { UserForm, PaperWrapper } from "common/components";
+import { UserForm } from "common/components";
+import { PaperWrapper } from "common/ui";
 import { useUserCreateForm } from "../../hooks";
 
 export const UserCreate = () => {

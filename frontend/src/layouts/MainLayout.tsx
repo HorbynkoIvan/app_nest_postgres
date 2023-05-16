@@ -1,12 +1,19 @@
 import { Box } from "@mui/material";
-import { AppBar } from "common/components";
+import { AppBar, Sidebar } from "common/components";
 import { Outlet } from "react-router-dom";
 
 export const MainLayout = (): JSX.Element => (
-  <>
+  <Box sx={{ display: "flex", height: "100%", paddingBottom: "30px" }}>
     <AppBar />
-    <Box component="main" width="100%" maxWidth="1600px" margin="0 auto" height="75vh">
+    <Sidebar />
+    <Box
+      component="main"
+      sx={{
+        width: "100%",
+        flexGrow: 1,
+        mt: "73px",
+      }}>
       <Outlet />
     </Box>
-  </>
+  </Box>
 );

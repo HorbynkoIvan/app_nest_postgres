@@ -9,8 +9,7 @@ import {
 } from "react-icons/md";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import { BoxScrolled } from "common/components";
-import { SelectCheckboxes } from "common/ui";
+import { BoxScrolled, SelectCheckboxes } from "common/ui";
 import { UserType } from "common/interfaces";
 import { IconButton } from "../IconButton";
 import { useRemoveUserAPI, useSelectRoles } from "../../hooks/";
