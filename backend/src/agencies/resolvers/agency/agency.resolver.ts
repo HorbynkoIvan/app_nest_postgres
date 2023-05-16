@@ -4,6 +4,7 @@ import { AgencyEntity } from '../../entities/agency.entity';
 import { CreateAgencyInput } from '../../dto/create-agency.input';
 import { UpdateAgencyInput } from '../../dto/update-agency.input';
 import { GetAgenciesInput } from '../../dto/get-agencies.input';
+import { PaginationInput } from '../../dto/pagination.input';
 
 @Resolver(() => AgencyEntity)
 export class AgencyResolver {
@@ -16,10 +17,10 @@ export class AgencyResolver {
 
   @Query(() => [AgencyEntity])
   async getAgencies(
-    @Args('agenciesInput')
-    agenciesInput: GetAgenciesInput,
+    @Args('filterInput') filterInput: GetAgenciesInput,
+    @Args('paginationInput') paginationInput: PaginationInput,
   ): Promise<AgencyEntity[]> {
-    return this.agencyService.getAgencies(agenciesInput);
+    return this.agencyService.getAgencies(filterInput, paginationInput);
   }
 
   @Mutation(() => AgencyEntity)

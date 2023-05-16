@@ -5,6 +5,7 @@ import { AgencyEntity } from '../../entities/agency.entity';
 import { UpdateAgencyInput } from '../../dto/update-agency.input';
 import { CreateAgencyInput } from '../../dto/create-agency.input';
 import { GetAgenciesInput } from '../../dto/get-agencies.input';
+import { PaginationInput } from '../../dto/pagination.input';
 
 @Injectable()
 export class AgencyService {
@@ -21,7 +22,11 @@ export class AgencyService {
     return await this.agencyRepository.save(agency);
   }
 
-  async getAgencies(filterInput: GetAgenciesInput): Promise<AgencyEntity[]> {
+  async getAgencies(
+    filterInput: GetAgenciesInput,
+    paginationInput: PaginationInput,
+  ): Promise<AgencyEntity[]> {
+    const { page, perPage } = paginationInput;
     const query = this.agencyRepository.createQueryBuilder('agency');
 
     if (filterInput) {
@@ -45,6 +50,8 @@ export class AgencyService {
         query.andWhere('agency.title ILIKE :title', { title: `%${title}%` });
       }
     }
+
+    query.skip((page - 1) * perPage).take(perPage);
 
     return await query.getMany();
   }

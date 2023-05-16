@@ -16,7 +16,6 @@ export class AgencyEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Field(() => AgencyType)
   @Field({ nullable: true })
   @Column({ type: 'enum', enum: AgencyType, default: AgencyType.SYSTEM })
   type: string;
