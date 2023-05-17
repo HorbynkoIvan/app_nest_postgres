@@ -4,8 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { UsersModule } from './users/users.module';
-import { AgenciesModule } from './agencies/agencies.module';
+import { UsersModule, AgenciesModule, SeedsModule } from './modules';
 
 @Module({
   imports: [
@@ -33,6 +32,7 @@ import { AgenciesModule } from './agencies/agencies.module';
     }),
     UsersModule,
     AgenciesModule,
+    SeedsModule,
   ],
   controllers: [],
   providers: [],

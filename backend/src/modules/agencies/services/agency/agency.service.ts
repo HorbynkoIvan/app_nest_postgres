@@ -84,4 +84,9 @@ export class AgencyService {
       where: { id },
     });
   }
+
+  //need for seeds
+  async getAgenciesCount(): Promise<number> {
+    return await this.agencyRepository.count();
+  }
 }

@@ -11,7 +11,7 @@ export const useAgenciesAPI = (): Return => {
   const { data, loading } = useQuery(GET_AGENCIES_QUERY, {
     variables: {
       filterInput: { types: [], title: "Sc" },
-      paginationInput: { page: 1, perPage: 10 },
+      paginationInput: { page: 1, perPage: 100 },
     },
   });
 
