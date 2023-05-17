@@ -7,13 +7,13 @@ import { MdClear, MdModeEdit } from "react-icons/md";
 import { IconButton, DataGrid } from "common/ui";
 import { useTable } from "./hooks";
 import { Toolbar } from "../Toolbar";
-import { logDOM } from "@testing-library/react";
+import { GridCallbackDetails } from "@mui/x-data-grid/models/api";
 
 const TABLE_TOOLBAR_HEIGHT = 38;
 
-export const AgenciesTable = ({ entities }: any): JSX.Element => {
+export const AgenciesTable = ({ agencies }: any): JSX.Element => {
   const navigate = useNavigate();
-  const { pageSize, handlePageSizeChange } = useTable();
+  const { pageSize, handlePageSizeChange } = useTable(10);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 1 / 2, align: "center", disableColumnMenu: true },
@@ -98,11 +98,12 @@ export const AgenciesTable = ({ entities }: any): JSX.Element => {
 
       <TableContainer sx={{ minWidth: 800, height: `calc(100% - ${TABLE_TOOLBAR_HEIGHT}px)` }}>
         <DataGrid
-          rows={entities}
+          rowCount={50}
+          rows={agencies}
           columns={columns}
           pageSize={pageSize}
           onPageSizeChange={handlePageSizeChange}
-          rowsPerPageOptions={[5, 10, 20]}
+          rowsPerPageOptions={[5, 10, 50]}
           onPageChange={(newPage) => {
             console.log(newPage);
             // handle page change if using server-side pagination

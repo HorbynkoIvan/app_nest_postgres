@@ -1,18 +1,18 @@
 import { AgenciesTable } from "../AgenciesTable";
-import { useAgenciesMockAPI, useAgenciesAPI } from "../../hooks";
+import { useAgenciesAPI, usePagination } from "../../hooks";
 import { Loader } from "common/components";
 import { PaperWrapper } from "common/ui";
 
 export const Agencies = () => {
-  // const { entities, loading } = useAgenciesMockAPI();
-  const { agencies, loading } = useAgenciesAPI();
+  // const { page, perPage, handlePageChange } = usePagination();
+  const { agencies, loading } = useAgenciesAPI({ page: 1, perPage: 10 });
 
   if (loading) return <Loader />;
 
   return (
     <>
       <PaperWrapper>
-        <AgenciesTable entities={agencies} />
+        <AgenciesTable agencies={agencies} />
       </PaperWrapper>
     </>
   );
