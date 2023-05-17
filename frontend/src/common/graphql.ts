@@ -85,3 +85,16 @@ export const UPDATE_USER_MUTATION = gql`
     }
   }
 `;
+
+export const GET_AGENCIES_QUERY = gql`
+  query getAgencies($filterInput: GetAgenciesInput!, $paginationInput: PaginationInput!) {
+    getAgencies(filterInput: $filterInput, paginationInput: $paginationInput) {
+      createDate
+      description
+      editDate
+      id
+      title
+      type
+    }
+  }
+`;
