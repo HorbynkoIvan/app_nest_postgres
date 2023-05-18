@@ -40,6 +40,11 @@ input GetAgenciesInput {
   types: [String!]
 }
 
+type GetAgenciesResult {
+  agencies: [AgencyEntity!]!
+  totalCount: Int!
+}
+
 input GetUsersInput {
   roles: [String!]
 }
@@ -68,7 +73,7 @@ type ProfileEntity {
 }
 
 type Query {
-  getAgencies(filterInput: GetAgenciesInput!, paginationInput: PaginationInput!): [AgencyEntity!]!
+  getAgencies(filterInput: GetAgenciesInput!, paginationInput: PaginationInput!): GetAgenciesResult!
   getAgency(id: ID!): AgencyEntity!
 
   """This graphql method for getting a user by id"""

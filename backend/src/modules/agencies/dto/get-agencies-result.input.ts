@@ -1,13 +1,11 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { AgencyEntity } from '../entities/agency.entity';
 
-@InputType()
-export class CreateAgencyInput {
-  @Field({ nullable: true })
-  type: string;
+@ObjectType()
+export class GetAgenciesResult {
+  @Field(() => [AgencyEntity])
+  agencies: AgencyEntity[];
 
-  @Field()
-  title: string;
-
-  @Field({ nullable: true })
-  description: string;
+  @Field(() => Int)
+  totalCount: number;
 }

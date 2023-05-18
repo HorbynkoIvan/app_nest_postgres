@@ -13,7 +13,6 @@ type Return = {
 };
 
 export const useAgenciesAPI = ({ page, pageSize }: PaginationParams): Return => {
-  console.log("useAgenciesAPI ", page, pageSize);
   const { data, loading } = useQuery(GET_AGENCIES_QUERY, {
     variables: {
       filterInput: { types: [], title: "" },

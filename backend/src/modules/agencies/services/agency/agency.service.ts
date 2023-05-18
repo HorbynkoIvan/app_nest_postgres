@@ -7,6 +7,11 @@ import { CreateAgencyInput } from '../../dto/create-agency.input';
 import { GetAgenciesInput } from '../../dto/get-agencies.input';
 import { PaginationInput } from '../../dto/pagination.input';
 
+type AgenciesType = {
+  agencies: AgencyEntity[];
+  totalCount: number;
+};
+
 @Injectable()
 export class AgencyService {
   constructor(
@@ -25,7 +30,7 @@ export class AgencyService {
   async getAgencies(
     filterInput: GetAgenciesInput,
     paginationInput: PaginationInput,
-  ): Promise<AgencyEntity[]> {
+  ): Promise<AgenciesType> {
     const { page, perPage } = paginationInput;
     const query = this.agencyRepository.createQueryBuilder('agency');
 
@@ -53,7 +58,9 @@ export class AgencyService {
 
     query.skip((page - 1) * perPage).take(perPage);
 
-    return await query.getMany();
+    const totalCount = await this.getAgenciesCount();
+    const agencies = await query.getMany();
+    return { agencies, totalCount };
   }
 
   async getAgency(id: number): Promise<AgencyEntity | undefined> {
