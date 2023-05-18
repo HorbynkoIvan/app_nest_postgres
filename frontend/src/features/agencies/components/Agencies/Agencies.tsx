@@ -4,15 +4,23 @@ import { Loader } from "common/components";
 import { PaperWrapper } from "common/ui";
 
 export const Agencies = () => {
-  // const { page, perPage, handlePageChange } = usePagination();
-  const { agencies, loading } = useAgenciesAPI({ page: 1, perPage: 10 });
+  const { queryOptions, handlePageChange, handlePageSizeChange } = usePagination();
+  const { agencies, loading } = useAgenciesAPI(queryOptions);
 
   if (loading) return <Loader />;
 
   return (
     <>
       <PaperWrapper>
-        <AgenciesTable agencies={agencies} />
+        <AgenciesTable
+          agencies={agencies}
+          page={0}
+          pageSize={queryOptions.pageSize}
+          totalCount={50}
+          loading={loading}
+          handlePageSizeChange={handlePageSizeChange}
+          handlePageChange={handlePageChange}
+        />
       </PaperWrapper>
     </>
   );

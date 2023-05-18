@@ -1,26 +1,46 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type Return = {
-  page: number;
-  perPage: number;
-  handlePageChange: (params: any) => void;
+  queryOptions: any;
+  handlePageChange: (params: number) => void;
+  handlePageSizeChange: (pageSize: number) => void;
 };
 
 export const usePagination = (): Return => {
   const [page, setPage] = useState(1); // State for the page number
-  const [perPage, setPerPage] = useState(20); // State for the number of items per page
+  const [pageSize, setPageSize] = useState(10); // State for the number of items per page
 
-  const handlePageChange = (params: any) => {
-    const newPage = params.page + 1; // Adjust the page index if needed
-    const newPerPage = params.pageSize;
+  const queryOptions = useMemo(
+    () => ({
+      page,
+      pageSize,
+    }),
+    [page, pageSize]
+  );
 
-    setPage(newPage);
-    setPerPage(newPerPage);
+  const handlePageChange = (newPage: number) => {
+    console.log(newPage);
+    setPage(newPage + 1);
+    // handle page change if using server-side pagination
   };
 
+  const handlePageSizeChange = (newPageSize: number) => {
+    console.log(newPageSize);
+    setPageSize(newPageSize);
+    // handle page change if using server-side pagination
+  };
+
+  // const handlePageChange = (params: any) => {
+  //   const newPage = params.page + 1; // Adjust the page index if needed
+  //   const newPerPage = params.pageSize;
+  //
+  //   setPage(newPage);
+  //   setPerPage(newPerPage);
+  // };
+
   return {
-    page,
-    perPage,
+    queryOptions,
     handlePageChange,
+    handlePageSizeChange,
   };
 };

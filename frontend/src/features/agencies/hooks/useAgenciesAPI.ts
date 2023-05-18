@@ -4,7 +4,7 @@ import { GET_AGENCIES_QUERY } from "common/graphql";
 
 type PaginationParams = {
   page: number;
-  perPage: number;
+  pageSize: number;
 };
 
 type Return = {
@@ -12,11 +12,12 @@ type Return = {
   loading: boolean;
 };
 
-export const useAgenciesAPI = ({ page, perPage }: PaginationParams): Return => {
+export const useAgenciesAPI = ({ page, pageSize }: PaginationParams): Return => {
+  console.log("useAgenciesAPI ", page, pageSize);
   const { data, loading } = useQuery(GET_AGENCIES_QUERY, {
     variables: {
       filterInput: { types: [], title: "" },
-      paginationInput: { page, perPage },
+      paginationInput: { page, perPage: pageSize },
     },
   });
 
