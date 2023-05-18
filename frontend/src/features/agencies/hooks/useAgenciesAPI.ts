@@ -9,6 +9,7 @@ type PaginationParams = {
 
 type Return = {
   agencies: AgencyType[];
+  totalCount: number;
   loading: boolean;
 };
 
@@ -21,7 +22,8 @@ export const useAgenciesAPI = ({ page, pageSize }: PaginationParams): Return => 
   });
 
   return {
-    agencies: data ? data.getAgencies : [],
+    agencies: data ? data.getAgencies.agencies : [],
+    totalCount: data ? data.getAgencies.totalCount : null,
     loading,
   };
 };

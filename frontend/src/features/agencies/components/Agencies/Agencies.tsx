@@ -5,7 +5,7 @@ import { PaperWrapper } from "common/ui";
 
 export const Agencies = () => {
   const { queryOptions, handlePageChange, handlePageSizeChange } = usePagination();
-  const { agencies, loading } = useAgenciesAPI(queryOptions);
+  const { agencies, totalCount, loading } = useAgenciesAPI(queryOptions);
 
   if (loading) return <Loader />;
 
@@ -16,7 +16,7 @@ export const Agencies = () => {
           agencies={agencies}
           page={queryOptions.page - 1}
           pageSize={queryOptions.pageSize}
-          totalCount={50}
+          totalCount={totalCount}
           loading={loading}
           handlePageSizeChange={handlePageSizeChange}
           handlePageChange={handlePageChange}
