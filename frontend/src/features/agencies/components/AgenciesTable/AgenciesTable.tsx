@@ -5,7 +5,6 @@ import { GridColDef } from "@mui/x-data-grid";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { MdClear, MdModeEdit } from "react-icons/md";
 import { IconButton, DataGrid } from "common/ui";
-import { useTable } from "./hooks";
 import { Toolbar } from "../Toolbar";
 
 const TABLE_TOOLBAR_HEIGHT = 38;
@@ -20,7 +19,6 @@ export const AgenciesTable = ({
   handlePageChange,
 }: any): JSX.Element => {
   const navigate = useNavigate();
-  // const { pageSize, handlePageSizeChange } = useTable(10);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 1 / 2, align: "center", disableColumnMenu: true },
@@ -115,10 +113,6 @@ export const AgenciesTable = ({
           paginationMode="server"
           onPageSizeChange={handlePageSizeChange}
           onPageChange={handlePageChange}
-          // onPageChange={(newPage) => {
-          //   console.log(newPage);
-          //   // handle page change if using server-side pagination
-          // }}
           columns={columns}
           checkboxSelection={false}
           disableSelectionOnClick

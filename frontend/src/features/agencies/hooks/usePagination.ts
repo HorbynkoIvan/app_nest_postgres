@@ -7,12 +7,12 @@ type Return = {
 };
 
 export const usePagination = (): Return => {
-  const [page, setPage] = useState(1); // State for the page number
+  const [page, setPage] = useState(0); // State for the page number
   const [pageSize, setPageSize] = useState(10); // State for the number of items per page
 
   const queryOptions = useMemo(
     () => ({
-      page,
+      page: page + 1,
       pageSize,
     }),
     [page, pageSize]
@@ -20,7 +20,7 @@ export const usePagination = (): Return => {
 
   const handlePageChange = (newPage: number) => {
     console.log(newPage);
-    setPage(newPage + 1);
+    setPage(newPage);
     // handle page change if using server-side pagination
   };
 

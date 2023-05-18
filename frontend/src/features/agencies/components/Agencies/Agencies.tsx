@@ -14,7 +14,7 @@ export const Agencies = () => {
       <PaperWrapper>
         <AgenciesTable
           agencies={agencies}
-          page={0}
+          page={queryOptions.page - 1}
           pageSize={queryOptions.pageSize}
           totalCount={50}
           loading={loading}
