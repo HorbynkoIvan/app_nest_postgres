@@ -1,14 +1,22 @@
 import { useMemo, useState } from "react";
 
-type Return = {
-  queryOptions: any;
-  handlePageChange: (params: number) => void;
-  handlePageSizeChange: (pageSize: number) => void;
+type QueryOptions = {
+  page: number;
+  pageSize: number;
 };
 
+type Return = {
+  queryOptions: QueryOptions;
+  handlePageChange: (newPage: number) => void;
+  handlePageSizeChange: (newPageSize: number) => void;
+};
+
+const PAGINATION_INITIAL_PAGE = 0;
+const PAGINATION_INITIAL_PAGE_SIZE = 10; // number of items per page
+
 export const usePagination = (): Return => {
-  const [page, setPage] = useState(0); // State for the page number
-  const [pageSize, setPageSize] = useState(10); // State for the number of items per page
+  const [page, setPage] = useState(PAGINATION_INITIAL_PAGE);
+  const [pageSize, setPageSize] = useState(PAGINATION_INITIAL_PAGE_SIZE);
 
   const queryOptions = useMemo(
     () => ({
@@ -19,24 +27,11 @@ export const usePagination = (): Return => {
   );
 
   const handlePageChange = (newPage: number) => {
-    console.log(newPage);
     setPage(newPage);
-    // handle page change if using server-side pagination
   };
-
   const handlePageSizeChange = (newPageSize: number) => {
-    console.log(newPageSize);
     setPageSize(newPageSize);
-    // handle page change if using server-side pagination
   };
-
-  // const handlePageChange = (params: any) => {
-  //   const newPage = params.page + 1; // Adjust the page index if needed
-  //   const newPerPage = params.pageSize;
-  //
-  //   setPage(newPage);
-  //   setPerPage(newPerPage);
-  // };
 
   return {
     queryOptions,

@@ -17,13 +17,13 @@ export const useAgenciesAPI = ({ page, pageSize }: PaginationParams): Return => 
   const { data, loading } = useQuery(GET_AGENCIES_QUERY, {
     variables: {
       filterInput: { types: [], title: "" },
-      paginationInput: { page, perPage: pageSize },
+      paginationInput: { page, pageSize: pageSize },
     },
   });
 
   return {
-    agencies: data ? data.getAgencies.agencies : [],
-    totalCount: data ? data.getAgencies.totalCount : null,
+    agencies: data?.getAgencies?.agencies ?? [],
+    totalCount: data?.getAgencies?.totalCount ?? 0,
     loading,
   };
 };

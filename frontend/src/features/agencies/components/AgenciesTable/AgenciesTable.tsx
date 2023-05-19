@@ -2,12 +2,21 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { Stack, TableContainer } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import { MdClear, MdModeEdit } from "react-icons/md";
+import { MdClear, MdModeEdit, MdPlayArrow } from "react-icons/md";
 import { IconButton, DataGrid } from "common/ui";
-import { Toolbar } from "../Toolbar";
+import { AgencyType } from "common/interfaces";
 
 const TABLE_TOOLBAR_HEIGHT = 38;
+
+type AgenciesTableProps = {
+  agencies: AgencyType[];
+  loading: boolean;
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  handlePageSizeChange: (pageSize: number) => void;
+  handlePageChange: (page: number) => void;
+};
 
 export const AgenciesTable = ({
   agencies,
@@ -17,7 +26,7 @@ export const AgenciesTable = ({
   totalCount,
   handlePageSizeChange,
   handlePageChange,
-}: any): JSX.Element => {
+}: AgenciesTableProps): JSX.Element => {
   const navigate = useNavigate();
 
   const columns: GridColDef[] = [
@@ -43,7 +52,7 @@ export const AgenciesTable = ({
       renderCell: ({ row: { parentId } }) =>
         parentId && (
           <Stack direction="row" justifyContent="center" alignItems="center">
-            {parentId} <PlayArrowIcon />
+            {parentId} <MdPlayArrow />
           </Stack>
         ),
     },
@@ -94,30 +103,22 @@ export const AgenciesTable = ({
   ];
 
   return (
-    <>
-      <Toolbar
-        searched=""
-        handleChangeSearch={(searchedVal) => console.log(searchedVal)}
-        handleClearSearch={() => console.log("clear")}
+    <TableContainer sx={{ minWidth: 800, height: `calc(100% - ${TABLE_TOOLBAR_HEIGHT}px)` }}>
+      <DataGrid
+        rows={agencies}
+        rowCount={totalCount}
+        loading={loading}
+        rowsPerPageOptions={[10, 20, 50]}
+        pagination
+        page={page}
+        pageSize={pageSize}
+        paginationMode="server"
+        onPageSizeChange={handlePageSizeChange}
+        onPageChange={handlePageChange}
+        columns={columns}
+        checkboxSelection={false}
+        disableSelectionOnClick
       />
-
-      <TableContainer sx={{ minWidth: 800, height: `calc(100% - ${TABLE_TOOLBAR_HEIGHT}px)` }}>
-        <DataGrid
-          rows={agencies}
-          rowCount={totalCount}
-          loading={loading}
-          rowsPerPageOptions={[10, 20, 50]}
-          pagination
-          page={page}
-          pageSize={pageSize}
-          paginationMode="server"
-          onPageSizeChange={handlePageSizeChange}
-          onPageChange={handlePageChange}
-          columns={columns}
-          checkboxSelection={false}
-          disableSelectionOnClick
-        />
-      </TableContainer>
-    </>
+    </TableContainer>
   );
 };

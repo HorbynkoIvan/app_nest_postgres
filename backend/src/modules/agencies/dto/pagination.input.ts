@@ -6,5 +6,5 @@ export class PaginationInput {
   page: number;
 
   @Field(() => Int)
-  perPage: number;
+  pageSize: number;
 }

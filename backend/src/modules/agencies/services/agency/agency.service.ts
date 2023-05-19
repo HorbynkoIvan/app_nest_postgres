@@ -31,7 +31,7 @@ export class AgencyService {
     filterInput: GetAgenciesInput,
     paginationInput: PaginationInput,
   ): Promise<AgenciesType> {
-    const { page, perPage } = paginationInput;
+    const { page, pageSize } = paginationInput;
     const query = this.agencyRepository.createQueryBuilder('agency');
 
     if (filterInput) {
@@ -56,10 +56,11 @@ export class AgencyService {
       }
     }
 
-    query.skip((page - 1) * perPage).take(perPage);
+    query.skip((page - 1) * pageSize).take(pageSize);
 
     const totalCount = await this.getAgenciesCount();
     const agencies = await query.getMany();
+
     return { agencies, totalCount };
   }
 

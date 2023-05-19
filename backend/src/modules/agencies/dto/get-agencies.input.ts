@@ -5,6 +5,7 @@ import { IsArray, IsEnum, IsOptional } from 'class-validator';
 @InputType()
 export class GetAgenciesInput {
   @Field(() => Int, { nullable: true })
+  @IsOptional()
   id?: number;
 
   @Field(() => [String], { nullable: true })
@@ -18,6 +19,7 @@ export class GetAgenciesInput {
   types?: string[];
 
   @Field(() => String, { nullable: true })
+  @IsOptional()
   title?: string;
 
   @Field(() => Int, { nullable: true })
