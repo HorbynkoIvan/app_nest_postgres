@@ -2,6 +2,11 @@ import { useQuery } from "@apollo/client";
 import { AgencyType } from "common/interfaces";
 import { GET_AGENCIES_QUERY } from "common/graphql";
 
+type FilterOptions = {
+  searchedName: string;
+  searchedId: number | null;
+};
+
 type PaginationParams = {
   page: number;
   pageSize: number;
@@ -13,11 +18,14 @@ type Return = {
   loading: boolean;
 };
 
-export const useAgenciesAPI = ({ page, pageSize }: PaginationParams): Return => {
+export const useAgenciesAPI = (
+  { searchedName, searchedId }: FilterOptions,
+  { page, pageSize }: PaginationParams
+): Return => {
   const { data, loading } = useQuery(GET_AGENCIES_QUERY, {
     variables: {
-      filterInput: { types: [], title: "" },
-      paginationInput: { page, pageSize: pageSize },
+      filterInput: { types: [], title: searchedName, id: searchedId },
+      paginationInput: { page, pageSize },
     },
   });
 

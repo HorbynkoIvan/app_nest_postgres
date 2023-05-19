@@ -5,15 +5,21 @@ import { Select } from "../Select";
 import React from "react";
 
 type Props = {
-  searched: string;
-  handleChangeSearch: (value: string) => void;
-  handleClearSearch: () => void;
+  searchedName: string;
+  searchedId: number | null;
+  handleChangeSearchName: (value: string) => void;
+  handleChangeSearchID: (value: string) => void;
+  handleClearSearchName: () => void;
+  handleClearSearchID: () => void;
 };
 
 export const Toolbar = ({
-  searched,
-  handleChangeSearch,
-  handleClearSearch,
+  searchedName,
+  searchedId,
+  handleChangeSearchName,
+  handleChangeSearchID,
+  handleClearSearchName,
+  handleClearSearchID,
 }: Props): JSX.Element => {
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -38,17 +44,17 @@ export const Toolbar = ({
         <Search
           minWidth={170}
           placeholder="Search by Name"
-          searched={searched}
-          handleChangeSearch={handleChangeSearch}
-          handleClearSearch={handleClearSearch}
+          searched={searchedName}
+          handleChangeSearch={handleChangeSearchName}
+          handleClearSearch={handleClearSearchName}
         />
 
         <Search
           minWidth={170}
           placeholder="Search by ID"
-          searched={searched}
-          handleChangeSearch={handleChangeSearch}
-          handleClearSearch={handleClearSearch}
+          searched={searchedId !== null ? searchedId.toString() : ""}
+          handleChangeSearch={handleChangeSearchID}
+          handleClearSearch={handleClearSearchID}
         />
 
         <Button variant="contained" color="primary" startIcon={<MdAdd />} size="large" fullWidth>

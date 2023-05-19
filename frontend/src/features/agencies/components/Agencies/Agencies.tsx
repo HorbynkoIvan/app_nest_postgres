@@ -1,27 +1,37 @@
 import { AgenciesTable } from "../AgenciesTable";
-import { useAgenciesAPI, usePagination } from "../../hooks";
+import { useAgenciesAPI, useFilter, usePagination } from "../../hooks";
 import { Loader } from "common/components";
 import { PaperWrapper } from "common/ui";
 import { Toolbar } from "../Toolbar";
 
 export const Agencies = () => {
-  const { queryOptions, handlePageChange, handlePageSizeChange } = usePagination();
-  const { agencies, totalCount, loading } = useAgenciesAPI(queryOptions);
+  const {
+    filterOptions,
+    handleChangeSearchName,
+    handleClearSearchName,
+    handleChangeSearchID,
+    handleClearSearchID,
+  } = useFilter();
+  const { paginationOptions, handlePageChange, handlePageSizeChange } = usePagination();
+  const { agencies, totalCount, loading } = useAgenciesAPI(filterOptions, paginationOptions);
 
   if (loading) return <Loader />;
 
   return (
     <PaperWrapper>
       <Toolbar
-        searched=""
-        handleChangeSearch={(searchedVal) => console.log(searchedVal)}
-        handleClearSearch={() => console.log("clear")}
+        searchedName={filterOptions.searchedName}
+        searchedId={filterOptions.searchedId}
+        handleChangeSearchName={handleChangeSearchName}
+        handleClearSearchName={handleClearSearchName}
+        handleChangeSearchID={handleChangeSearchID}
+        handleClearSearchID={handleClearSearchID}
       />
 
       <AgenciesTable
         agencies={agencies}
-        page={queryOptions.page - 1}
-        pageSize={queryOptions.pageSize}
+        page={paginationOptions.page - 1}
+        pageSize={paginationOptions.pageSize}
         totalCount={totalCount}
         loading={loading}
         handlePageSizeChange={handlePageSizeChange}

@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 
-type QueryOptions = {
+type PaginationOptions = {
   page: number;
   pageSize: number;
 };
 
 type Return = {
-  queryOptions: QueryOptions;
+  paginationOptions: PaginationOptions;
   handlePageChange: (newPage: number) => void;
   handlePageSizeChange: (newPageSize: number) => void;
 };
@@ -18,7 +18,7 @@ export const usePagination = (): Return => {
   const [page, setPage] = useState(PAGINATION_INITIAL_PAGE);
   const [pageSize, setPageSize] = useState(PAGINATION_INITIAL_PAGE_SIZE);
 
-  const queryOptions = useMemo(
+  const paginationOptions = useMemo(
     () => ({
       page: page + 1,
       pageSize,
@@ -34,7 +34,7 @@ export const usePagination = (): Return => {
   };
 
   return {
-    queryOptions,
+    paginationOptions,
     handlePageChange,
     handlePageSizeChange,
   };

@@ -58,8 +58,8 @@ export class AgencyService {
 
     query.skip((page - 1) * pageSize).take(pageSize);
 
-    const totalCount = await this.getAgenciesCount();
-    const agencies = await query.getMany();
+    // const agencies = await query.getMany();
+    const [agencies, totalCount] = await query.getManyAndCount();
 
     return { agencies, totalCount };
   }
