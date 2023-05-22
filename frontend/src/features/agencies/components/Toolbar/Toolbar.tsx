@@ -2,13 +2,13 @@ import { Stack, Button, Typography } from "@mui/material";
 import { MdAdd } from "react-icons/md";
 import { Search } from "./Search";
 import { Select } from "../Select";
-import React from "react";
+import React, { ChangeEvent } from "react";
 
 type Props = {
   searchedName: string;
   searchedId: number | null;
-  handleChangeSearchName: (value: string) => void;
-  handleChangeSearchID: (value: string) => void;
+  handleChangeSearchName: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleChangeSearchID: (event: ChangeEvent<HTMLInputElement>) => void;
   handleClearSearchName: () => void;
   handleClearSearchID: () => void;
 };
@@ -43,6 +43,7 @@ export const Toolbar = ({
 
         <Search
           minWidth={170}
+          maxWidth={170}
           placeholder="Search by Name"
           searched={searchedName}
           handleChangeSearch={handleChangeSearchName}
@@ -51,6 +52,7 @@ export const Toolbar = ({
 
         <Search
           minWidth={170}
+          maxWidth={170}
           placeholder="Search by ID"
           searched={searchedId !== null ? searchedId.toString() : ""}
           handleChangeSearch={handleChangeSearchID}

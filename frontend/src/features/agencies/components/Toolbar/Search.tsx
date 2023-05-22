@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import {
   IconButton,
   InputAdornment,
@@ -9,9 +10,10 @@ import { MdSearch, MdClear } from "react-icons/md";
 
 type Props = OutlinedInputProps & {
   searched: string;
-  handleChangeSearch: (value: string) => void;
+  handleChangeSearch: (event: ChangeEvent<HTMLInputElement>) => void;
   handleClearSearch: () => void;
   minWidth: number;
+  maxWidth: number;
 };
 
 export const Search = ({
@@ -19,12 +21,13 @@ export const Search = ({
   handleChangeSearch,
   handleClearSearch,
   minWidth,
+  maxWidth,
   ...props
 }: Props) => (
   <OutlinedInput
-    sx={{ minWidth: minWidth }}
+    sx={{ minWidth: minWidth, maxWidth: maxWidth }}
     value={searched}
-    onChange={(e) => handleChangeSearch(e.target.value)}
+    onChange={handleChangeSearch}
     size="small"
     startAdornment={
       <InputAdornment position="start">
