@@ -1,0 +1,1 @@
+export { useEntitiesMockAPI } from "./useEntitiesMockAPI";

@@ -22,23 +22,12 @@ export const useFilter = (): Return => {
     searchedId: null,
   });
 
-  const debouncedHandleChangeSearchName = debounce((value: string) => {
+  const handleChangeSearchName = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
     setFilterOptions((prevOptions) => ({
       ...prevOptions,
       searchedName: value,
     }));
-  }, DELAY);
-
-  const debouncedHandleChangeSearchID = debounce((value: number | null) => {
-    setFilterOptions((prevOptions) => ({
-      ...prevOptions,
-      searchedId: value,
-    }));
-  }, DELAY);
-
-  const handleChangeSearchName = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    debouncedHandleChangeSearchName(value);
   };
 
   const handleClearSearchName = () => {
@@ -50,7 +39,10 @@ export const useFilter = (): Return => {
 
   const handleChangeSearchID = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    debouncedHandleChangeSearchID(+value);
+    setFilterOptions((prevOptions) => ({
+      ...prevOptions,
+      searchedId: +value,
+    }));
   };
 
   const handleClearSearchID = () => {
@@ -59,13 +51,6 @@ export const useFilter = (): Return => {
       searchedId: null,
     }));
   };
-
-  useEffect(() => {
-    return () => {
-      debouncedHandleChangeSearchName.cancel();
-      debouncedHandleChangeSearchID.cancel();
-    };
-  }, [debouncedHandleChangeSearchID, debouncedHandleChangeSearchName]);
 
   return {
     filterOptions,
