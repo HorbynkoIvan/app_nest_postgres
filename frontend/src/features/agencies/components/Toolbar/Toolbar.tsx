@@ -7,6 +7,8 @@ import React, { ChangeEvent } from "react";
 type Props = {
   searchedName: string;
   searchedId: number | null;
+  selectedTypes: any;
+  handleSelectTypes: () => void;
   handleChangeSearchName: (event: ChangeEvent<HTMLInputElement>) => void;
   handleChangeSearchID: (event: ChangeEvent<HTMLInputElement>) => void;
   handleClearSearchName: () => void;
@@ -16,6 +18,8 @@ type Props = {
 export const Toolbar = ({
   searchedName,
   searchedId,
+  selectedTypes,
+  handleSelectTypes,
   handleChangeSearchName,
   handleChangeSearchID,
   handleClearSearchName,
@@ -29,14 +33,16 @@ export const Toolbar = ({
 
       <Stack direction="row" alignItems="center" spacing={2}>
         <Stack direction="row" alignItems="center" spacing={2}>
-          <Typography noWrap overflow={"initial"}>
+          <Typography noWrap overflow="initial">
             Filter by Type
           </Typography>
 
           <Select
             sx={{ width: 150, height: 35, m: 0 }}
             fullWidth
-            defaultValue="system"
+            value={selectedTypes}
+            onChange={handleSelectTypes}
+            placeholder="Roles filter"
             options={["system", "state", "district", "school", "cohort", "other"]}
           />
         </Stack>

@@ -19,12 +19,13 @@ type Return = {
 };
 
 export const useAgenciesAPI = (
+  selectedTypes: any,
   { searchedName, searchedId }: FilterOptions,
   { page, pageSize }: PaginationParams
 ): Return => {
   const { data, loading } = useQuery(GET_AGENCIES_QUERY, {
     variables: {
-      filterInput: { types: [], title: searchedName, id: searchedId },
+      filterInput: { types: selectedTypes, title: searchedName, id: searchedId },
       paginationInput: { page, pageSize },
     },
   });

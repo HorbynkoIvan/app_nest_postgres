@@ -14,18 +14,26 @@ type Return = {
   handleClearSearchID: () => void;
 };
 
-const DELAY = 1000;
+const DELAY = 300;
 
 export const useFilter = (): Return => {
-  const [searchedName, setSearchedName] = useState("");
-  const [searchedId, setSearchedId] = useState<number | null>(null);
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    searchedName: "",
+    searchedId: null,
+  });
 
   const debouncedHandleChangeSearchName = debounce((value: string) => {
-    setSearchedName(value);
+    setFilterOptions((prevOptions) => ({
+      ...prevOptions,
+      searchedName: value,
+    }));
   }, DELAY);
 
   const debouncedHandleChangeSearchID = debounce((value: number | null) => {
-    setSearchedId(value);
+    setFilterOptions((prevOptions) => ({
+      ...prevOptions,
+      searchedId: value,
+    }));
   }, DELAY);
 
   const handleChangeSearchName = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,16 +42,22 @@ export const useFilter = (): Return => {
   };
 
   const handleClearSearchName = () => {
-    setSearchedName("");
+    setFilterOptions((prevOptions) => ({
+      ...prevOptions,
+      searchedName: "",
+    }));
   };
 
   const handleChangeSearchID = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    debouncedHandleChangeSearchID(Number(value));
+    debouncedHandleChangeSearchID(+value);
   };
 
   const handleClearSearchID = () => {
-    setSearchedId(null);
+    setFilterOptions((prevOptions) => ({
+      ...prevOptions,
+      searchedId: null,
+    }));
   };
 
   useEffect(() => {
@@ -54,10 +68,7 @@ export const useFilter = (): Return => {
   }, [debouncedHandleChangeSearchID, debouncedHandleChangeSearchName]);
 
   return {
-    filterOptions: {
-      searchedName,
-      searchedId,
-    },
+    filterOptions,
     handleChangeSearchName,
     handleClearSearchName,
     handleChangeSearchID,

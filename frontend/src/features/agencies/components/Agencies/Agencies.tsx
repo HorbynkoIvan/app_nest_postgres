@@ -1,10 +1,11 @@
 import { AgenciesTable } from "../AgenciesTable";
-import { useAgenciesAPI, useFilter, usePagination } from "../../hooks";
+import { useAgenciesAPI, useFilter, usePagination, useSelectTypes } from "../../hooks";
 import { Loader } from "common/components";
 import { PaperWrapper } from "common/ui";
 import { Toolbar } from "../Toolbar";
 
 export const Agencies = () => {
+  const { selectedTypes, handleSelectTypes } = useSelectTypes();
   const {
     filterOptions,
     handleChangeSearchName,
@@ -13,7 +14,11 @@ export const Agencies = () => {
     handleClearSearchID,
   } = useFilter();
   const { paginationOptions, handlePageChange, handlePageSizeChange } = usePagination();
-  const { agencies, totalCount, loading } = useAgenciesAPI(filterOptions, paginationOptions);
+  const { agencies, totalCount, loading } = useAgenciesAPI(
+    selectedTypes,
+    filterOptions,
+    paginationOptions
+  );
 
   if (loading) return <Loader />;
 
@@ -22,6 +27,8 @@ export const Agencies = () => {
       <Toolbar
         searchedName={filterOptions.searchedName}
         searchedId={filterOptions.searchedId}
+        selectedTypes={selectedTypes}
+        handleSelectTypes={handleSelectTypes}
         handleChangeSearchName={handleChangeSearchName}
         handleClearSearchName={handleClearSearchName}
         handleChangeSearchID={handleChangeSearchID}
