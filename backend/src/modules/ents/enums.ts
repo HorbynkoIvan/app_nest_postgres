@@ -1,4 +1,4 @@
-export enum AgencyType {
+export enum EntType {
   SYSTEM = 'system',
   STATE = 'state',
   DISTRICT = 'district',

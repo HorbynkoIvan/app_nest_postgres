@@ -7,17 +7,17 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { AgencyType } from '../enums';
+import { EntType } from '../enums';
 
 @ObjectType()
 @Entity({ name: 'agencies' })
-export class AgencyEntity {
+export class EntEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
 
   @Field({ nullable: true })
-  @Column({ type: 'enum', enum: AgencyType, default: AgencyType.SYSTEM })
+  @Column({ type: 'enum', enum: EntType, default: EntType.SYSTEM })
   type: string;
 
   @Field()
@@ -28,9 +28,9 @@ export class AgencyEntity {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Field(() => AgencyEntity, { nullable: true })
-  @ManyToOne(() => AgencyEntity, { nullable: true })
-  parentId: AgencyEntity;
+  @Field(() => EntEntity, { nullable: true })
+  @ManyToOne(() => EntEntity, { nullable: true })
+  parentId: EntEntity;
 
   @Field(() => Date)
   @CreateDateColumn()

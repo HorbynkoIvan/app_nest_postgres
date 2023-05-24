@@ -3,10 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { SeedsService } from './service';
-import { AgencyEntity, AgencyService } from '../modules/agencies';
+import { EntEntity, EntService } from '../modules/ents';
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([AgencyEntity])],
-  providers: [SeedsService, AgencyService],
+  imports: [ConfigModule, TypeOrmModule.forFeature([EntEntity])],
+  providers: [SeedsService, EntService],
 })
 export class SeedsModule {}

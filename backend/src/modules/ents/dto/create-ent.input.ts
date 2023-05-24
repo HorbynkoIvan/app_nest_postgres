@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class CreateAgencyInput {
+export class CreateEntInput {
   @Field({ nullable: true })
   type: string;
 

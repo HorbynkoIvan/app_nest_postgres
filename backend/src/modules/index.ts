@@ -1,3 +1,3 @@
 export * from './users';
-export * from './agencies';
+export * from './ents';
 export * from '../seeds';

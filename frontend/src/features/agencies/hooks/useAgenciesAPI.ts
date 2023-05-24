@@ -31,8 +31,8 @@ export const useAgenciesAPI = (
   });
 
   return {
-    agencies: data?.getAgencies?.agencies ?? [],
-    totalCount: data?.getAgencies?.totalCount ?? 0,
+    agencies: data?.getEnts?.agencies ?? [],
+    totalCount: data?.getEnts?.totalCount ?? 0,
     loading,
   };
 };
