@@ -1,0 +1,1 @@
+export { EntsTable } from "./EntsTable";

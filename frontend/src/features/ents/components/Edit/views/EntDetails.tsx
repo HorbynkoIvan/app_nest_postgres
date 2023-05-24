@@ -6,7 +6,7 @@ import { MdMode } from "react-icons/md";
 // import { TYPE_OPTIONS } from "common/constants";
 import { useShowParentIdField } from "../hooks";
 
-export const AgencyDetails = () => {
+export const EntDetails = () => {
   const { values, handleChange, handleBlur, errors, touched } = useFormikContext<any>();
   const { isShowedParentIdField, showParentIdField } = useShowParentIdField();
 

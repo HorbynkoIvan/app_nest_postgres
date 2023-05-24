@@ -9,9 +9,9 @@ const menuConfig: MenuItem[] = [
     icon: MdSupervisedUserCircle,
   },
   {
-    id: "agencies",
-    title: "Agencies",
-    url: "/agencies",
+    id: "ents",
+    title: "Entities",
+    url: "/ents",
     icon: MdOutlineLeaderboard,
   },
 ];

@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { AgencyType } from "common/interfaces";
-import { GET_AGENCIES_QUERY } from "common/graphql";
+import { EntType } from "common/interfaces";
+import { GET_ENTS_QUERY } from "common/graphql";
 
 type FilterOptions = {
   searchedName: string;
@@ -13,17 +13,17 @@ type PaginationParams = {
 };
 
 type Return = {
-  agencies: AgencyType[];
+  ents: EntType[];
   totalCount: number;
   loading: boolean;
 };
 
-export const useAgenciesAPI = (
+export const useEntsAPI = (
   selectedTypes: any,
   { searchedName, searchedId }: FilterOptions,
   { page, pageSize }: PaginationParams
 ): Return => {
-  const { data, loading } = useQuery(GET_AGENCIES_QUERY, {
+  const { data, loading } = useQuery(GET_ENTS_QUERY, {
     variables: {
       filterInput: { types: selectedTypes, title: searchedName, id: searchedId },
       paginationInput: { page, pageSize },
@@ -31,7 +31,7 @@ export const useAgenciesAPI = (
   });
 
   return {
-    agencies: data?.getEnts?.agencies ?? [],
+    ents: data?.getEnts?.ents ?? [],
     totalCount: data?.getEnts?.totalCount ?? 0,
     loading,
   };

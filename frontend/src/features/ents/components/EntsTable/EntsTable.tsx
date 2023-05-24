@@ -4,12 +4,12 @@ import { Stack, TableContainer } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { MdClear, MdModeEdit, MdPlayArrow } from "react-icons/md";
 import { IconButton, DataGrid } from "common/ui";
-import { AgencyType } from "common/interfaces";
+import { EntType } from "common/interfaces";
 
 const TABLE_TOOLBAR_HEIGHT = 38;
 
-type AgenciesTableProps = {
-  agencies: AgencyType[];
+type EntsTableProps = {
+  ents: EntType[];
   loading: boolean;
   page: number;
   pageSize: number;
@@ -18,15 +18,15 @@ type AgenciesTableProps = {
   handlePageChange: (page: number) => void;
 };
 
-export const AgenciesTable = ({
-  agencies,
+export const EntsTable = ({
+  ents,
   loading,
   page,
   pageSize,
   totalCount,
   handlePageSizeChange,
   handlePageChange,
-}: AgenciesTableProps): JSX.Element => {
+}: EntsTableProps): JSX.Element => {
   const navigate = useNavigate();
 
   const columns: GridColDef[] = [
@@ -105,7 +105,7 @@ export const AgenciesTable = ({
   return (
     <TableContainer sx={{ minWidth: 800, height: `calc(100% - ${TABLE_TOOLBAR_HEIGHT}px)` }}>
       <DataGrid
-        rows={agencies}
+        rows={ents}
         rowCount={totalCount}
         loading={loading}
         rowsPerPageOptions={[10, 20, 50]}

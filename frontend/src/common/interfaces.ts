@@ -6,7 +6,7 @@ export type UserType = {
   updatedAt: Date;
 };
 
-export type AgencyType = {
+export type EntType = {
   id: number;
   createDate: Date;
   description: string;

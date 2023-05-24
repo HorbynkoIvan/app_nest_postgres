@@ -1,5 +1,5 @@
 import { MainLayout } from "layouts";
-import { UsersFeature , AgenciesFeature} from "features";
+import { UsersFeature, EntsFeature } from "features";
 
 export const routes = [
   {
@@ -12,8 +12,8 @@ export const routes = [
         element: <UsersFeature />,
       },
       {
-        path: "agencies/*",
-        element: <AgenciesFeature />,
+        path: "ents/*",
+        element: <EntsFeature />,
       },
     ],
   },

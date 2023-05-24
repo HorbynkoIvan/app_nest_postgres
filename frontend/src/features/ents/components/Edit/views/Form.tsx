@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { palette } from "theme";
 import { FormikProvider } from "formik";
-import { AgencyDetails, DependentEntities } from "./index";
+import { EntDetails, DependentEntities } from "./index";
 import { useDetailsForm } from "../hooks";
 import { BoxScrolled } from "common/ui";
 
@@ -13,7 +13,7 @@ export const Form = (): JSX.Element => {
       <FormikProvider value={formik}>
         <Box component="form" noValidate autoComplete="off" onSubmit={formik.handleSubmit}>
           <Stack direction="row" mt={6}>
-            <AgencyDetails />
+            <EntDetails />
             <Divider
               sx={{ borderColor: palette.grey[200], mx: 10 }}
               orientation="vertical"

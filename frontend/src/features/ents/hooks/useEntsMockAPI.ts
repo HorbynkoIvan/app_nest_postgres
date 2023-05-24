@@ -1,4 +1,4 @@
-export const entities = [
+export const ents = [
   {
     id: 1,
     type: "System",
@@ -161,9 +161,9 @@ export const entities = [
   },
 ];
 
-export const useAgenciesMockAPI = (): any => {
+export const useEntsMockAPI = (): any => {
   return {
-    entities,
+    ents,
     loading: false,
   };
 };

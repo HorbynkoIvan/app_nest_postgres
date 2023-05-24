@@ -86,10 +86,10 @@ export const UPDATE_USER_MUTATION = gql`
   }
 `;
 
-export const GET_AGENCIES_QUERY = gql`
-  query getEnts($filterInput: GetAgenciesInput!, $paginationInput: PaginationInput!) {
+export const GET_ENTS_QUERY = gql`
+  query getEnts($filterInput: GetEntsInput!, $paginationInput: PaginationInput!) {
     getEnts(filterInput: $filterInput, paginationInput: $paginationInput) {
-      agencies {
+      ents {
         createDate
         description
         editDate

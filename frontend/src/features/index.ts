@@ -1,2 +1,2 @@
 export { UsersFeature } from "./users";
-export { AgenciesFeature } from "./agencies";
+export { EntsFeature } from "./ents";

@@ -1,10 +1,10 @@
-import { AgenciesTable } from "../AgenciesTable";
-import { useAgenciesAPI, useFilter, usePagination, useSelectTypes } from "../../hooks";
+import { EntsTable } from "../EntsTable";
+import { useEntsAPI, useFilter, usePagination, useSelectTypes } from "../../hooks";
 import { Loader } from "common/components";
 import { PaperWrapper } from "common/ui";
 import { Toolbar } from "../Toolbar";
 
-export const Agencies = () => {
+export const Ents = () => {
   const { selectedTypes, handleSelectTypes } = useSelectTypes();
   const {
     filterOptions,
@@ -14,11 +14,7 @@ export const Agencies = () => {
     handleClearSearchID,
   } = useFilter();
   const { paginationOptions, handlePageChange, handlePageSizeChange } = usePagination();
-  const { agencies, totalCount, loading } = useAgenciesAPI(
-    selectedTypes,
-    filterOptions,
-    paginationOptions
-  );
+  const { ents, totalCount, loading } = useEntsAPI(selectedTypes, filterOptions, paginationOptions);
 
   if (loading) return <Loader />;
 
@@ -35,8 +31,8 @@ export const Agencies = () => {
         handleClearSearchID={handleClearSearchID}
       />
 
-      <AgenciesTable
-        agencies={agencies}
+      <EntsTable
+        ents={ents}
         page={paginationOptions.page - 1}
         pageSize={paginationOptions.pageSize}
         totalCount={totalCount}
