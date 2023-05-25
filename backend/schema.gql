@@ -2,17 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AgencyEntity {
-  createDate: DateTime!
-  description: String!
-  editDate: DateTime!
-  id: ID!
-  parentId: AgencyEntity
-  title: String!
-  type: String
-}
-
-input CreateAgencyInput {
+input CreateEntInput {
   description: String
   title: String!
   type: String
@@ -33,15 +23,25 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-input GetAgenciesInput {
+type EntEntity {
+  createDate: DateTime!
+  description: String!
+  editDate: DateTime!
+  id: ID!
+  parentId: EntEntity
+  title: String!
+  type: String
+}
+
+input GetEntInput {
   id: Int
   parentId: Int
   title: String
   types: [String!]
 }
 
-type GetAgenciesResult {
-  agencies: [AgencyEntity!]!
+type GetEntsOutput {
+  agencies: [EntEntity!]!
   totalCount: Int!
 }
 
@@ -50,11 +50,11 @@ input GetUsersInput {
 }
 
 type Mutation {
-  createAgency(createAgency: CreateAgencyInput!): AgencyEntity!
+  createEnt(createEnt: CreateEntInput!): EntEntity!
   createUser(createUser: CreateUserInput!): UserEntity!
-  removeAgency(id: ID!): ID!
+  removeEnt(id: ID!): ID!
   removeUser(id: Float!): Float!
-  updateAgency(updateAgency: UpdateAgencyInput!): AgencyEntity!
+  updateEnt(updateEnt: UpdateEntInput!): EntEntity!
   updateUser(updateUser: UpdateUserInput!): UserEntity!
 }
 
@@ -73,8 +73,8 @@ type ProfileEntity {
 }
 
 type Query {
-  getAgencies(filterInput: GetAgenciesInput!, paginationInput: PaginationInput!): GetAgenciesResult!
-  getAgency(id: ID!): AgencyEntity!
+  getEnt(id: ID!): EntEntity!
+  getEnts(filterInput: GetEntInput!, paginationInput: PaginationInput!): GetEntsOutput!
 
   """This graphql method for getting a user by id"""
   getUser(id: Float!): UserEntity!
@@ -83,7 +83,7 @@ type Query {
   getUsers(usersInput: GetUsersInput!): [UserEntity!]!
 }
 
-input UpdateAgencyInput {
+input UpdateEntInput {
   description: String
   id: ID!
   title: String!

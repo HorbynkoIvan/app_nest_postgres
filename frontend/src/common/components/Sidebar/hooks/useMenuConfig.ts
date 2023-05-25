@@ -14,6 +14,12 @@ const menuConfig: MenuItem[] = [
     url: "/ents",
     icon: MdOutlineLeaderboard,
   },
+  {
+    id: "organizations",
+    title: "Organizations",
+    url: "/organizations",
+    icon: MdOutlineLeaderboard,
+  },
 ];
 
 export const useMenuConfig = (): MenuItem[] => menuConfig;
