@@ -4,7 +4,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { UsersModule, EntsModule, SeedsModule } from './modules';
+import {
+  UsersModule,
+  EntsModule,
+  OrganizationsModule,
+  CryptoModule,
+  SeedsModule,
+} from './modules';
 
 @Module({
   imports: [
@@ -32,6 +38,8 @@ import { UsersModule, EntsModule, SeedsModule } from './modules';
     }),
     UsersModule,
     EntsModule,
+    OrganizationsModule,
+    CryptoModule,
     SeedsModule,
   ],
   controllers: [],

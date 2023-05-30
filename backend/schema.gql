@@ -4,18 +4,28 @@
 
 input CreateEntInput {
   description: String
+  parentId: Int
   title: String!
-  type: String
+  type: EntType!
+}
+
+input CreateOrganizationsInput {
+  creatorId: Int!
+  description: String
+  ents: [Int!]
+  image: String
+  parentId: Int
+  status: OrganizationStatus!
+  title: String!
+  url: String
+  users: [Int!]
 }
 
 input CreateUserInput {
-  age: Float
-  city: String
   email: String!
-  firstName: String
-  lastName: String
-  role: String
-  userName: String
+  password: String!
+  role: String!
+  username: String!
 }
 
 """
@@ -23,26 +33,78 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type EntEntity {
-  createDate: DateTime!
-  description: String!
-  editDate: DateTime!
-  id: ID!
-  parentId: EntEntity
-  title: String!
-  type: String
+type DeleteEntetyResultModel {
+  affected: Int
 }
 
-input GetEntInput {
+input DeleteUserInput {
+  id: Int!
+}
+
+type EntEntity {
+  createDate: DateTime!
+  creator: UserModel!
+  description: String!
+  editDate: DateTime
+  editor: UserModel
+  id: Int!
+  organizations: [OrganizationModel!]
+  parent: EntEntity
+  title: String!
+  type: EntType!
+}
+
+type EntOutput {
+  createDate: DateTime!
+  creator: UserModel!
+  dependentCount: Int
+  description: String!
+  editDate: DateTime
+  editor: UserModel
+  id: Int!
+  organizations: [OrganizationModel!]
+  parent: EntEntity
+  title: String!
+  type: EntType!
+}
+
+enum EntType {
+  COHORT
+  DISTRICT
+  OTHER
+  SCHOOL
+  STATE
+  SYSTEM
+}
+
+input FilterInput {
   id: Int
-  parentId: Int
   title: String
-  types: [String!]
+  types: [EntType!]
+}
+
+type GetEntOutput {
+  createDate: DateTime!
+  creator: UserModel!
+  dependents: [GetEntOutput!]
+  description: String!
+  editDate: DateTime
+  editor: UserModel
+  id: Int!
+  organizations: [OrganizationModel!]
+  parent: EntEntity
+  title: String!
+  type: EntType!
 }
 
 type GetEntsOutput {
-  agencies: [EntEntity!]!
+  ents: [EntOutput!]!
   totalCount: Int!
+}
+
+input GetUserInput {
+  email: String
+  id: Int
 }
 
 input GetUsersInput {
@@ -50,12 +112,62 @@ input GetUsersInput {
 }
 
 type Mutation {
-  createEnt(createEnt: CreateEntInput!): EntEntity!
-  createUser(createUser: CreateUserInput!): UserEntity!
-  removeEnt(id: ID!): ID!
-  removeUser(id: Float!): Float!
-  updateEnt(updateEnt: UpdateEntInput!): EntEntity!
-  updateUser(updateUser: UpdateUserInput!): UserEntity!
+  createEnt(createEntInput: CreateEntInput!): GetEntOutput!
+
+  """This graphql method for create organizations"""
+  createOrganization(organizationInput: CreateOrganizationsInput!): OrganizationModel!
+
+  """This graphql method for registration new user"""
+  createUser(userInput: CreateUserInput!): UserModel!
+  deleteEnt(id: Int!): Int!
+
+  """This graphql method for deletting one organization by id"""
+  deleteOrganization(
+    """This graphql method for getting all organization by id """
+    id: Int!
+  ): DeleteEntetyResultModel!
+
+  """This graphql method for delete user"""
+  deleteUser(userInput: DeleteUserInput!): UserDeleteModel!
+  updateEnt(updateEntInput: UpdateEntInput!): GetEntOutput!
+
+  """This graphql method for update organization data"""
+  updateOrganization(organizationInput: UpdateOrganizationsInput!): OrganizationModel!
+
+  """This graphql method for update user data"""
+  updateUser(userInput: UpdateUserInput!): UserUpdateModel!
+}
+
+type OrganizationModel {
+  createDate: String!
+  description: String
+  id: Int!
+  image: String
+  parent: SubOrganizationModel
+  status: OrganizationStatus!
+  subOrganizations: [SubOrganizationModel!]!
+  title: String!
+  users: [OrganizationUserModel!]!
+}
+
+type OrganizationModelData {
+  id: Int!
+  name: String!
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  HIDDEN
+  LIMITED
+}
+
+type OrganizationUserModel {
+  dateCreate: String!
+  email: String!
+  id: Int!
+  role: String!
+  status: String!
+  username: String!
 }
 
 input PaginationInput {
@@ -63,49 +175,77 @@ input PaginationInput {
   pageSize: Int!
 }
 
-type ProfileEntity {
-  age: Float
-  city: String!
-  firstName: String!
-  id: ID!
-  lastName: String!
-  role: String
-}
-
 type Query {
-  getEnt(id: ID!): EntEntity!
-  getEnts(filterInput: GetEntInput!, paginationInput: PaginationInput!): GetEntsOutput!
+  getEnt(id: Int!): GetEntOutput!
+  getEnts(filterInput: FilterInput, paginationInput: PaginationInput!): GetEntsOutput!
 
-  """This graphql method for getting a user by id"""
-  getUser(id: Float!): UserEntity!
+  """This graphql method for getting one organization by id"""
+  getOrganization(
+    """This graphql method for getting all organization by id """
+    id: Int!
+  ): OrganizationModel!
+
+  """This graphql method for getting all organizations"""
+  getOrganizations: [OrganizationModel!]!
+
+  """This graphql method for getting user by email or id"""
+  getUser(userInput: GetUserInput!): UserModel!
 
   """This graphql method for getting all users"""
-  getUsers(usersInput: GetUsersInput!): [UserEntity!]!
+  getUsers(usersInput: GetUsersInput!): [UserModel!]!
+}
+
+type SubOrganizationModel {
+  createDate: String!
+  id: Int!
+  image: String
+  status: OrganizationStatus!
+  title: String!
 }
 
 input UpdateEntInput {
   description: String
-  id: ID!
-  title: String!
-  type: String
+  id: Int!
+  parentId: Int
+  title: String
+  type: EntType
+}
+
+input UpdateOrganizationsInput {
+  creatorId: Int
+  description: String
+  id: Int!
+  image: String
+  parentId: Int
+  status: OrganizationStatus
+  title: String
+  url: String
+  users: [Int!]
 }
 
 input UpdateUserInput {
-  age: Float
-  city: String
-  email: String!
-  firstName: String
-  id: ID!
-  lastName: String
+  email: String
+  id: Int!
+  password: String
   role: String
-  userName: String
+  username: String
 }
 
-type UserEntity {
-  createdAt: DateTime!
+type UserDeleteModel {
+  affected: Int!
+  raw: [String!]!
+}
+
+type UserModel {
+  dateCreate: String!
   email: String!
-  id: ID!
-  profile: ProfileEntity
-  updatedAt: DateTime!
-  userName: String
+  id: Int!
+  organizations: [OrganizationModelData!]!
+  role: String!
+  status: String!
+  username: String!
+}
+
+type UserUpdateModel {
+  generatedMaps: [String!]!
 }

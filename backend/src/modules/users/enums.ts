@@ -3,3 +3,9 @@ export enum UserRole {
   ADMIN = 'admin',
   STAFF = 'staff',
 }
+
+export enum UserStatus {
+  ACTIVE = 'active',
+  BLOCKED = 'blocked',
+  DISABLED = 'disabled',
+}

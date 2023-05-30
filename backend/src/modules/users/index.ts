@@ -1,2 +1,3 @@
-export * from './users.module';
+export * from './module';
+export * from './service';
 export * from './enums';
