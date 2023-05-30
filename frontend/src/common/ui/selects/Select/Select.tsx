@@ -1,3 +1,4 @@
+import { FocusEvent } from "react";
 import {
   Select as SelectMui,
   SelectProps,
@@ -7,6 +8,7 @@ import {
   OutlinedInput,
   Typography,
   CSSObject,
+  FormHelperText,
 } from "@mui/material";
 import { MdExpandMore } from "react-icons/md";
 
@@ -16,6 +18,9 @@ type Props = SelectProps & {
   options: Array<Option>;
   inputStyles?: CSSObject;
   menuItemStyles?: CSSObject;
+  helperText?: string;
+  error?: boolean;
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 };
 
 const OutlinedInputRoot = styled(OutlinedInput)(({ theme }) => ({
@@ -83,6 +88,9 @@ export const Select = ({
   inputStyles,
   menuItemStyles,
   placeholder,
+  helperText,
+  error,
+  onBlur,
   ...props
 }: Props) => (
   <div>
@@ -95,6 +103,8 @@ export const Select = ({
         IconComponent={MdExpandMore}
         MenuProps={MenuProps}
         input={<OutlinedInputRoot sx={inputStyles} placeholder={placeholder} />}
+        error={error}
+        onBlur={onBlur}
         displayEmpty>
         {options.map((option) => {
           return (
@@ -108,6 +118,9 @@ export const Select = ({
           );
         })}
       </SelectMui>
+      <FormHelperText error sx={{ marginLeft: 0 }}>
+        {helperText}
+      </FormHelperText>
     </FormControl>
   </div>
 );

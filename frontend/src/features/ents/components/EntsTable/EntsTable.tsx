@@ -4,11 +4,11 @@ import { Stack, TableContainer } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { MdClear, MdModeEdit, MdPlayArrow } from "react-icons/md";
 import { IconButton, DataGrid } from "common/ui";
-import { EntType } from "common/interfaces";
+import { EntType } from "../../interfaces";
 
 const TABLE_TOOLBAR_HEIGHT = 38;
 
-type EntsTableProps = {
+type AgenciesTableProps = {
   ents: EntType[];
   loading: boolean;
   page: number;
@@ -26,11 +26,18 @@ export const EntsTable = ({
   totalCount,
   handlePageSizeChange,
   handlePageChange,
-}: EntsTableProps): JSX.Element => {
+}: AgenciesTableProps): JSX.Element => {
   const navigate = useNavigate();
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", flex: 1 / 2, align: "center", disableColumnMenu: true },
+    {
+      field: "id",
+      headerName: "ID",
+      flex: 1 / 2,
+      headerAlign: "center",
+      align: "center",
+      disableColumnMenu: true,
+    },
     {
       field: "type",
       headerName: "Entity Type",
@@ -49,10 +56,11 @@ export const EntsTable = ({
       align: "center",
       sortable: false,
       disableColumnMenu: true,
-      renderCell: ({ row: { parentId } }) =>
-        parentId && (
+      cellClassName: "pointerCursor",
+      renderCell: ({ row: { dependentCount } }) =>
+        !!dependentCount && (
           <Stack direction="row" justifyContent="center" alignItems="center">
-            {parentId} <MdPlayArrow />
+            {dependentCount} <MdPlayArrow size={20} />
           </Stack>
         ),
     },
@@ -70,6 +78,7 @@ export const EntsTable = ({
       align: "center",
       sortable: false,
       disableColumnMenu: true,
+      renderCell: ({ row: { parent } }) => parent && parent.id,
     },
     {
       field: "parentTitle",
@@ -79,6 +88,7 @@ export const EntsTable = ({
       align: "center",
       sortable: false,
       disableColumnMenu: true,
+      renderCell: ({ row: { parent } }) => parent && parent.title,
     },
     {
       field: "actions",
@@ -90,7 +100,7 @@ export const EntsTable = ({
       disableColumnMenu: true,
       renderCell: ({ row: { id } }) => (
         <Stack spacing={1} direction="row">
-          <IconButton aria-label="edit" size="small" onClick={() => navigate(`${id}`)}>
+          <IconButton aria-label="edit" size="small" onClick={() => navigate(`${id}/edit`)}>
             <MdModeEdit fontSize="small" />
           </IconButton>
 
@@ -108,7 +118,7 @@ export const EntsTable = ({
         rows={ents}
         rowCount={totalCount}
         loading={loading}
-        rowsPerPageOptions={[10, 20, 50]}
+        rowsPerPageOptions={[25, 50, 75]}
         pagination
         page={page}
         pageSize={pageSize}

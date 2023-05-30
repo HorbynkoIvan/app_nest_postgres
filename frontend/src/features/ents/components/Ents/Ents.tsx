@@ -1,8 +1,8 @@
-import { EntsTable } from "../EntsTable";
 import { useEntsAPI, useFilter, usePagination, useSelectTypes } from "../../hooks";
 import { Loader } from "common/components";
 import { PaperWrapper } from "common/ui";
 import { Toolbar } from "../Toolbar";
+import { EntsTable } from "../EntsTable";
 
 export const Ents = () => {
   const { selectedTypes, handleSelectTypes } = useSelectTypes();

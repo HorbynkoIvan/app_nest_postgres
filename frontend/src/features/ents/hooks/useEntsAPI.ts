@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { EntType } from "common/interfaces";
-import { GET_ENTS_QUERY } from "common/graphql";
+import { EntType } from "../interfaces";
+import { GET_ENTS_QUERY } from "../graphql";
 
 type FilterOptions = {
   searchedName: string;
@@ -25,8 +25,8 @@ export const useEntsAPI = (
 ): Return => {
   const { data, loading } = useQuery(GET_ENTS_QUERY, {
     variables: {
-      filterInput: { types: selectedTypes, title: searchedName, id: searchedId },
       paginationInput: { page, pageSize },
+      filterInput: { types: selectedTypes, title: searchedName, id: searchedId },
     },
   });
 

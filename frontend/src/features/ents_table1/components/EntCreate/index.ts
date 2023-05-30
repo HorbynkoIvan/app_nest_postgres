@@ -1,0 +1,1 @@
+export { EntCreate } from "./EntCreate";

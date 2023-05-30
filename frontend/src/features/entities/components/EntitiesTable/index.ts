@@ -1,1 +1,0 @@
-export { EntitiesTable } from "./EntitiesTable";

@@ -1,1 +1,1 @@
-export { EntsTable } from "./EntsTable";
+export * from "./EntsTable";

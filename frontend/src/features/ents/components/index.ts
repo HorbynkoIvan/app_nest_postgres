@@ -1,2 +1,3 @@
 export * from "./Ents";
-export * from "./Edit";
+export * from "./EntCreate";
+export * from "./EntEdit";

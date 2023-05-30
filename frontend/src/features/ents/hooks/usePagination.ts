@@ -12,7 +12,7 @@ type Return = {
 };
 
 const PAGINATION_INITIAL_PAGE = 0;
-const PAGINATION_INITIAL_PAGE_SIZE = 10; // number of items per page
+const PAGINATION_INITIAL_PAGE_SIZE = 25; // number of items per page
 
 export const usePagination = (): Return => {
   const [page, setPage] = useState(PAGINATION_INITIAL_PAGE);

@@ -1,8 +1,10 @@
+import React, { ChangeEvent } from "react";
 import { Stack, Button, Typography } from "@mui/material";
 import { MdAdd } from "react-icons/md";
+import { ENT_TYPES_OPTIONS } from "common/constants";
+import { Select } from "common/ui";
 import { Search } from "./Search";
-import { Select } from "../Select";
-import React, { ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   searchedName: string;
@@ -25,6 +27,8 @@ export const Toolbar = ({
   handleClearSearchName,
   handleClearSearchID,
 }: Props): JSX.Element => {
+  const navigate = useNavigate();
+
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
       <Typography noWrap variant="h3">
@@ -40,10 +44,10 @@ export const Toolbar = ({
           <Select
             sx={{ width: 150, height: 35, m: 0 }}
             fullWidth
-            value={selectedTypes}
+            value={selectedTypes === null ? "" : selectedTypes}
             onChange={handleSelectTypes}
-            placeholder="Roles filter"
-            options={["system", "state", "district", "school", "cohort", "other"]}
+            placeholder="Select type"
+            options={ENT_TYPES_OPTIONS}
           />
         </Stack>
 
@@ -65,7 +69,13 @@ export const Toolbar = ({
           handleClearSearch={handleClearSearchID}
         />
 
-        <Button variant="contained" color="primary" startIcon={<MdAdd />} size="large" fullWidth>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<MdAdd />}
+          size="large"
+          fullWidth
+          onClick={() => navigate("create")}>
           <Typography variant="button" noWrap textTransform="initial">
             Add Entity
           </Typography>
