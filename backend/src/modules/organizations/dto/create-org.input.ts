@@ -15,7 +15,6 @@ export class CreateOrganizationsInput {
   @IsEnum(OrganizationStatus, {
     message: `Status mast be one of: ${Object.values(OrganizationStatus)}`,
   })
-  @IsOptional()
   status: OrganizationStatus;
 
   @Field(() => String, { nullable: true })
@@ -28,9 +27,11 @@ export class CreateOrganizationsInput {
   parentId?: number;
 
   @Field(() => [Int], { nullable: true })
+  @IsOptional()
   users?: number[];
 
   @Field(() => [Int], { nullable: true })
+  @IsOptional()
   ents?: number[];
 
   @Field(() => Int)

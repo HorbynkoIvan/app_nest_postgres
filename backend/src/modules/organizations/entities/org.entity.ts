@@ -13,7 +13,7 @@ import { OrganizationStatus } from '../org.enums';
 import { EntEntity } from '../../ents/entities/ent.entity';
 
 @Entity('organizations')
-export class OrganizationEntity {
+export class OrgEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -42,9 +42,10 @@ export class OrganizationEntity {
   @Column({ nullable: true, name: 'parent_id' })
   parentId: number;
 
-  @ManyToOne(() => OrganizationEntity)
+  // parent?
+  @ManyToOne(() => OrgEntity)
   @JoinColumn({ name: 'parent_id' })
-  parent: OrganizationEntity;
+  parent: OrgEntity;
 
   @Column({
     type: 'timestamptz',
@@ -69,10 +70,12 @@ export class OrganizationEntity {
   })
   editorId: number;
 
-  @OneToMany(() => OrganizationEntity, (organization) => organization.parent, {
+  // ------------------------------
+
+  @OneToMany(() => OrgEntity, (organization) => organization.parent, {
     cascade: true,
   })
-  subOrganizations: OrganizationEntity[];
+  subOrganizations: OrgEntity[];
 
   @ManyToMany(() => UserEntity, (user) => user.organizations, { cascade: true })
   @JoinTable({

@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpService } from '../../utils';
 import { CryptoModule } from '../crypto';
 import { OrganizationsService } from '../organizations';
-import { OrganizationEntity } from '../organizations/entities/organization.entity';
+import { OrgEntity } from '../organizations/entities/org.entity';
 import { UsersService } from '../users';
 import { UserEntity } from '../users/entities';
 import { SeedsService } from './service';
@@ -15,7 +15,7 @@ import { EntEntity } from '../ents/entities/ent.entity';
 @Module({
   imports: [
     ConfigModule,
-    TypeOrmModule.forFeature([UserEntity, EntEntity, OrganizationEntity]),
+    TypeOrmModule.forFeature([UserEntity, EntEntity, OrgEntity]),
     CryptoModule,
   ],
   providers: [

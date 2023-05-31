@@ -8,7 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { OrganizationEntity } from 'src/modules/organizations/entities/organization.entity';
+import { OrgEntity } from 'src/modules/organizations/entities/org.entity';
 import { UserEntity } from 'src/modules/users/entities';
 import { EntType } from '../ent.enums';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
@@ -68,6 +68,6 @@ export class EntEntity {
   editor: UserEntity;
 
   @Field(() => [OrganizationModel], { nullable: true, defaultValue: [] })
-  @ManyToMany(() => OrganizationEntity, (organization) => organization.ents)
-  organizations: OrganizationEntity[];
+  @ManyToMany(() => OrgEntity, (organization) => organization.ents)
+  organizations: OrgEntity[];
 }

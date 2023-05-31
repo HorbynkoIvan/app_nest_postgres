@@ -1,4 +1,10 @@
-import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
+import {
+  Field,
+  Int,
+  ObjectType,
+  registerEnumType,
+  GraphQLISODateTime,
+} from '@nestjs/graphql';
 import { OrganizationStatus } from './org.enums';
 
 @ObjectType()
@@ -9,8 +15,10 @@ export class OrganizationUserModel {
   @Field(() => String)
   username: string;
 
-  @Field(() => String)
-  status: string;
+  @Field(() => OrganizationStatus, {
+    description: 'The status of the organization',
+  })
+  status: OrganizationStatus;
 
   @Field(() => String)
   role: string;
@@ -18,8 +26,10 @@ export class OrganizationUserModel {
   @Field(() => String)
   email: string;
 
-  @Field(() => String)
-  dateCreate: string;
+  @Field(() => GraphQLISODateTime, {
+    description: 'The creation date of the user',
+  })
+  dateCreate: Date;
 }
 
 @ObjectType()
@@ -36,8 +46,10 @@ export class SubOrganizationModel {
   @Field(() => String, { nullable: true })
   image: string;
 
-  @Field(() => String)
-  createDate: string;
+  @Field(() => GraphQLISODateTime, {
+    description: 'The creation date of the sub-organization',
+  })
+  createDate: Date;
 }
 
 @ObjectType()
@@ -66,8 +78,10 @@ export class OrganizationModel {
   @Field(() => [OrganizationUserModel])
   users: OrganizationUserModel[];
 
-  @Field(() => String)
-  createDate: string;
+  @Field(() => GraphQLISODateTime, {
+    description: 'The creation date of the organization',
+  })
+  createDate: Date;
 }
 
 @ObjectType()

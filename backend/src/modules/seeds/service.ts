@@ -50,10 +50,11 @@ export class SeedsService {
   }
 
   async seedEnts() {
-    if (
-      (await this.entService.getEnts({ page: 1, pageSize: 1 }, {})).totalCount >
-      50
-    ) {
+    const existingEntsCount = (
+      await this.entService.getEnts({ page: 1, pageSize: 1 }, {})
+    ).totalCount;
+
+    if (existingEntsCount > 50) {
       this.logger.verbose('Ents data already exists. Skipping seeds.');
       return;
     }

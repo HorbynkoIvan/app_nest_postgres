@@ -3,14 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { UserEntity } from '../users/entities';
 
-import { OrganizationEntity } from './entities/organization.entity';
+import { OrgEntity } from './entities/org.entity';
 import { CreateOrganizationsInput, UpdateOrganizationsInput } from './dto';
 import { EntEntity } from '../ents/entities/ent.entity';
 
 @Injectable()
 export class OrganizationsService {
-  @InjectRepository(OrganizationEntity)
-  private readonly repository: Repository<OrganizationEntity>;
+  @InjectRepository(OrgEntity)
+  private readonly repository: Repository<OrgEntity>;
 
   @InjectRepository(UserEntity)
   private readonly userRepository: Repository<UserEntity>;
