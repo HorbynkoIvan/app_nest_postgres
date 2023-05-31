@@ -13,7 +13,6 @@ import { UserEntity } from 'src/modules/users/entities';
 import { EntType } from '../ent.enums';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { UserModel } from 'src/modules/users/models';
-import { OrganizationModel } from 'src/modules/organizations/models';
 
 @ObjectType()
 @Entity('ents')
@@ -67,7 +66,7 @@ export class EntEntity {
   })
   editor: UserEntity;
 
-  @Field(() => [OrganizationModel], { nullable: true, defaultValue: [] })
+  @Field(() => [OrgEntity], { nullable: true, defaultValue: [] })
   @ManyToMany(() => OrgEntity, (organization) => organization.ents)
   organizations: OrgEntity[];
 }

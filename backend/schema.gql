@@ -33,10 +33,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type DeleteEntetyResultModel {
-  affected: Int
-}
-
 input DeleteUserInput {
   id: Int!
 }
@@ -48,7 +44,7 @@ type EntEntity {
   editDate: DateTime
   editor: UserModel
   id: Int!
-  organizations: [OrganizationModel!]
+  organizations: [OrgEntity!]
   parent: EntEntity
   title: String!
   type: EntType!
@@ -62,7 +58,7 @@ type EntOutput {
   editDate: DateTime
   editor: UserModel
   id: Int!
-  organizations: [OrganizationModel!]
+  organizations: [OrgEntity!]
   parent: EntEntity
   title: String!
   type: EntType!
@@ -91,7 +87,7 @@ type GetEntOutput {
   editDate: DateTime
   editor: UserModel
   id: Int!
-  organizations: [OrganizationModel!]
+  organizations: [OrgEntity!]
   parent: EntEntity
   title: String!
   type: EntType!
@@ -115,7 +111,7 @@ type Mutation {
   createEnt(createEntInput: CreateEntInput!): GetEntOutput!
 
   """This graphql method for create organizations"""
-  createOrganization(organizationInput: CreateOrganizationsInput!): OrganizationModel!
+  createOrganization(organizationInput: CreateOrganizationsInput!): OrgEntity!
 
   """This graphql method for registration new user"""
   createUser(userInput: CreateUserInput!): UserModel!
@@ -125,29 +121,31 @@ type Mutation {
   deleteOrganization(
     """This graphql method for getting all organization by id """
     id: Int!
-  ): DeleteEntetyResultModel!
+  ): OrgEntity!
 
   """This graphql method for delete user"""
   deleteUser(userInput: DeleteUserInput!): UserDeleteModel!
   updateEnt(updateEntInput: UpdateEntInput!): GetEntOutput!
 
   """This graphql method for update organization data"""
-  updateOrganization(organizationInput: UpdateOrganizationsInput!): OrganizationModel!
+  updateOrganization(organizationInput: UpdateOrganizationsInput!): OrgEntity!
 
   """This graphql method for update user data"""
   updateUser(userInput: UpdateUserInput!): UserUpdateModel!
 }
 
-type OrganizationModel {
-  createDate: String!
+type OrgEntity {
+  createDate: DateTime!
+  creatorId: Int!
   description: String
+  editDate: DateTime!
+  editorId: Int!
   id: Int!
   image: String
-  parent: SubOrganizationModel
+  parentId: Int!
   status: OrganizationStatus!
-  subOrganizations: [SubOrganizationModel!]!
   title: String!
-  users: [OrganizationUserModel!]!
+  url: String
 }
 
 type OrganizationModelData {
@@ -159,15 +157,6 @@ enum OrganizationStatus {
   ACTIVE
   HIDDEN
   LIMITED
-}
-
-type OrganizationUserModel {
-  dateCreate: String!
-  email: String!
-  id: Int!
-  role: String!
-  status: String!
-  username: String!
 }
 
 input PaginationInput {
@@ -183,24 +172,16 @@ type Query {
   getOrganization(
     """This graphql method for getting all organization by id """
     id: Int!
-  ): OrganizationModel!
+  ): OrgEntity!
 
   """This graphql method for getting all organizations"""
-  getOrganizations: [OrganizationModel!]!
+  getOrganizations: [OrgEntity!]!
 
   """This graphql method for getting user by email or id"""
   getUser(userInput: GetUserInput!): UserModel!
 
   """This graphql method for getting all users"""
   getUsers(usersInput: GetUsersInput!): [UserModel!]!
-}
-
-type SubOrganizationModel {
-  createDate: String!
-  id: Int!
-  image: String
-  status: OrganizationStatus!
-  title: String!
 }
 
 input UpdateEntInput {

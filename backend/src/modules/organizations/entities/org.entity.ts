@@ -11,21 +11,27 @@ import {
 import { UserEntity } from '../../users/entities';
 import { OrganizationStatus } from '../org.enums';
 import { EntEntity } from '../../ents/entities/ent.entity';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
+@ObjectType()
 @Entity('organizations')
 export class OrgEntity {
+  @Field(() => Int)
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Field(() => String)
   @Column()
   title: string;
 
+  @Field(() => String, { nullable: true })
   @Column({
     type: 'text',
     nullable: true,
   })
   description: string;
 
+  @Field(() => OrganizationStatus)
   @Column({
     type: 'enum',
     enum: OrganizationStatus,
@@ -33,20 +39,23 @@ export class OrgEntity {
   })
   status: OrganizationStatus;
 
+  @Field(() => String, { nullable: true })
   @Column({ nullable: true })
   image: string;
 
+  @Field(() => String, { nullable: true })
   @Column({ nullable: true })
   url: string;
 
+  @Field(() => Int)
   @Column({ nullable: true, name: 'parent_id' })
   parentId: number;
 
-  // parent?
   @ManyToOne(() => OrgEntity)
   @JoinColumn({ name: 'parent_id' })
   parent: OrgEntity;
 
+  @Field()
   @Column({
     type: 'timestamptz',
     default: () => 'NOW()',
@@ -54,9 +63,11 @@ export class OrgEntity {
   })
   createDate: Date;
 
+  @Field(() => Int)
   @Column({ name: 'creator_id' })
   creatorId: number;
 
+  @Field()
   @Column({
     type: 'timestamptz',
     nullable: true,
@@ -64,13 +75,12 @@ export class OrgEntity {
   })
   editDate: Date;
 
+  @Field(() => Int)
   @Column({
     nullable: true,
     name: 'editor_id',
   })
   editorId: number;
-
-  // ------------------------------
 
   @OneToMany(() => OrgEntity, (organization) => organization.parent, {
     cascade: true,
