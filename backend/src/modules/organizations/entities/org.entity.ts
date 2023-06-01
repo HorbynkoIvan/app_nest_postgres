@@ -7,16 +7,24 @@ import {
   ManyToMany,
   JoinTable,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from '../../users/entities';
 import { OrganizationStatus } from '../org.enums';
 import { EntEntity } from '../../ents/entities/ent.entity';
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import {
+  Field,
+  GraphQLISODateTime,
+  ID,
+  Int,
+  ObjectType,
+} from '@nestjs/graphql';
 
 @ObjectType()
 @Entity('organizations')
 export class OrgEntity {
-  @Field(() => Int)
+  @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -47,46 +55,42 @@ export class OrgEntity {
   @Column({ nullable: true })
   url: string;
 
-  @Field(() => Int)
+  @Field(() => ID)
   @Column({ nullable: true, name: 'parent_id' })
   parentId: number;
 
+  @Field(() => OrgEntity, { nullable: true })
   @ManyToOne(() => OrgEntity)
   @JoinColumn({ name: 'parent_id' })
   parent: OrgEntity;
 
-  @Field()
-  @Column({
-    type: 'timestamptz',
-    default: () => 'NOW()',
-    name: 'create_date',
-  })
+  @Field(() => GraphQLISODateTime)
+  @CreateDateColumn({ name: 'create_date' })
   createDate: Date;
 
-  @Field(() => Int)
+  @Field(() => ID)
   @Column({ name: 'creator_id' })
   creatorId: number;
 
-  @Field()
-  @Column({
-    type: 'timestamptz',
-    nullable: true,
-    name: 'edit_date',
-  })
+  @Field(() => GraphQLISODateTime)
+  @UpdateDateColumn({ name: 'edit_date' })
   editDate: Date;
 
-  @Field(() => Int)
+  @Field(() => ID)
   @Column({
     nullable: true,
     name: 'editor_id',
   })
   editorId: number;
 
+  @Field(() => OrgEntity, { nullable: true })
   @OneToMany(() => OrgEntity, (organization) => organization.parent, {
     cascade: true,
   })
   subOrganizations: OrgEntity[];
 
+  // ToDo uncomment after refactor UserEntity
+  // @Field(() => UserEntity, { nullable: true })
   @ManyToMany(() => UserEntity, (user) => user.organizations, { cascade: true })
   @JoinTable({
     name: 'users_organizations',
@@ -101,6 +105,7 @@ export class OrgEntity {
   })
   users: UserEntity[];
 
+  @Field(() => EntEntity, { nullable: true })
   @ManyToMany(() => EntEntity, (ent) => ent.organizations, {
     cascade: true,
   })

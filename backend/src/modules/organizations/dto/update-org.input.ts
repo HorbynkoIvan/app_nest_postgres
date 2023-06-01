@@ -1,10 +1,10 @@
-import { Field, InputType, Int, registerEnumType } from '@nestjs/graphql';
+import { Field, ID, InputType, Int, registerEnumType } from '@nestjs/graphql';
 import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { OrganizationStatus } from '../org.enums';
 
 @InputType()
 export class UpdateOrganizationsInput {
-  @Field(() => Int)
+  @Field(() => ID)
   id: number;
 
   @Field(() => String, { nullable: true })
@@ -27,13 +27,13 @@ export class UpdateOrganizationsInput {
   @Field(() => String, { nullable: true })
   url?: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => ID, { nullable: true })
   parentId?: number;
 
-  @Field(() => [Int], { nullable: true })
+  @Field(() => [ID], { nullable: true })
   users?: number[];
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => ID, { nullable: true })
   creatorId?: number;
 }
 

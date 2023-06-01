@@ -1,4 +1,4 @@
-import { Field, InputType, Int, registerEnumType } from '@nestjs/graphql';
+import { Field, ID, InputType, Int, registerEnumType } from '@nestjs/graphql';
 import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { OrganizationStatus } from '../org.enums';
 
@@ -23,18 +23,18 @@ export class CreateOrganizationsInput {
   @Field(() => String, { nullable: true })
   url?: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => ID, { nullable: true })
   parentId?: number;
 
-  @Field(() => [Int], { nullable: true })
+  @Field(() => [ID], { nullable: true })
   @IsOptional()
   users?: number[];
 
-  @Field(() => [Int], { nullable: true })
+  @Field(() => [ID], { nullable: true })
   @IsOptional()
   ents?: number[];
 
-  @Field(() => Int)
+  @Field(() => ID)
   creatorId: number;
 }
 

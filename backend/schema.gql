@@ -10,15 +10,15 @@ input CreateEntInput {
 }
 
 input CreateOrganizationsInput {
-  creatorId: Int!
+  creatorId: ID!
   description: String
-  ents: [Int!]
+  ents: [ID!]
   image: String
-  parentId: Int
+  parentId: ID
   status: OrganizationStatus!
   title: String!
   url: String
-  users: [Int!]
+  users: [ID!]
 }
 
 input CreateUserInput {
@@ -136,14 +136,17 @@ type Mutation {
 
 type OrgEntity {
   createDate: DateTime!
-  creatorId: Int!
+  creatorId: ID!
   description: String
   editDate: DateTime!
-  editorId: Int!
-  id: Int!
+  editorId: ID!
+  ents: EntEntity
+  id: ID!
   image: String
-  parentId: Int!
+  parent: OrgEntity
+  parentId: ID!
   status: OrganizationStatus!
+  subOrganizations: OrgEntity
   title: String!
   url: String
 }
@@ -193,15 +196,15 @@ input UpdateEntInput {
 }
 
 input UpdateOrganizationsInput {
-  creatorId: Int
+  creatorId: ID
   description: String
-  id: Int!
+  id: ID!
   image: String
-  parentId: Int
+  parentId: ID
   status: OrganizationStatus
   title: String
   url: String
-  users: [Int!]
+  users: [ID!]
 }
 
 input UpdateUserInput {
