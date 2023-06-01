@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Repository, SelectQueryBuilder } from 'typeorm';
 import { UserEntity } from '../users/entities';
 import { EntEntity } from '../ents/entities/ent.entity';
 import { OrgEntity } from './entities/org.entity';
@@ -9,7 +9,7 @@ import { CreateOrganizationsInput, UpdateOrganizationsInput } from './dto';
 @Injectable()
 export class OrganizationsService {
   @InjectRepository(OrgEntity)
-  private readonly repository: Repository<OrgEntity>;
+  private readonly orgRepository: Repository<OrgEntity>;
 
   @InjectRepository(UserEntity)
   private readonly userRepository: Repository<UserEntity>;
@@ -27,7 +27,7 @@ export class OrganizationsService {
     users,
     creatorId,
   }: CreateOrganizationsInput) {
-    const organization = this.repository.create({
+    const organization = this.orgRepository.create({
       title,
       image,
       description,
@@ -50,9 +50,9 @@ export class OrganizationsService {
       });
     }
 
-    await this.repository.save(organization);
+    await this.orgRepository.save(organization);
 
-    return this.repository.findOne({
+    return this.orgRepository.findOne({
       where: {
         id: organization.id,
       },
@@ -67,7 +67,7 @@ export class OrganizationsService {
   async updateOrganization(data: UpdateOrganizationsInput) {
     const { id, users, ...fields } = data;
 
-    const organization = await this.repository.findOne({
+    const organization = await this.orgRepository.findOne({
       where: {
         id,
       },
@@ -89,9 +89,9 @@ export class OrganizationsService {
       organization[key] = fields[key];
     }
 
-    await this.repository.save(organization);
+    await this.orgRepository.save(organization);
 
-    return this.repository.findOne({
+    return this.orgRepository.findOne({
       where: {
         id: organization.id,
       },
@@ -104,13 +104,20 @@ export class OrganizationsService {
   }
 
   async getOrganizations() {
-    return this.repository.find({
-      relations: { parent: true, users: true, subOrganizations: true },
-    });
+    const queryBuilder: SelectQueryBuilder<OrgEntity> =
+      this.orgRepository.createQueryBuilder('org');
+
+    queryBuilder.leftJoinAndSelect('org.parent', 'parent');
+    queryBuilder.leftJoinAndSelect('org.subOrganizations', 'subOrganizations');
+    // ToDo uncomment after UserEntity will be refactored
+    // queryBuilder.leftJoinAndSelect('org.users', 'users');
+    queryBuilder.leftJoinAndSelect('org.ents', 'ents');
+
+    return queryBuilder.getMany();
   }
 
   async getOrganization(id: number) {
-    return await this.repository.findOne({
+    return await this.orgRepository.findOne({
       where: {
         id,
       },
@@ -123,6 +130,6 @@ export class OrganizationsService {
   }
 
   async deleteOrganization(id: number) {
-    return this.repository.delete({ id });
+    return this.orgRepository.delete({ id });
   }
 }

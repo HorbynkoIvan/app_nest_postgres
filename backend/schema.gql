@@ -139,14 +139,14 @@ type OrgEntity {
   creatorId: ID!
   description: String
   editDate: DateTime!
-  editorId: ID!
-  ents: EntEntity
+  editorId: ID
+  ents: [EntEntity!]
   id: ID!
   image: String
   parent: OrgEntity
-  parentId: ID!
+  parentId: ID
   status: OrganizationStatus!
-  subOrganizations: OrgEntity
+  subOrganizations: [OrgEntity!]
   title: String!
   url: String
 }
