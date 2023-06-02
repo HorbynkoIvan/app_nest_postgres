@@ -2,7 +2,7 @@ import { Field, ID, InputType } from '@nestjs/graphql';
 import { IsOptional, MaxLength } from 'class-validator';
 
 @InputType()
-export class FilterInput {
+export class OrganizationsFilterInput {
   @Field(() => ID, { nullable: true })
   @IsOptional()
   id?: number;

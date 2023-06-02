@@ -1,5 +1,11 @@
 import { Args, Mutation, Resolver, Query, Int } from '@nestjs/graphql';
-import { CreateOrganizationsInput, UpdateOrganizationsInput } from './dto';
+import {
+  CreateOrganizationsInput,
+  OrganizationsFilterInput,
+  OrganizationOutput,
+  OrganizationsPaginationInput,
+  UpdateOrganizationsInput,
+} from './dto';
 import { OrganizationsService } from './organizations.service';
 import { OrganizationEntity } from './entities/organization.entity';
 
@@ -7,11 +13,18 @@ import { OrganizationEntity } from './entities/organization.entity';
 export class OrganizationsResolver {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
-  @Query(() => [OrganizationEntity], {
-    description: 'This graphql method for getting all organizations',
+  @Query(() => OrganizationOutput, {
+    description: 'This graphql method for getting organizations',
   })
-  async getOrganizations() {
-    return this.organizationsService.getOrganizations();
+  async getOrganizations(
+    @Args('paginationInput') paginationInput: OrganizationsPaginationInput,
+    @Args('filterInput', { nullable: true })
+    filterInput?: OrganizationsFilterInput,
+  ): Promise<OrganizationOutput> {
+    return this.organizationsService.getOrganizations(
+      paginationInput,
+      filterInput,
+    );
   }
 
   @Query(() => OrganizationEntity, {

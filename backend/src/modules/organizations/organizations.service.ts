@@ -7,8 +7,9 @@ import { OrganizationEntity } from './entities/organization.entity';
 import {
   CreateOrganizationsInput,
   UpdateOrganizationsInput,
-  PaginationInput,
-  FilterInput,
+  OrganizationsFilterInput,
+  OrganizationOutput,
+  OrganizationsPaginationInput,
 } from './dto';
 
 @Injectable()
@@ -109,19 +110,33 @@ export class OrganizationsService {
   }
 
   async getOrganizations(
-    paginationInput: PaginationInput,
-    filterInput: FilterInput,
-  ) {
-    const queryBuilder: SelectQueryBuilder<OrganizationEntity> =
-      this.organizationRepository.createQueryBuilder('org');
+    { page, pageSize }: OrganizationsPaginationInput,
+    { id, title }: OrganizationsFilterInput,
+  ): Promise<OrganizationOutput> {
+    const queryBuilder = this.organizationRepository
+      .createQueryBuilder('org')
+      .leftJoinAndSelect('org.parent', 'parent')
+      .leftJoinAndSelect('org.subOrganizations', 'subOrganizations')
+      // ToDo uncomment after UserEntity will be refactored
+      // .leftJoinAndSelect('org.users', 'users')
+      .leftJoinAndSelect('org.ents', 'ents')
+      .skip((page - 1) * pageSize)
+      .take(pageSize);
 
-    queryBuilder.leftJoinAndSelect('org.parent', 'parent');
-    queryBuilder.leftJoinAndSelect('org.subOrganizations', 'subOrganizations');
-    // ToDo uncomment after UserEntity will be refactored
-    // queryBuilder.leftJoinAndSelect('org.users', 'users');
-    queryBuilder.leftJoinAndSelect('org.ents', 'ents');
+    if (id) {
+      queryBuilder.andWhere('org.id = :id', { id });
+    }
 
-    return queryBuilder.getMany();
+    if (title) {
+      queryBuilder.andWhere('org.title ILIKE :title', { title: `%${title}%` });
+    }
+
+    const [organizations, totalCount] = await queryBuilder.getManyAndCount();
+
+    return {
+      organizations,
+      totalCount,
+    };
   }
 
   async getOrganization(id: number) {

@@ -80,11 +80,16 @@ export class SeedsService {
   }
 
   async seedOrganizations() {
-    // check is exists organizations seeds
-    const isOrganizationsLength = (
-      await this.organizationsService.getOrganizations()
-    ).length;
-    if (isOrganizationsLength > 30) return;
+    const { organizations, totalCount } =
+      await this.organizationsService.getOrganizations(
+        {
+          page: 1,
+          pageSize: 1,
+        },
+        {},
+      );
+
+    if (totalCount > 30) return;
 
     // get data user admins
     const dataAdmins = (
@@ -111,15 +116,13 @@ export class SeedsService {
     }
 
     // get organizations for set parents
-    const organizations = (
-      await this.organizationsService.getOrganizations()
-    ).map(({ id }) => id);
+    const organizationIds = organizations.map(({ id }) => id);
 
-    const organizationsL1 = organizations.slice(0, 15);
-    const organizationsL2 = organizations.slice(16);
+    const organizationsL1 = organizationIds.slice(0, 15);
+    const organizationsL2 = organizationIds.slice(16);
 
     for (const id of organizationsL2) {
-      this.organizationsService.updateOrganization({
+      await this.organizationsService.updateOrganization({
         id,
         parentId: shuffleArray(organizationsL1)[0],
       });

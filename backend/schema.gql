@@ -156,10 +156,28 @@ type OrganizationModelData {
   name: String!
 }
 
+type OrganizationOutput {
+  organizations: [OrganizationEntity!]!
+  totalCount: Int!
+}
+
 enum OrganizationStatus {
   ACTIVE
   HIDDEN
   LIMITED
+}
+
+input OrganizationsFilterInput {
+  id: ID
+  title: String
+}
+
+input OrganizationsPaginationInput {
+  """The page number"""
+  page: Int!
+
+  """The number of items per page"""
+  pageSize: Int!
 }
 
 input PaginationInput {
@@ -177,8 +195,8 @@ type Query {
     id: Int!
   ): OrganizationEntity!
 
-  """This graphql method for getting all organizations"""
-  getOrganizations: [OrganizationEntity!]!
+  """This graphql method for getting organizations"""
+  getOrganizations(filterInput: OrganizationsFilterInput, paginationInput: OrganizationsPaginationInput!): OrganizationOutput!
 
   """This graphql method for getting user by email or id"""
   getUser(userInput: GetUserInput!): UserModel!
