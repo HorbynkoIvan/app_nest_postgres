@@ -1,3 +1,3 @@
 export { UsersFeature } from "./users";
-export { EntsFeature } from "./ents_table1";
+export { EntsFeature } from "./ents";
 export { OrganizationsFeature } from "./organizations";

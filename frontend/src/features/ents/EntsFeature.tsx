@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { EntCreate, EntEdit, Ents } from "./components";
+import { Ents, EntCreate, EntEdit } from "./components";
 
 export const EntsFeature = () => (
   <Routes>

@@ -1,24 +1,34 @@
-export type OrganizationType = {
+export enum OrganizationStatus {
+  ACTIVE = "active",
+  LIMITED = "limited",
+  HIDDEN = "hidden",
+}
+
+type SubOrganization = {
   id: number;
-  icon: string;
-  name: string;
-  type: string;
-  admins: any;
-  users: any;
-  courses: any;
+  title: string;
+  status: OrganizationStatus;
+  image: string;
+  createDate: Date;
 };
 
-// export type OrganizationType = {
-//   id: number;
-//   icon: string;
-//   name: string;
-//   type: string;
-//   description: string;
-//   dateCreate: string;
-//   parentId: number;
-//   subOrganizations: any;
-//   admins: any;
-//   users: any;
-// };
+type OrganizationUser = {
+  id: number;
+  username: string;
+  status: string;
+  role: string;
+  email: string;
+  dateCreate: Date; // ToDO rename to createDate
+};
 
-export type OrderDirection = "asc" | "desc";
+export type OrganizationType = {
+  id: number;
+  title: string;
+  description: string;
+  status: OrganizationStatus;
+  image: string;
+  parent: SubOrganization;
+  subOrganizations: SubOrganization[];
+  users: OrganizationUser[];
+  createDate: Date;
+};

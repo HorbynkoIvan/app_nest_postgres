@@ -1,1 +1,1 @@
-export * from "./OrganizationsFeature";
+export { OrganizationsFeature } from "./OrganizationsFeature";

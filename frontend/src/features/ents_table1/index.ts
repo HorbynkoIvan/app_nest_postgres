@@ -1,1 +1,1 @@
-export * from "./EntsFeature";
+export * from "./EntsTable1Feature";
