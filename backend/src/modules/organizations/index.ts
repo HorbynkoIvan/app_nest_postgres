@@ -1,3 +1,3 @@
-export * from './org.module';
-export * from './org.service';
-export * from './org.enums';
+export * from './organizations.module';
+export * from './organizations.service';
+export * from './organizations.enums';

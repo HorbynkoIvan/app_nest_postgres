@@ -11,13 +11,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from '../../users/entities';
-import { OrganizationStatus } from '../org.enums';
+import { OrganizationStatus } from '../organizations.enums';
 import { EntEntity } from '../../ents/entities/ent.entity';
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 @Entity('organizations')
-export class OrgEntity {
+export class OrganizationEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
@@ -72,16 +72,16 @@ export class OrgEntity {
   @Column({ nullable: true, name: 'parent_id' })
   parentId: number;
 
-  @Field(() => OrgEntity, { nullable: true })
-  @ManyToOne(() => OrgEntity)
+  @Field(() => OrganizationEntity, { nullable: true })
+  @ManyToOne(() => OrganizationEntity)
   @JoinColumn({ name: 'parent_id' })
-  parent: OrgEntity;
+  parent: OrganizationEntity;
 
-  @Field(() => [OrgEntity], { nullable: true })
-  @OneToMany(() => OrgEntity, (organization) => organization.parent, {
+  @Field(() => [OrganizationEntity], { nullable: true })
+  @OneToMany(() => OrganizationEntity, (organization) => organization.parent, {
     cascade: true,
   })
-  subOrganizations: OrgEntity[];
+  subOrganizations: OrganizationEntity[];
 
   // ToDo uncomment after UserEntity will be refactored
   // @Field(() => [UserEntity], { nullable: true })

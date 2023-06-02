@@ -1,6 +1,6 @@
 import { Field, ID, InputType, Int, registerEnumType } from '@nestjs/graphql';
 import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
-import { OrganizationStatus } from '../org.enums';
+import { OrganizationStatus } from '../organizations.enums';
 
 @InputType()
 export class CreateOrganizationsInput {

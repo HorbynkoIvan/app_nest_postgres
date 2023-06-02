@@ -44,7 +44,7 @@ type EntEntity {
   editDate: DateTime
   editor: UserModel
   id: Int!
-  organizations: [OrgEntity!]
+  organizations: [OrganizationEntity!]
   parent: EntEntity
   title: String!
   type: EntType!
@@ -58,7 +58,7 @@ type EntOutput {
   editDate: DateTime
   editor: UserModel
   id: Int!
-  organizations: [OrgEntity!]
+  organizations: [OrganizationEntity!]
   parent: EntEntity
   title: String!
   type: EntType!
@@ -87,7 +87,7 @@ type GetEntOutput {
   editDate: DateTime
   editor: UserModel
   id: Int!
-  organizations: [OrgEntity!]
+  organizations: [OrganizationEntity!]
   parent: EntEntity
   title: String!
   type: EntType!
@@ -111,7 +111,7 @@ type Mutation {
   createEnt(createEntInput: CreateEntInput!): GetEntOutput!
 
   """This graphql method for create organizations"""
-  createOrganization(organizationInput: CreateOrganizationsInput!): OrgEntity!
+  createOrganization(organizationInput: CreateOrganizationsInput!): OrganizationEntity!
 
   """This graphql method for registration new user"""
   createUser(userInput: CreateUserInput!): UserModel!
@@ -121,20 +121,20 @@ type Mutation {
   deleteOrganization(
     """This graphql method for getting all organization by id """
     id: Int!
-  ): OrgEntity!
+  ): OrganizationEntity!
 
   """This graphql method for delete user"""
   deleteUser(userInput: DeleteUserInput!): UserDeleteModel!
   updateEnt(updateEntInput: UpdateEntInput!): GetEntOutput!
 
   """This graphql method for update organization data"""
-  updateOrganization(organizationInput: UpdateOrganizationsInput!): OrgEntity!
+  updateOrganization(organizationInput: UpdateOrganizationsInput!): OrganizationEntity!
 
   """This graphql method for update user data"""
   updateUser(userInput: UpdateUserInput!): UserUpdateModel!
 }
 
-type OrgEntity {
+type OrganizationEntity {
   createDate: DateTime!
   creatorId: ID!
   description: String
@@ -143,10 +143,10 @@ type OrgEntity {
   ents: [EntEntity!]
   id: ID!
   image: String
-  parent: OrgEntity
+  parent: OrganizationEntity
   parentId: ID
   status: OrganizationStatus!
-  subOrganizations: [OrgEntity!]
+  subOrganizations: [OrganizationEntity!]
   title: String!
   url: String
 }
@@ -175,10 +175,10 @@ type Query {
   getOrganization(
     """This graphql method for getting all organization by id """
     id: Int!
-  ): OrgEntity!
+  ): OrganizationEntity!
 
   """This graphql method for getting all organizations"""
-  getOrganizations: [OrgEntity!]!
+  getOrganizations: [OrganizationEntity!]!
 
   """This graphql method for getting user by email or id"""
   getUser(userInput: GetUserInput!): UserModel!
@@ -198,6 +198,7 @@ input UpdateEntInput {
 input UpdateOrganizationsInput {
   creatorId: ID
   description: String
+  ents: [ID!]
   id: ID!
   image: String
   parentId: ID

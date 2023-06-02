@@ -1,2 +1,2 @@
-export { CreateOrganizationsInput } from './create-org.input';
-export { UpdateOrganizationsInput } from './update-org.input';
+export * from './create-organization.input';
+export * from './update-organization.input';

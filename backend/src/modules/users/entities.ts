@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
-import { OrgEntity } from '../organizations/entities/org.entity';
+import { OrganizationEntity } from '../organizations/entities/organization.entity';
 import { UserRole, UserStatus } from './enums';
 
 @Entity('users')
@@ -36,6 +36,6 @@ export class UserEntity {
   })
   dateCreate: Date;
 
-  @ManyToMany(() => OrgEntity, (organization) => organization.users)
-  organizations: OrgEntity[];
+  @ManyToMany(() => OrganizationEntity, (organization) => organization.users)
+  organizations: OrganizationEntity[];
 }
