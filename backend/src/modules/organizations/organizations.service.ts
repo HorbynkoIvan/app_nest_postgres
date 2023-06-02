@@ -4,7 +4,12 @@ import { In, Repository, SelectQueryBuilder } from 'typeorm';
 import { UserEntity } from '../users/entities';
 import { EntEntity } from '../ents/entities/ent.entity';
 import { OrganizationEntity } from './entities/organization.entity';
-import { CreateOrganizationsInput, UpdateOrganizationsInput } from './dto';
+import {
+  CreateOrganizationsInput,
+  UpdateOrganizationsInput,
+  PaginationInput,
+  FilterInput,
+} from './dto';
 
 @Injectable()
 export class OrganizationsService {
@@ -103,7 +108,10 @@ export class OrganizationsService {
     });
   }
 
-  async getOrganizations() {
+  async getOrganizations(
+    paginationInput: PaginationInput,
+    filterInput: FilterInput,
+  ) {
     const queryBuilder: SelectQueryBuilder<OrganizationEntity> =
       this.organizationRepository.createQueryBuilder('org');
 
