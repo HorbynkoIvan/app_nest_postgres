@@ -28,6 +28,7 @@ export class OrganizationsResolver {
   }
 
   @Query(() => OrganizationEntity, {
+    nullable: true,
     description: 'This graphql method for getting one organization by id',
   })
   async getOrganization(
@@ -35,7 +36,7 @@ export class OrganizationsResolver {
       type: () => Int,
     })
     id: number,
-  ): Promise<OrganizationEntity> {
+  ): Promise<OrganizationEntity | null> {
     return this.organizationsService.getOrganization(id);
   }
 

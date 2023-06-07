@@ -23,8 +23,8 @@ input CreateOrganizationsInput {
 
 input CreateUserInput {
   email: String!
+  loginType: LoginType!
   password: String!
-  role: String!
   username: String!
 }
 
@@ -33,16 +33,12 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-input DeleteUserInput {
-  id: Int!
-}
-
 type EntEntity {
   createDate: DateTime!
-  creator: UserModel!
+  creator: UserEntity!
   description: String!
   editDate: DateTime
-  editor: UserModel
+  editor: UserEntity
   id: Int!
   organizations: [OrganizationEntity!]
   parent: EntEntity
@@ -52,11 +48,11 @@ type EntEntity {
 
 type EntOutput {
   createDate: DateTime!
-  creator: UserModel!
+  creator: UserEntity!
   dependentCount: Int
   description: String!
   editDate: DateTime
-  editor: UserModel
+  editor: UserEntity
   id: Int!
   organizations: [OrganizationEntity!]
   parent: EntEntity
@@ -81,11 +77,11 @@ input FilterInput {
 
 type GetEntOutput {
   createDate: DateTime!
-  creator: UserModel!
+  creator: UserEntity!
   dependents: [GetEntOutput!]
   description: String!
   editDate: DateTime
-  editor: UserModel
+  editor: UserEntity
   id: Int!
   organizations: [OrganizationEntity!]
   parent: EntEntity
@@ -100,11 +96,32 @@ type GetEntsOutput {
 
 input GetUserInput {
   email: String
-  id: Int
+  id: ID
 }
 
-input GetUsersInput {
-  roles: [String!]
+input GetUsersFiltersInput {
+  loginTypes: [LoginType!]
+}
+
+type GetUsersOutput {
+  totalCount: Int!
+  users: [UserEntity!]!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LoginModel {
+  access_token: String!
+}
+
+enum LoginType {
+  ADMIN
+  STAFF
+  SUPER_ADMIN
+  VISITOR
 }
 
 type Mutation {
@@ -114,7 +131,7 @@ type Mutation {
   createOrganization(organizationInput: CreateOrganizationsInput!): OrganizationEntity!
 
   """This graphql method for registration new user"""
-  createUser(userInput: CreateUserInput!): UserModel!
+  createUser(userInput: CreateUserInput!): UserEntity!
   deleteEnt(id: Int!): Int!
 
   """This graphql method for deletting one organization by id"""
@@ -124,14 +141,14 @@ type Mutation {
   ): OrganizationEntity!
 
   """This graphql method for delete user"""
-  deleteUser(userInput: DeleteUserInput!): UserDeleteModel!
+  deleteUser(id: Float!): Int!
   updateEnt(updateEntInput: UpdateEntInput!): GetEntOutput!
 
   """This graphql method for update organization data"""
   updateOrganization(organizationInput: UpdateOrganizationsInput!): OrganizationEntity!
 
   """This graphql method for update user data"""
-  updateUser(userInput: UpdateUserInput!): UserUpdateModel!
+  updateUser(userInput: UpdateUserInput!): UserEntity!
 }
 
 type OrganizationEntity {
@@ -149,11 +166,7 @@ type OrganizationEntity {
   subOrganizations: [OrganizationEntity!]
   title: String!
   url: String
-}
-
-type OrganizationModelData {
-  id: Int!
-  name: String!
+  users: [UserEntity!]
 }
 
 type OrganizationOutput {
@@ -187,19 +200,22 @@ input PaginationInput {
 
 type Query {
   getEnt(id: Int!): GetEntOutput!
-  getEnts(filterInput: FilterInput, paginationInput: PaginationInput!): GetEntsOutput!
+  getEnts(filterInput: FilterInput, paginationInput: UsersPaginationInput!): GetEntsOutput!
 
   """This graphql method for getting one organization by id"""
-  getOrganization(id: Int!): OrganizationEntity!
+  getOrganization(id: Int!): OrganizationEntity
 
   """This graphql method for getting organizations"""
   getOrganizations(filterInput: OrganizationsFilterInput, paginationInput: OrganizationsPaginationInput!): OrganizationOutput!
 
   """This graphql method for getting user by email or id"""
-  getUser(userInput: GetUserInput!): UserModel!
+  getUser(userInput: GetUserInput!): UserEntity!
 
   """This graphql method for getting all users"""
-  getUsers(usersInput: GetUsersInput!): [UserModel!]!
+  getUsers(filtersInput: GetUsersFiltersInput, paginationInput: PaginationInput!): GetUsersOutput!
+
+  """This graphql method for login user by email"""
+  loginUser(loginInput: LoginInput!): LoginModel!
 }
 
 input UpdateEntInput {
@@ -225,27 +241,31 @@ input UpdateOrganizationsInput {
 
 input UpdateUserInput {
   email: String
-  id: Int!
+  id: ID!
+  loginType: LoginType
   password: String
-  role: String
   username: String
 }
 
-type UserDeleteModel {
-  affected: Int!
-  raw: [String!]!
-}
-
-type UserModel {
-  dateCreate: String!
+type UserEntity {
+  createDate: DateTime!
   email: String!
-  id: Int!
-  organizations: [OrganizationModelData!]!
-  role: String!
-  status: String!
+  id: ID!
+  loginType: LoginType!
+  organizations: [OrganizationEntity!]
+  password: String!
+  status: UserStatus!
   username: String!
 }
 
-type UserUpdateModel {
-  generatedMaps: [String!]!
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  DISABLED
+  RESTRICTED
+}
+
+input UsersPaginationInput {
+  page: Int!
+  pageSize: Int!
 }

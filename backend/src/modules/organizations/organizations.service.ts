@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository, SelectQueryBuilder } from 'typeorm';
+import { EntityNotFoundError, In, Repository } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { EntEntity } from '../ents/entities/ent.entity';
 import { OrganizationEntity } from './entities/organization.entity';
@@ -117,8 +117,7 @@ export class OrganizationsService {
       .createQueryBuilder('org')
       .leftJoinAndSelect('org.parent', 'parent')
       .leftJoinAndSelect('org.subOrganizations', 'subOrganizations')
-      // ToDo uncomment after UserEntity will be refactored
-      // .leftJoinAndSelect('org.users', 'users')
+      .leftJoinAndSelect('org.users', 'users')
       .leftJoinAndSelect('org.ents', 'ents')
       .skip((page - 1) * pageSize)
       .take(pageSize);
@@ -139,18 +138,25 @@ export class OrganizationsService {
     };
   }
 
-  async getOrganization(id: number): Promise<OrganizationEntity> {
-    return await this.organizationRepository.findOneOrFail({
-      where: {
-        id,
-      },
-      relations: {
-        parent: true,
-        users: true,
-        subOrganizations: true,
-        ents: true,
-      },
-    });
+  async getOrganization(id: number): Promise<OrganizationEntity | null> {
+    try {
+      return await this.organizationRepository.findOneOrFail({
+        where: {
+          id,
+        },
+        relations: {
+          parent: true,
+          users: true,
+          subOrganizations: true,
+          ents: true,
+        },
+      });
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        return null;
+      }
+      throw error; // обработка других ошибок
+    }
   }
 
   async deleteOrganization(id: number) {

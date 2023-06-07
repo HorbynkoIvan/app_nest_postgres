@@ -22,7 +22,7 @@ export class FilterInput {
 }
 
 @InputType()
-export class PaginationInput {
+export class UsersPaginationInput {
   @Field(() => Int)
   @Min(1)
   @IsNotEmpty()
