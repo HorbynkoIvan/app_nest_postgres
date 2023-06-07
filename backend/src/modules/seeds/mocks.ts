@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { OrganizationStatus } from '../organizations';
 import { EntType } from '../ents';
+import { LoginType } from '../users';
 import {
   MOCK_ENTS_SIZE,
   MOCK_ORGANIZATIONS_SIZE,
@@ -12,27 +13,27 @@ export const mockTestAdmins = [
     username: 'Super Admin',
     email: 'superadmin@gmail.com',
     password: '1111',
-    role: 'superAdmin',
+    loginType: LoginType.SUPER_ADMIN,
   },
   {
     username: 'Admin',
     email: 'admin@gmail.com',
     password: '1111',
-    role: 'admin',
+    loginType: LoginType.ADMIN,
   },
   {
     username: 'Staff',
     email: 'staff@gmail.com',
     password: '1111',
-    role: 'staff',
+    loginType: LoginType.STAFF,
   },
 ];
 
 export const mockUsers = new Array(MOCK_USERS_SIZE).fill(1).map(() => ({
-  username: faker.person.firstName(),
+  username: faker.name.firstName(),
   email: faker.internet.email(),
   password: '1111',
-  role: faker.helpers.arrayElement(['admin', 'staff']),
+  loginType: faker.helpers.arrayElement(Object.values(LoginType)),
 }));
 
 export const mockOrganizations = new Array(MOCK_ORGANIZATIONS_SIZE)

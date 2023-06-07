@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository, SelectQueryBuilder } from 'typeorm';
-import { UserEntity } from '../users/entities';
+import { UserEntity } from '../users/entities/user.entity';
 import { EntEntity } from '../ents/entities/ent.entity';
 import { OrganizationEntity } from './entities/organization.entity';
 import {
@@ -139,8 +139,8 @@ export class OrganizationsService {
     };
   }
 
-  async getOrganization(id: number) {
-    return await this.organizationRepository.findOne({
+  async getOrganization(id: number): Promise<OrganizationEntity> {
+    return await this.organizationRepository.findOneOrFail({
       where: {
         id,
       },
@@ -148,6 +148,7 @@ export class OrganizationsService {
         parent: true,
         users: true,
         subOrganizations: true,
+        ents: true,
       },
     });
   }

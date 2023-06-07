@@ -33,10 +33,9 @@ export class OrganizationsResolver {
   async getOrganization(
     @Args('id', {
       type: () => Int,
-      description: 'This graphql method for getting all organization by id ',
     })
     id: number,
-  ) {
+  ): Promise<OrganizationEntity> {
     return this.organizationsService.getOrganization(id);
   }
 

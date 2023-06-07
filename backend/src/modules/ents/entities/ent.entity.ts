@@ -9,10 +9,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { OrganizationEntity } from 'src/modules/organizations/entities/organization.entity';
-import { UserEntity } from 'src/modules/users/entities';
+import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { EntType } from '../ent.enums';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { UserModel } from 'src/modules/users/models';
 
 @ObjectType()
 @Entity('ents')
@@ -50,7 +49,7 @@ export class EntEntity {
   @CreateDateColumn({ name: 'create_date' })
   createDate: Date;
 
-  @Field(() => UserModel)
+  @Field(() => UserEntity)
   @ManyToOne(() => UserEntity, { nullable: false })
   @JoinColumn({ name: 'creator_id' })
   creator: UserEntity;
@@ -59,7 +58,7 @@ export class EntEntity {
   @Column({ name: 'edit_date', nullable: true })
   editDate: Date;
 
-  @Field(() => UserModel, { nullable: true })
+  @Field(() => UserEntity, { nullable: true })
   @ManyToOne(() => UserEntity)
   @JoinColumn({
     name: 'editor_id',

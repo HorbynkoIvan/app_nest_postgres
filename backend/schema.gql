@@ -190,10 +190,7 @@ type Query {
   getEnts(filterInput: FilterInput, paginationInput: PaginationInput!): GetEntsOutput!
 
   """This graphql method for getting one organization by id"""
-  getOrganization(
-    """This graphql method for getting all organization by id """
-    id: Int!
-  ): OrganizationEntity!
+  getOrganization(id: Int!): OrganizationEntity!
 
   """This graphql method for getting organizations"""
   getOrganizations(filterInput: OrganizationsFilterInput, paginationInput: OrganizationsPaginationInput!): OrganizationOutput!

@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OrganizationsService } from '../organizations';
-import { UsersService } from '../users';
+import { LoginType, UsersService } from '../users';
 import { shuffleArray } from './hanglers';
 import {
   mockOrganizations,
@@ -40,7 +40,9 @@ export class SeedsService {
       isAdmin ?? (await this.usersService.createUser(admin));
     }
 
-    const isUsersLength = (await this.usersService.getUsers({})).length;
+    const isUsersLength = (
+      await this.usersService.getUsers({ page: 1, pageSize: 1 }, {})
+    ).totalCount;
 
     if (isUsersLength > 50) return;
 
@@ -93,13 +95,19 @@ export class SeedsService {
 
     // get data user admins
     const dataAdmins = (
-      await this.usersService.getUsers({ roles: ['admin'] })
-    ).map(({ id }) => id);
+      await this.usersService.getUsers(
+        { page: 1, pageSize: 50 },
+        { loginTypes: [LoginType.ADMIN] },
+      )
+    ).users.map(({ id }) => id);
 
     // get data user staffs
     const dataUsers = (
-      await this.usersService.getUsers({ roles: ['staff'] })
-    ).map(({ id }) => id);
+      await this.usersService.getUsers(
+        { page: 1, pageSize: 50 },
+        { loginTypes: [LoginType.STAFF] },
+      )
+    ).users.map(({ id }) => id);
 
     const entsIds = (
       await this.entService.getEnts({ page: 1, pageSize: MOCK_ENTS_SIZE }, {})

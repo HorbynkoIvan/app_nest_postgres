@@ -10,7 +10,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserEntity } from '../../users/entities';
+import { UserEntity } from '../../users/entities/user.entity';
 import { OrganizationStatus } from '../organizations.enums';
 import { EntEntity } from '../../ents/entities/ent.entity';
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
@@ -83,8 +83,7 @@ export class OrganizationEntity {
   })
   subOrganizations: OrganizationEntity[];
 
-  // ToDo uncomment after UserEntity will be refactored
-  // @Field(() => [UserEntity], { nullable: true })
+  @Field(() => [UserEntity], { nullable: true })
   @ManyToMany(() => UserEntity, (user) => user.organizations, { cascade: true })
   @JoinTable({
     name: 'users_organizations',

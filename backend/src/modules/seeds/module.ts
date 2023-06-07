@@ -7,7 +7,7 @@ import { CryptoModule } from '../crypto';
 import { OrganizationsService } from '../organizations';
 import { OrganizationEntity } from '../organizations/entities/organization.entity';
 import { UsersService } from '../users';
-import { UserEntity } from '../users/entities';
+import { UserEntity } from '../users/entities/user.entity';
 import { SeedsService } from './service';
 import { EntService } from '../ents';
 import { EntEntity } from '../ents/entities/ent.entity';

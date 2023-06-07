@@ -10,6 +10,8 @@ import {
   OrganizationsModule,
   CryptoModule,
   SeedsModule,
+  CallbackModule,
+  AuthModule,
 } from './modules';
 
 @Module({
@@ -36,7 +38,9 @@ import {
       sortSchema: true,
       playground: false,
     }),
+    CallbackModule,
     UsersModule,
+    AuthModule,
     EntsModule,
     OrganizationsModule,
     CryptoModule,

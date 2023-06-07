@@ -1,72 +1,76 @@
 //import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 //import { GqlAuthGuard } from '../auth/guards';
+
+import { UsersService } from './users.service';
+import { UserEntity } from './entities/user.entity';
 import {
   CreateUserInput,
-  DeleteUserInput,
-  UpdateUserInput,
   GetUserInput,
-  GetUsersInput,
-} from './inputs';
-import { UserDeleteModel, UserModel, UserUpdateModel } from './models';
-import { UsersService } from './service';
+  GetUsersFiltersInput,
+  UpdateUserInput,
+} from './dto';
+import { PaginationInput } from '../commons/dto';
+import { GetUsersOutput } from './dto/list-user.output';
 
 @Resolver()
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query(() => UserModel, {
+  @Query(() => UserEntity, {
     description: 'This graphql method for getting user by email or id',
   })
   // @UseGuards(GqlAuthGuard)
   async getUser(
     @Args('userInput')
     userInput: GetUserInput,
-  ) {
+  ): Promise<UserEntity> {
     return this.usersService.getUser(userInput);
   }
 
-  @Query(() => [UserModel], {
+  @Query(() => GetUsersOutput, {
     description: 'This graphql method for getting all users',
   })
   // @UseGuards(GqlAuthGuard)
   async getUsers(
-    @Args('usersInput')
-    userInput: GetUsersInput,
-  ) {
-    return this.usersService.getUsers(userInput);
+    @Args('paginationInput')
+    paginationInput: PaginationInput,
+    @Args('filtersInput', { nullable: true })
+    filtersInput: GetUsersFiltersInput,
+  ): Promise<GetUsersOutput> {
+    return this.usersService.getUsers(paginationInput, filtersInput);
   }
 
-  @Mutation(() => UserModel, {
+  @Mutation(() => UserEntity, {
     description: 'This graphql method for registration new user',
   })
   // @UseGuards(GqlAuthGuard)
   async createUser(
     @Args('userInput')
     userInput: CreateUserInput,
-  ) {
+  ): Promise<UserEntity> {
     return this.usersService.createUser(userInput);
   }
 
-  @Mutation(() => UserUpdateModel, {
+  @Mutation(() => UserEntity, {
     description: 'This graphql method for update user data',
   })
   // @UseGuards(GqlAuthGuard)
   async updateUser(
     @Args('userInput')
     userInput: UpdateUserInput,
-  ) {
+  ): Promise<UserEntity> {
     return this.usersService.updateUser(userInput);
   }
 
-  @Mutation(() => UserDeleteModel, {
+  @Mutation(() => Int, {
     description: 'This graphql method for delete user',
   })
   // @UseGuards(GqlAuthGuard)
   async deleteUser(
-    @Args('userInput')
-    userInput: DeleteUserInput,
+    @Args('id')
+    id: number,
   ) {
-    return this.usersService.deleteUser(userInput);
+    return this.usersService.deleteUser(id);
   }
 }
