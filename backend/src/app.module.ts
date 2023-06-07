@@ -10,7 +10,6 @@ import {
   OrganizationsModule,
   CryptoModule,
   SeedsModule,
-  CallbackModule,
   AuthModule,
 } from './modules';
 
@@ -38,7 +37,6 @@ import {
       sortSchema: true,
       playground: false,
     }),
-    CallbackModule,
     UsersModule,
     AuthModule,
     EntsModule,
