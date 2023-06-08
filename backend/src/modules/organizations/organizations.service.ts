@@ -60,33 +60,39 @@ export class OrganizationsService {
     });
   }
 
-  async updateOrganization(organizationInput: UpdateOrganizationsInput) {
-    const { id, ...inputFields } = organizationInput;
-
+  async updateOrganization({
+    id,
+    title,
+    image,
+    description,
+    status,
+    parentId,
+    users,
+    ents,
+  }: UpdateOrganizationsInput) {
     const organization = await this.organizationRepository.findOneOrFail({
       where: { id },
     });
 
     // Обновление полей организации
-    organization.title = inputFields.title || organization.title;
-    organization.image = inputFields.image || organization.image;
-    organization.description =
-      inputFields.description || organization.description;
-    organization.status = inputFields.status || organization.status;
-    organization.parentId = inputFields.parentId || organization.parentId;
+    organization.title = title || organization.title;
+    organization.image = image || organization.image;
+    organization.description = description || organization.description;
+    organization.status = status || organization.status;
+    organization.parentId = parentId || organization.parentId;
 
     // Обновление связанных пользователей
-    if (inputFields.users?.length) {
+    if (users?.length) {
       const dataUsers = await this.userRepository.findBy({
-        id: In(inputFields.users),
+        id: In(users),
       });
       organization.users = dataUsers;
     }
 
     // Обновление связанных подорганизаций
-    if (inputFields.ents?.length) {
+    if (ents?.length) {
       const dataEnts = await this.entRepository.findBy({
-        id: In(inputFields.ents),
+        id: In(ents),
       });
       organization.ents = dataEnts;
     }
