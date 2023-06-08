@@ -6,7 +6,7 @@ import { EntType } from '../ent.enums';
 export class CreateEntInput {
   @Field(() => EntType)
   @IsEnum(EntType, {
-    message: `Type mast be one of: ${Object.values(EntType)}`,
+    message: `Type must be one of: ${Object.values(EntType)}`,
   })
   type: EntType;
 

@@ -24,43 +24,33 @@ export class OrganizationsService {
   private readonly entRepository: Repository<EntEntity>;
 
   async createOrganization({
-    title,
-    image,
-    description,
-    status,
-    parentId,
     ents,
     users,
-    creatorId,
+    ...newOrganizationFields
   }: CreateOrganizationsInput) {
-    const organization = this.organizationRepository.create({
-      title,
-      image,
-      description,
-      status,
-      parentId,
-      creatorId,
-    });
+    const newOrganization = this.organizationRepository.create(
+      newOrganizationFields,
+    );
 
     if (users?.length) {
       const dataUsers = await this.userRepository.findBy({
         id: In(users),
       });
 
-      organization.users = dataUsers;
+      newOrganization.users = dataUsers;
     }
 
     if (ents?.length) {
-      organization.ents = await this.entRepository.findBy({
+      newOrganization.ents = await this.entRepository.findBy({
         id: In(ents),
       });
     }
 
-    await this.organizationRepository.save(organization);
+    await this.organizationRepository.save(newOrganization);
 
-    return this.organizationRepository.findOne({
+    return this.organizationRepository.findOneOrFail({
       where: {
-        id: organization.id,
+        id: newOrganization.id,
       },
       relations: {
         parent: true,
@@ -70,43 +60,40 @@ export class OrganizationsService {
     });
   }
 
-  async updateOrganization(data: UpdateOrganizationsInput) {
-    const { id, users, ...fields } = data;
+  async updateOrganization(organizationInput: UpdateOrganizationsInput) {
+    const { id, ...inputFields } = organizationInput;
 
-    const organization = await this.organizationRepository.findOne({
-      where: {
-        id,
-      },
-      relations: {
-        users: true,
-        subOrganizations: true,
-      },
+    const organization = await this.organizationRepository.findOneOrFail({
+      where: { id },
     });
 
-    if (users?.length) {
-      const dataUsers = await this.userRepository.findBy({
-        id: In(users),
-      });
+    // Обновление полей организации
+    organization.title = inputFields.title || organization.title;
+    organization.image = inputFields.image || organization.image;
+    organization.description =
+      inputFields.description || organization.description;
+    organization.status = inputFields.status || organization.status;
+    organization.parentId = inputFields.parentId || organization.parentId;
 
+    // Обновление связанных пользователей
+    if (inputFields.users?.length) {
+      const dataUsers = await this.userRepository.findBy({
+        id: In(inputFields.users),
+      });
       organization.users = dataUsers;
     }
 
-    for (const key in fields) {
-      organization[key] = fields[key];
+    // Обновление связанных подорганизаций
+    if (inputFields.ents?.length) {
+      const dataEnts = await this.entRepository.findBy({
+        id: In(inputFields.ents),
+      });
+      organization.ents = dataEnts;
     }
 
     await this.organizationRepository.save(organization);
 
-    return this.organizationRepository.findOne({
-      where: {
-        id: organization.id,
-      },
-      relations: {
-        parent: true,
-        users: true,
-        subOrganizations: true,
-      },
-    });
+    return organization;
   }
 
   async getOrganizations(
@@ -140,7 +127,7 @@ export class OrganizationsService {
 
   async getOrganization(id: number): Promise<OrganizationEntity | null> {
     try {
-      return await this.organizationRepository.findOneOrFail({
+      return await this.organizationRepository.findOne({
         where: {
           id,
         },
@@ -155,7 +142,7 @@ export class OrganizationsService {
       if (error instanceof EntityNotFoundError) {
         return null;
       }
-      throw error; // обработка других ошибок
+      throw error;
     }
   }
 

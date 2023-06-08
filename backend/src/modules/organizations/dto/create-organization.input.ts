@@ -1,4 +1,4 @@
-import { Field, ID, InputType, Int, registerEnumType } from '@nestjs/graphql';
+import { Field, ID, InputType, registerEnumType } from '@nestjs/graphql';
 import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { OrganizationStatus } from '../organizations.enums';
 
@@ -13,7 +13,7 @@ export class CreateOrganizationsInput {
 
   @Field(() => OrganizationStatus)
   @IsEnum(OrganizationStatus, {
-    message: `Status mast be one of: ${Object.values(OrganizationStatus)}`,
+    message: `Status must be one of: ${Object.values(OrganizationStatus)}`,
   })
   status: OrganizationStatus;
 

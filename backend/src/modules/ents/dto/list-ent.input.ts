@@ -7,7 +7,7 @@ export class FilterInput {
   @Field(() => [EntType], { nullable: true })
   @IsEnum(EntType, {
     each: true,
-    message: `Type mast be one of: ${Object.values(EntType)}`,
+    message: `Type must be one of: ${Object.values(EntType)}`,
   })
   @IsOptional()
   types?: EntType[];
