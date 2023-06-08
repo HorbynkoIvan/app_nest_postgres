@@ -32,18 +32,19 @@ export class OrganizationsService {
       newOrganizationFields,
     );
 
-    if (users?.length) {
-      const dataUsers = await this.userRepository.findBy({
-        id: In(users),
-      });
+    // Related users and ents
+    if (users?.length || ents?.length) {
+      const [dataUsers, dataEnts] = await Promise.all([
+        users?.length
+          ? this.userRepository.findBy({ id: In(users) })
+          : Promise.resolve([]),
+        ents?.length
+          ? this.entRepository.findBy({ id: In(ents) })
+          : Promise.resolve([]),
+      ]);
 
       newOrganization.users = dataUsers;
-    }
-
-    if (ents?.length) {
-      newOrganization.ents = await this.entRepository.findBy({
-        id: In(ents),
-      });
+      newOrganization.ents = dataEnts;
     }
 
     await this.organizationRepository.save(newOrganization);
@@ -67,6 +68,7 @@ export class OrganizationsService {
     description,
     status,
     parentId,
+    creatorId,
     users,
     ents,
   }: UpdateOrganizationsInput) {
@@ -74,26 +76,26 @@ export class OrganizationsService {
       where: { id },
     });
 
-    // Обновление полей организации
+    // Update organization fields
     organization.title = title || organization.title;
     organization.image = image || organization.image;
     organization.description = description || organization.description;
     organization.status = status || organization.status;
     organization.parentId = parentId || organization.parentId;
+    organization.creatorId = creatorId || organization.creatorId;
 
-    // Обновление связанных пользователей
-    if (users?.length) {
-      const dataUsers = await this.userRepository.findBy({
-        id: In(users),
-      });
+    // Related users and ents update
+    if (users?.length || ents?.length) {
+      const [dataUsers, dataEnts] = await Promise.all([
+        users?.length
+          ? this.userRepository.findBy({ id: In(users) })
+          : Promise.resolve([]),
+        ents?.length
+          ? this.entRepository.findBy({ id: In(ents) })
+          : Promise.resolve([]),
+      ]);
+
       organization.users = dataUsers;
-    }
-
-    // Обновление связанных подорганизаций
-    if (ents?.length) {
-      const dataEnts = await this.entRepository.findBy({
-        id: In(ents),
-      });
       organization.ents = dataEnts;
     }
 
