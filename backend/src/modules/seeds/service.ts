@@ -117,8 +117,8 @@ export class SeedsService {
     for (const organization of mockOrganizations) {
       await this.organizationsService.createOrganization({
         ...organization,
-        users: shuffleArray([...dataUsers, ...dataAdmins]).slice(0, 10),
-        ents: shuffleArray(entsIds).slice(0, 5),
+        usersIds: shuffleArray([...dataUsers, ...dataAdmins]).slice(0, 10),
+        entsIds: shuffleArray(entsIds).slice(0, 5),
         creatorId: dataAdmins[Math.floor(Math.random() * dataAdmins.length)],
       });
     }

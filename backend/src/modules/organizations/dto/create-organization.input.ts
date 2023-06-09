@@ -26,13 +26,13 @@ export class CreateOrganizationsInput {
   @Field(() => ID, { nullable: true })
   parentId?: number;
 
-  @Field(() => [ID], { nullable: true })
+  @Field(() => [ID], { nullable: true, description: 'Array of users IDs' })
   @IsOptional()
-  users?: number[];
+  usersIds?: number[];
 
-  @Field(() => [ID], { nullable: true })
+  @Field(() => [ID], { nullable: true, description: 'Array of ents IDs' })
   @IsOptional()
-  ents?: number[];
+  entsIds?: number[];
 
   @Field(() => ID)
   creatorId: number;

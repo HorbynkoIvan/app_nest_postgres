@@ -24,8 +24,8 @@ export class OrganizationsService {
   private readonly entRepository: Repository<EntEntity>;
 
   async createOrganization({
-    ents,
-    users,
+    entsIds,
+    usersIds,
     ...newOrganizationFields
   }: CreateOrganizationsInput) {
     const newOrganization = this.organizationRepository.create(
@@ -33,13 +33,13 @@ export class OrganizationsService {
     );
 
     // Related users and ents
-    if (users?.length || ents?.length) {
+    if (usersIds?.length || entsIds?.length) {
       const [dataUsers, dataEnts] = await Promise.all([
-        users?.length
-          ? this.userRepository.findBy({ id: In(users) })
+        usersIds?.length
+          ? this.userRepository.findBy({ id: In(usersIds) })
           : Promise.resolve([]),
-        ents?.length
-          ? this.entRepository.findBy({ id: In(ents) })
+        entsIds?.length
+          ? this.entRepository.findBy({ id: In(entsIds) })
           : Promise.resolve([]),
       ]);
 
@@ -69,11 +69,12 @@ export class OrganizationsService {
     status,
     parentId,
     creatorId,
-    users,
-    ents,
+    entsIds,
+    usersIds,
   }: UpdateOrganizationsInput) {
     const organization = await this.organizationRepository.findOneOrFail({
       where: { id },
+      relations: ['users', 'ents'],
     });
 
     // Update organization fields
@@ -85,13 +86,13 @@ export class OrganizationsService {
     organization.creatorId = creatorId || organization.creatorId;
 
     // Related users and ents update
-    if (users?.length || ents?.length) {
+    if (usersIds?.length || entsIds?.length) {
       const [dataUsers, dataEnts] = await Promise.all([
-        users?.length
-          ? this.userRepository.findBy({ id: In(users) })
+        usersIds?.length
+          ? this.userRepository.findBy({ id: In(usersIds) })
           : Promise.resolve([]),
-        ents?.length
-          ? this.entRepository.findBy({ id: In(ents) })
+        entsIds?.length
+          ? this.entRepository.findBy({ id: In(entsIds) })
           : Promise.resolve([]),
       ]);
 

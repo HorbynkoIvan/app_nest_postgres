@@ -12,13 +12,17 @@ input CreateEntInput {
 input CreateOrganizationsInput {
   creatorId: ID!
   description: String
-  ents: [ID!]
+
+  """Array of ents IDs"""
+  entsIds: [ID!]
   image: String
   parentId: ID
   status: OrganizationStatus!
   title: String!
   url: String
-  users: [ID!]
+
+  """Array of users IDs"""
+  usersIds: [ID!]
 }
 
 input CreateUserInput {
@@ -229,14 +233,18 @@ input UpdateEntInput {
 input UpdateOrganizationsInput {
   creatorId: ID
   description: String
-  ents: [ID!]
+
+  """Array of ents IDs"""
+  entsIds: [ID!]
   id: ID!
   image: String
   parentId: ID
   status: OrganizationStatus
   title: String
   url: String
-  users: [ID!]
+
+  """Array of users IDs"""
+  usersIds: [ID!]
 }
 
 input UpdateUserInput {
