@@ -28,24 +28,19 @@ export class OrganizationsService {
     usersIds,
     ...newOrganizationFields
   }: CreateOrganizationsInput) {
-    const newOrganization = this.organizationRepository.create(
-      newOrganizationFields,
-    );
-
     // Related users and ents
-    if (usersIds?.length || entsIds?.length) {
-      const [dataUsers, dataEnts] = await Promise.all([
-        usersIds?.length
-          ? this.userRepository.findBy({ id: In(usersIds) })
-          : Promise.resolve([]),
-        entsIds?.length
-          ? this.entRepository.findBy({ id: In(entsIds) })
-          : Promise.resolve([]),
-      ]);
+    const dataUsers = usersIds
+      ? await this.userRepository.findBy({ id: In(usersIds) })
+      : [];
+    const dataEnts = entsIds
+      ? await this.entRepository.findBy({ id: In(entsIds) })
+      : [];
 
-      newOrganization.users = dataUsers;
-      newOrganization.ents = dataEnts;
-    }
+    const newOrganization = this.organizationRepository.create({
+      ...newOrganizationFields,
+      users: dataUsers,
+      ents: dataEnts,
+    });
 
     await this.organizationRepository.save(newOrganization);
 
@@ -53,11 +48,7 @@ export class OrganizationsService {
       where: {
         id: newOrganization.id,
       },
-      relations: {
-        parent: true,
-        users: true,
-        subOrganizations: true,
-      },
+      relations: ['parent', 'users', 'subOrganizations'],
     });
   }
 
@@ -78,27 +69,24 @@ export class OrganizationsService {
     });
 
     // Update organization fields
-    organization.title = title || organization.title;
-    organization.image = image || organization.image;
-    organization.description = description || organization.description;
-    organization.status = status || organization.status;
-    organization.parentId = parentId || organization.parentId;
-    organization.creatorId = creatorId || organization.creatorId;
+    organization.title = title ?? organization.title;
+    organization.image = image ?? organization.image;
+    organization.description = description ?? organization.description;
+    organization.status = status ?? organization.status;
+    organization.parentId = parentId ?? organization.parentId;
+    organization.creatorId = creatorId ?? organization.creatorId;
 
     // Related users and ents update
-    if (usersIds?.length || entsIds?.length) {
-      const [dataUsers, dataEnts] = await Promise.all([
-        usersIds?.length
-          ? this.userRepository.findBy({ id: In(usersIds) })
-          : Promise.resolve([]),
-        entsIds?.length
-          ? this.entRepository.findBy({ id: In(entsIds) })
-          : Promise.resolve([]),
-      ]);
+    const dataUsers = usersIds
+      ? await this.userRepository.findBy({ id: In(usersIds) })
+      : [];
 
-      organization.users = dataUsers;
-      organization.ents = dataEnts;
-    }
+    const dataEnts = entsIds
+      ? await this.entRepository.findBy({ id: In(entsIds) })
+      : [];
+
+    organization.users = dataUsers;
+    organization.ents = dataEnts;
 
     await this.organizationRepository.save(organization);
 
@@ -106,7 +94,7 @@ export class OrganizationsService {
   }
 
   async getOrganizations(
-    { page, pageSize }: OrganizationsPaginationInput,
+    { page, pageSize, getAll }: OrganizationsPaginationInput,
     { id, title }: OrganizationsFilterInput,
   ): Promise<OrganizationOutput> {
     const queryBuilder = this.organizationRepository
@@ -114,9 +102,7 @@ export class OrganizationsService {
       .leftJoinAndSelect('org.parent', 'parent')
       .leftJoinAndSelect('org.subOrganizations', 'subOrganizations')
       .leftJoinAndSelect('org.users', 'users')
-      .leftJoinAndSelect('org.ents', 'ents')
-      .skip((page - 1) * pageSize)
-      .take(pageSize);
+      .leftJoinAndSelect('org.ents', 'ents');
 
     if (id) {
       queryBuilder.andWhere('org.id = :id', { id });
@@ -124,6 +110,10 @@ export class OrganizationsService {
 
     if (title) {
       queryBuilder.andWhere('org.title ILIKE :title', { title: `%${title}%` });
+    }
+
+    if (!getAll) {
+      queryBuilder.skip((page - 1) * pageSize).take(pageSize);
     }
 
     const [organizations, totalCount] = await queryBuilder.getManyAndCount();
