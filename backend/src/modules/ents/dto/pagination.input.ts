@@ -1,5 +1,12 @@
 import { Field, InputType, Int, registerEnumType } from '@nestjs/graphql';
-import { IsEnum, IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  Max,
+  Min,
+} from 'class-validator';
 import { EntType } from '../ent.enums';
 
 @InputType()
@@ -23,16 +30,23 @@ export class FilterInput {
 
 @InputType()
 export class UsersPaginationInput {
-  @Field(() => Int)
+  @Field(() => Int, { description: 'The page number (minimum: 1)' })
   @Min(1)
-  @IsNotEmpty()
   page: number;
 
-  @Field(() => Int)
+  @Field(() => Int, {
+    description: 'The number of items per page (minimum: 1, maximum: 100)',
+  })
   @Min(1)
   @Max(100)
-  @IsNotEmpty()
   pageSize: number;
+
+  @Field(() => Boolean, {
+    description: 'Get all list of entities',
+    defaultValue: false,
+  })
+  @IsBoolean()
+  getAll?: boolean;
 }
 
 registerEnumType(EntType, {

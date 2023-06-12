@@ -15,7 +15,7 @@ export class OrganizationsPaginationInput {
   pageSize: number;
 
   @Field(() => Boolean, {
-    description: 'Get all list of entities',
+    description: 'Get all list of organizations',
     defaultValue: false,
   })
   @IsBoolean()

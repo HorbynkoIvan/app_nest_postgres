@@ -5,7 +5,7 @@ import { CreateEntInput } from './dto/create-ent.input';
 import { UpdateEntInput } from './dto/update-ent.input';
 import { GetEntsOutput } from './dto/list-ent.output';
 import { GetEntOutput } from './dto/details-ent.output';
-import { FilterInput, UsersPaginationInput } from './dto/list-ent.input';
+import { FilterInput, UsersPaginationInput } from './dto/pagination.input';
 
 @Resolver(() => EntEntity)
 export class EntResolver {

@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { UsersService } from '../users';
 import { EntEntity } from './entities/ent.entity';
-import { FilterInput, UsersPaginationInput } from './dto/list-ent.input';
+import { FilterInput, UsersPaginationInput } from './dto/pagination.input';
 import { GetEntsOutput } from './dto/list-ent.output';
 import { GetEntOutput } from './dto/details-ent.output';
 
@@ -31,41 +31,38 @@ export class EntService {
   }
 
   async getEnts(
-    paginationInput: UsersPaginationInput,
-    filterInput: FilterInput,
+    { page, pageSize, getAll }: UsersPaginationInput,
+    { id, title, types }: FilterInput,
   ): Promise<GetEntsOutput> {
-    const queryBuilder: SelectQueryBuilder<EntEntity> =
-      this.entsRepository.createQueryBuilder('ent');
+    const queryBuilder: SelectQueryBuilder<EntEntity> = this.entsRepository
+      .createQueryBuilder('ent')
+      .leftJoinAndSelect('ent.parent', 'parent')
+      .leftJoinAndSelect('ent.organizations', 'organizations')
+      .leftJoinAndSelect('ent.creator', 'creator')
+      .leftJoinAndSelect('ent.editor', 'editor')
+      .loadRelationCountAndMap('ent.dependentCount', 'ent.dependents');
 
-    queryBuilder.leftJoinAndSelect('ent.parent', 'parent');
-    queryBuilder.leftJoinAndSelect('ent.organizations', 'organizations');
-    queryBuilder.leftJoinAndSelect('ent.creator', 'creator');
-    queryBuilder.leftJoinAndSelect('ent.editor', 'editor');
-    queryBuilder.loadRelationCountAndMap(
-      'ent.dependentCount',
-      'ent.dependents',
-    );
-
-    if (filterInput?.types?.length) {
+    if (types?.length) {
       queryBuilder.andWhere('ent.type IN (:...types)', {
-        types: filterInput.types,
+        types,
       });
     }
 
-    if (filterInput?.title) {
+    if (title) {
       queryBuilder.andWhere('ent.title ILIKE :title', {
-        title: `%${filterInput.title}%`,
+        title: `%${title}%`,
       });
     }
 
-    if (filterInput?.id) {
-      queryBuilder.andWhere('ent.id = :id', { id: filterInput.id });
+    if (id) {
+      queryBuilder.andWhere('ent.id = :id', { id: id });
     }
 
-    const [ents, totalCount] = await queryBuilder
-      .skip((paginationInput.page - 1) * paginationInput.pageSize)
-      .take(paginationInput.pageSize)
-      .getManyAndCount();
+    if (!getAll) {
+      queryBuilder.skip((page - 1) * pageSize).take(pageSize);
+    }
+
+    const [ents, totalCount] = await queryBuilder.getManyAndCount();
 
     return { ents, totalCount };
   }
