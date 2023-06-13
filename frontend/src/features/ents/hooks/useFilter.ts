@@ -1,4 +1,5 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import debounce from "lodash.debounce";
 
 type FilterOptions = {
   searchedName: string;
@@ -14,46 +15,50 @@ type Return = {
 };
 
 export const useFilter = (): Return => {
-  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
-    searchedName: "",
-    searchedId: null,
-  });
+  const [searchedName, setName] = useState("");
+  const [searchedId, setId] = useState<number | null>(null);
 
   const handleChangeSearchName = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setFilterOptions((prevOptions) => ({
-      ...prevOptions,
-      searchedName: value,
-    }));
+    console.log(value);
+    setName(value);
   };
 
   const handleClearSearchName = () => {
-    setFilterOptions((prevOptions) => ({
-      ...prevOptions,
-      searchedName: "",
-    }));
+    setName("");
   };
 
   const handleChangeSearchID = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setFilterOptions((prevOptions) => ({
-      ...prevOptions,
-      searchedId: +value,
-    }));
+    const parsedId = Number(value); // Преобразовываем значение в число
+    setId(isNaN(parsedId) ? null : parsedId); // Если парсинг не удался, устанавливаем null
   };
 
   const handleClearSearchID = () => {
-    setFilterOptions((prevOptions) => ({
-      ...prevOptions,
-      searchedId: null,
-    }));
+    setId(null);
   };
 
+  const debouncedChangeHandlerName = useCallback(debounce(handleChangeSearchName, 300), []);
+  const debouncedChangeHandlerId = useCallback(debounce(handleChangeSearchID, 300), []);
+
+  // const debouncedChangeHandlerName = useMemo(() => debounce(handleChangeSearchName, 300), []);
+  // const debouncedChangeHandlerId = useMemo(() => debounce(handleChangeSearchID, 300), []);
+
+  useEffect(() => {
+    return () => {
+      debouncedChangeHandlerName.cancel();
+      debouncedChangeHandlerId.cancel();
+    };
+  }, []);
+
   return {
-    filterOptions,
-    handleChangeSearchName,
+    filterOptions: {
+      searchedName,
+      searchedId,
+    },
+    handleChangeSearchName: debouncedChangeHandlerName,
     handleClearSearchName,
-    handleChangeSearchID,
+    handleChangeSearchID: debouncedChangeHandlerId,
     handleClearSearchID,
   };
 };
