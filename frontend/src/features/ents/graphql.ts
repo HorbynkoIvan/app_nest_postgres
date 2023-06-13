@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_ENTS_QUERY = gql`
-  query getEnts($paginationInput: PaginationInput!, $filterInput: GetEntsFilterInput) {
+  query getEnts($paginationInput: PaginationInput!, $filterInput: FilterInput) {
     getEnts(paginationInput: $paginationInput, filterInput: $filterInput) {
       ents {
         id
