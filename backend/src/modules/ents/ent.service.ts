@@ -5,7 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { UsersService } from '../users';
 import { EntEntity } from './entities/ent.entity';
-import { FilterInput, UsersPaginationInput } from './dto/pagination.input';
+import { FilterInput } from './dto/filter.input';
+import { PaginationInput } from '../commons/dto';
 import { GetEntsOutput } from './dto/list-ent.output';
 import { GetEntOutput } from './dto/details-ent.output';
 
@@ -31,7 +32,7 @@ export class EntService {
   }
 
   async getEnts(
-    { page, pageSize, getAll }: UsersPaginationInput,
+    { page, pageSize, getAll }: PaginationInput,
     { id, title, types }: FilterInput,
   ): Promise<GetEntsOutput> {
     const queryBuilder: SelectQueryBuilder<EntEntity> = this.entsRepository

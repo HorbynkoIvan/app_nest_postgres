@@ -26,7 +26,11 @@ export const useEntsAPI = (
   const { data, loading } = useQuery(GET_ENTS_QUERY, {
     variables: {
       paginationInput: { page, pageSize },
-      filterInput: { types: selectedTypes, title: searchedName, id: searchedId },
+      filterInput: {
+        types: selectedTypes === "ALL" ? [] : selectedTypes,
+        title: searchedName,
+        id: searchedId,
+      },
     },
   });
 
