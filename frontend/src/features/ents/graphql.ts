@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_ENTS_QUERY = gql`
-  query getEnts($paginationInput: PaginationInput!, $filterInput: FilterInput) {
+  query getEnts($paginationInput: PaginationInput!, $filterInput: GetEntsFilterInput) {
     getEnts(paginationInput: $paginationInput, filterInput: $filterInput) {
       ents {
         id
@@ -57,11 +57,11 @@ export const GET_ENT_QUERY = gql`
       }
       creator {
         username
-        dateCreate
+        createDate
       }
       editor {
         username
-        dateCreate
+        createDate
       }
     }
   }
@@ -85,6 +85,15 @@ export const CREATE_ENT_MUTATION = gql`
   mutation CreateEnt($createEntInput: CreateEntInput!) {
     createEnt(createEntInput: $createEntInput) {
       id
+    }
+  }
+`;
+
+export const DELETE_MUTATION = gql`
+  mutation DeleteEnt($deleteEntInput: DeleteEntInput!) {
+    deleteEnt(deleteEntInput: $deleteEntInput) {
+      success
+      message
     }
   }
 `;

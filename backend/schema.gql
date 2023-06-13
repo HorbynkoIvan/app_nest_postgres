@@ -201,13 +201,19 @@ input OrganizationsPaginationInput {
 }
 
 input PaginationInput {
+  """Get all list"""
+  getAll: Boolean! = false
+
+  """The page number (minimum: 1)"""
   page: Int!
+
+  """The number of items per page (minimum: 1, maximum: 100)"""
   pageSize: Int!
 }
 
 type Query {
   getEnt(id: Int!): GetEntOutput!
-  getEnts(filterInput: FilterInput, paginationInput: UsersPaginationInput!): GetEntsOutput!
+  getEnts(filterInput: FilterInput, paginationInput: PaginationInput!): GetEntsOutput!
 
   """This graphql method for getting one organization by id"""
   getOrganization(id: Int!): OrganizationEntity
@@ -274,15 +280,4 @@ enum UserStatus {
   BLOCKED
   DISABLED
   RESTRICTED
-}
-
-input UsersPaginationInput {
-  """Get all list of entities"""
-  getAll: Boolean! = false
-
-  """The page number (minimum: 1)"""
-  page: Int!
-
-  """The number of items per page (minimum: 1, maximum: 100)"""
-  pageSize: Int!
 }
