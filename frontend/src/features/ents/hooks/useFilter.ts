@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import debounce from "lodash.debounce";
 
 type FilterOptions = {
@@ -15,41 +15,35 @@ type Return = {
 };
 
 export const useFilter = (): Return => {
-  const [searchedName, setName] = useState("");
-  const [searchedId, setId] = useState<number | null>(null);
+  const [searchedName, setSearchedName] = useState("");
+  const [searchedId, setSearchedId] = useState<number | null>(null);
 
   const handleChangeSearchName = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    console.log(value);
-    setName(value);
+    setSearchedName(event.target.value);
   };
 
   const handleClearSearchName = () => {
-    setName("");
+    setSearchedName("");
   };
 
   const handleChangeSearchID = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    const parsedId = Number(value); // Преобразовываем значение в число
-    setId(isNaN(parsedId) ? null : parsedId); // Если парсинг не удался, устанавливаем null
+    setSearchedId(value === "" ? null : +value);
   };
 
   const handleClearSearchID = () => {
-    setId(null);
+    setSearchedId(null);
   };
 
-  const debouncedChangeHandlerName = useCallback(debounce(handleChangeSearchName, 300), []);
-  const debouncedChangeHandlerId = useCallback(debounce(handleChangeSearchID, 300), []);
-
-  // const debouncedChangeHandlerName = useMemo(() => debounce(handleChangeSearchName, 300), []);
-  // const debouncedChangeHandlerId = useMemo(() => debounce(handleChangeSearchID, 300), []);
+  const debouncedChangeHandlerName = useMemo(() => debounce(handleChangeSearchName, 1000), []);
+  const debouncedChangeHandlerId = useMemo(() => debounce(handleChangeSearchID, 1000), []);
 
   useEffect(() => {
     return () => {
       debouncedChangeHandlerName.cancel();
       debouncedChangeHandlerId.cancel();
     };
-  }, []);
+  }, [debouncedChangeHandlerName, debouncedChangeHandlerId]);
 
   return {
     filterOptions: {
