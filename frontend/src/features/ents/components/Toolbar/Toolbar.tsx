@@ -2,8 +2,7 @@ import React, { ChangeEvent } from "react";
 import { Stack, Button, Typography } from "@mui/material";
 import { MdAdd } from "react-icons/md";
 import { ENT_TYPES_OPTIONS } from "common/constants";
-import { Select } from "common/ui";
-import { Search } from "./Search";
+import { Select, SearchDebounced } from "common/ui";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
@@ -51,7 +50,7 @@ export const Toolbar = ({
           />
         </Stack>
 
-        <Search
+        <SearchDebounced
           minWidth={170}
           maxWidth={170}
           placeholder="Search by Name"
@@ -60,7 +59,7 @@ export const Toolbar = ({
           handleClearSearch={handleClearSearchName}
         />
 
-        <Search
+        <SearchDebounced
           minWidth={170}
           maxWidth={170}
           placeholder="Search by ID"

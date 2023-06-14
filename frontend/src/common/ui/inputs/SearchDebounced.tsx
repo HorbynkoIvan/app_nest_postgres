@@ -16,7 +16,7 @@ type Props = OutlinedInputProps & {
   maxWidth: number;
 };
 
-export const Search = ({
+export const SearchDebounced = ({
   searched: initialSearchedValue,
   handleChangeSearch,
   handleClearSearch,
@@ -32,7 +32,7 @@ export const Search = ({
     if (searched !== initialSearchedValue) {
       setSearched(initialSearchedValue);
     }
-  }, [searched, initialSearchedValue]);
+  }, [initialSearchedValue]);
 
   const internalHandleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
