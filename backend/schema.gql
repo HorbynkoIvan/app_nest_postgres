@@ -213,7 +213,7 @@ input PaginationInput {
 
 type Query {
   getEnt(id: Int!): GetEntOutput!
-  getEnts(filterInput: FilterInput, paginationInput: PaginationInput!): GetEntsOutput!
+  getEnts(filterInput: FilterInput, paginationInput: PaginationInput!, sortInput: SortInput): GetEntsOutput!
 
   """This graphql method for getting one organization by id"""
   getOrganization(id: Int!): OrganizationEntity
@@ -229,6 +229,16 @@ type Query {
 
   """This graphql method for login user by email"""
   loginUser(loginInput: LoginInput!): LoginModel!
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+input SortInput {
+  """Sort asc/desc"""
+  direction: SortDirection! = ASC
 }
 
 input UpdateEntInput {

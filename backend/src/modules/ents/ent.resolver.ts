@@ -6,7 +6,7 @@ import { UpdateEntInput } from './dto/update-ent.input';
 import { GetEntsOutput } from './dto/list-ent.output';
 import { GetEntOutput } from './dto/details-ent.output';
 import { FilterInput } from './dto/filter.input';
-import { PaginationInput } from '../commons/dto';
+import { PaginationInput, SortInput } from '../commons/dto';
 
 @Resolver(() => EntEntity)
 export class EntResolver {
@@ -14,12 +14,18 @@ export class EntResolver {
 
   @Query(() => GetEntsOutput)
   async getEnts(
-    @Args('paginationInput', { type: () => PaginationInput })
+    @Args('paginationInput')
     paginationInput: PaginationInput,
-    @Args('filterInput', { type: () => FilterInput, nullable: true })
+    @Args('filterInput', { nullable: true })
     filterInput: FilterInput,
+    @Args('sortInput', { nullable: true })
+    sortInput: SortInput,
   ): Promise<GetEntsOutput> {
-    return await this.entService.getEnts(paginationInput, filterInput);
+    return await this.entService.getEnts(
+      paginationInput,
+      filterInput,
+      sortInput,
+    );
   }
 
   @Query(() => GetEntOutput)

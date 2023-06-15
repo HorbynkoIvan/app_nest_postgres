@@ -6,7 +6,7 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { UsersService } from '../users';
 import { EntEntity } from './entities/ent.entity';
 import { FilterInput } from './dto/filter.input';
-import { PaginationInput } from '../commons/dto';
+import { PaginationInput, SortInput } from '../commons/dto';
 import { GetEntsOutput } from './dto/list-ent.output';
 import { GetEntOutput } from './dto/details-ent.output';
 
@@ -34,9 +34,11 @@ export class EntService {
   async getEnts(
     { page, pageSize, getAll }: PaginationInput,
     { id, title, types }: FilterInput,
+    sortInput: SortInput,
   ): Promise<GetEntsOutput> {
     const queryBuilder: SelectQueryBuilder<EntEntity> = this.entsRepository
       .createQueryBuilder('ent')
+      .orderBy('ent.id', sortInput.direction)
       .leftJoinAndSelect('ent.parent', 'parent')
       .leftJoinAndSelect('ent.organizations', 'organizations')
       .leftJoinAndSelect('ent.creator', 'creator')

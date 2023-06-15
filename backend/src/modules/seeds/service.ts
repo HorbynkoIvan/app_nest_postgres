@@ -11,6 +11,7 @@ import {
 } from './mocks';
 import { EntService } from '../ents';
 import { MOCK_ENTS_SIZE } from './constants';
+import { SortDirection } from '../commons/enums';
 
 @Injectable()
 export class SeedsService {
@@ -53,7 +54,11 @@ export class SeedsService {
 
   async seedEnts() {
     const existingEntsCount = (
-      await this.entService.getEnts({ page: 1, pageSize: 1 }, {})
+      await this.entService.getEnts(
+        { page: 1, pageSize: 1 },
+        {},
+        { direction: SortDirection.ASC },
+      )
     ).totalCount;
 
     if (existingEntsCount > 50) {
@@ -69,7 +74,11 @@ export class SeedsService {
     }
 
     const savedEnts = (
-      await this.entService.getEnts({ page: 1, pageSize: MOCK_ENTS_SIZE }, {})
+      await this.entService.getEnts(
+        { page: 1, pageSize: MOCK_ENTS_SIZE },
+        {},
+        { direction: SortDirection.ASC },
+      )
     ).ents.map(({ id }) => id);
 
     // create half of entities with parents
@@ -110,7 +119,11 @@ export class SeedsService {
     ).users.map(({ id }) => id);
 
     const entsIds = (
-      await this.entService.getEnts({ page: 1, pageSize: MOCK_ENTS_SIZE }, {})
+      await this.entService.getEnts(
+        { page: 1, pageSize: MOCK_ENTS_SIZE },
+        {},
+        { direction: SortDirection.ASC },
+      )
     ).ents.map(({ id }) => id);
 
     // create organizations with users and entities
