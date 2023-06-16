@@ -54,11 +54,7 @@ export class SeedsService {
 
   async seedEnts() {
     const existingEntsCount = (
-      await this.entService.getEnts(
-        { page: 1, pageSize: 1 },
-        {},
-        { direction: SortDirection.ASC },
-      )
+      await this.entService.getEnts({ page: 1, pageSize: 1 })
     ).totalCount;
 
     if (existingEntsCount > 50) {
@@ -74,11 +70,7 @@ export class SeedsService {
     }
 
     const savedEnts = (
-      await this.entService.getEnts(
-        { page: 1, pageSize: MOCK_ENTS_SIZE },
-        {},
-        { direction: SortDirection.ASC },
-      )
+      await this.entService.getEnts({ page: 1, pageSize: MOCK_ENTS_SIZE })
     ).ents.map(({ id }) => id);
 
     // create half of entities with parents
@@ -119,11 +111,7 @@ export class SeedsService {
     ).users.map(({ id }) => id);
 
     const entsIds = (
-      await this.entService.getEnts(
-        { page: 1, pageSize: MOCK_ENTS_SIZE },
-        {},
-        { direction: SortDirection.ASC },
-      )
+      await this.entService.getEnts({ page: 1, pageSize: MOCK_ENTS_SIZE })
     ).ents.map(({ id }) => id);
 
     // create organizations with users and entities

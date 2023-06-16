@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty } from 'class-validator';
-import { SortDirection } from '../enums/sort-common.enums';
+import { IsOptional } from 'class-validator';
+import { SortDirection } from '../enums';
 
 @InputType()
 export class SortInput {
@@ -8,6 +8,6 @@ export class SortInput {
     description: 'Sort asc/desc',
     defaultValue: SortDirection.ASC,
   })
-  @IsNotEmpty()
-  direction?: SortDirection;
+  @IsOptional()
+  sortOrderById?: SortDirection;
 }

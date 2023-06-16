@@ -16,10 +16,8 @@ export class EntResolver {
   async getEnts(
     @Args('paginationInput')
     paginationInput: PaginationInput,
-    @Args('filterInput', { nullable: true })
-    filterInput: FilterInput,
-    @Args('sortInput', { nullable: true })
-    sortInput: SortInput,
+    @Args('filterInput', { nullable: true }) filterInput?: FilterInput,
+    @Args('sortInput', { nullable: true }) sortInput?: SortInput,
   ): Promise<GetEntsOutput> {
     return await this.entService.getEnts(
       paginationInput,

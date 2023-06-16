@@ -33,12 +33,12 @@ export class EntService {
 
   async getEnts(
     { page, pageSize, getAll }: PaginationInput,
-    { id, title, types }: FilterInput,
-    sortInput: SortInput,
+    { id, title, types }: FilterInput = {},
+    { sortOrderById }: SortInput = {},
   ): Promise<GetEntsOutput> {
     const queryBuilder: SelectQueryBuilder<EntEntity> = this.entsRepository
       .createQueryBuilder('ent')
-      .orderBy('ent.id', sortInput.direction)
+      .orderBy('ent.id', sortOrderById)
       .leftJoinAndSelect('ent.parent', 'parent')
       .leftJoinAndSelect('ent.organizations', 'organizations')
       .leftJoinAndSelect('ent.creator', 'creator')
