@@ -189,21 +189,7 @@ input OrganizationsFilterInput {
   title: String
 }
 
-input OrganizationsPaginationInput {
-  """Get all list of organizations"""
-  getAll: Boolean! = false
-
-  """The page number (minimum: 1)"""
-  page: Int!
-
-  """The number of items per page (minimum: 1, maximum: 100)"""
-  pageSize: Int!
-}
-
 input PaginationInput {
-  """Get all list"""
-  getAll: Boolean! = false
-
   """The page number (minimum: 1)"""
   page: Int!
 
@@ -213,13 +199,13 @@ input PaginationInput {
 
 type Query {
   getEnt(id: Int!): GetEntOutput!
-  getEnts(filterInput: FilterInput, paginationInput: PaginationInput!, sortInput: SortInput): GetEntsOutput!
+  getEnts(filterInput: FilterInput, paginationInput: PaginationInput, sortInput: SortInput): GetEntsOutput!
 
   """This graphql method for getting one organization by id"""
   getOrganization(id: Int!): OrganizationEntity
 
   """This graphql method for getting organizations"""
-  getOrganizations(filterInput: OrganizationsFilterInput, paginationInput: OrganizationsPaginationInput!): OrganizationOutput!
+  getOrganizations(filterInput: OrganizationsFilterInput, paginationInput: PaginationInput): OrganizationOutput!
 
   """This graphql method for getting user by email or id"""
   getUser(userInput: GetUserInput!): UserEntity!

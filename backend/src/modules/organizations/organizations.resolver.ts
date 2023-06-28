@@ -3,11 +3,11 @@ import {
   CreateOrganizationsInput,
   OrganizationsFilterInput,
   OrganizationOutput,
-  OrganizationsPaginationInput,
   UpdateOrganizationsInput,
 } from './dto';
 import { OrganizationsService } from './organizations.service';
 import { OrganizationEntity } from './entities/organization.entity';
+import { PaginationInput } from '../commons/dto';
 
 @Resolver()
 export class OrganizationsResolver {
@@ -17,7 +17,8 @@ export class OrganizationsResolver {
     description: 'This graphql method for getting organizations',
   })
   async getOrganizations(
-    @Args('paginationInput') paginationInput: OrganizationsPaginationInput,
+    @Args('paginationInput', { nullable: true })
+    paginationInput?: PaginationInput,
     @Args('filterInput', { nullable: true })
     filterInput?: OrganizationsFilterInput,
   ): Promise<OrganizationOutput> {

@@ -4,12 +4,12 @@ import { EntityNotFoundError, In, Repository } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { EntEntity } from '../ents/entities/ent.entity';
 import { OrganizationEntity } from './entities/organization.entity';
+import { PaginationInput } from '../commons/dto';
 import {
   CreateOrganizationsInput,
   UpdateOrganizationsInput,
   OrganizationsFilterInput,
   OrganizationOutput,
-  OrganizationsPaginationInput,
 } from './dto';
 
 @Injectable()
@@ -94,8 +94,8 @@ export class OrganizationsService {
   }
 
   async getOrganizations(
-    { page, pageSize, getAll }: OrganizationsPaginationInput,
-    { id, title }: OrganizationsFilterInput,
+    { page, pageSize }: PaginationInput = {},
+    { id, title }: OrganizationsFilterInput = {},
   ): Promise<OrganizationOutput> {
     const queryBuilder = this.organizationRepository
       .createQueryBuilder('org')
@@ -112,7 +112,7 @@ export class OrganizationsService {
       queryBuilder.andWhere('org.title ILIKE :title', { title: `%${title}%` });
     }
 
-    if (!getAll) {
+    if (page && pageSize) {
       queryBuilder.skip((page - 1) * pageSize).take(pageSize);
     }
 

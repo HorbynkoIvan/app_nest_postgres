@@ -14,8 +14,8 @@ export class EntResolver {
 
   @Query(() => GetEntsOutput)
   async getEnts(
-    @Args('paginationInput')
-    paginationInput: PaginationInput,
+    @Args('paginationInput', { nullable: true })
+    paginationInput?: PaginationInput,
     @Args('filterInput', { nullable: true }) filterInput?: FilterInput,
     @Args('sortInput', { nullable: true }) sortInput?: SortInput,
   ): Promise<GetEntsOutput> {

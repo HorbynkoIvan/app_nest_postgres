@@ -29,9 +29,12 @@ export const SearchDebounced = ({
 
   useEffect(() => {
     // Update the 'searched' state when 'initialSearchedValue' changes
-    if (searched !== initialSearchedValue) {
-      setSearched(initialSearchedValue);
-    }
+    setSearched((prevSearched) => {
+      if (prevSearched !== initialSearchedValue) {
+        return initialSearchedValue;
+      }
+      return prevSearched;
+    });
   }, [initialSearchedValue]);
 
   const internalHandleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {

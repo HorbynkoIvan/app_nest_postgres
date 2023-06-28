@@ -32,7 +32,7 @@ export class EntService {
   }
 
   async getEnts(
-    { page, pageSize, getAll }: PaginationInput,
+    { page, pageSize }: PaginationInput = {},
     { id, title, types }: FilterInput = {},
     { sortOrderById }: SortInput = {},
   ): Promise<GetEntsOutput> {
@@ -61,7 +61,7 @@ export class EntService {
       queryBuilder.andWhere('ent.id = :id', { id: id });
     }
 
-    if (!getAll) {
+    if (page && pageSize) {
       queryBuilder.skip((page - 1) * pageSize).take(pageSize);
     }
 
