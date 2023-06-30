@@ -110,12 +110,17 @@ type GetUsersOutput {
 }
 
 input LoginInput {
-  email: String!
+  email: String
   password: String!
+  username: String
 }
 
 type LoginModel {
   access_token: String!
+  email: String!
+  role: String!
+  sub: Int!
+  username: String!
 }
 
 enum LoginType {
@@ -214,6 +219,7 @@ type Query {
 
   """This graphql method for login user by email"""
   loginUser(loginInput: LoginInput!): LoginModel!
+  validateToken: Boolean!
 }
 
 enum SortDirection {
