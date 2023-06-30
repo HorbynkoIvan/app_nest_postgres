@@ -10,10 +10,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserEntity } from '../../users/entities/user.entity';
+
 import { OrganizationStatus } from '../organizations.enums';
 import { EntEntity } from '../../ents/entities/ent.entity';
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { UserEntity } from 'src/modules/users/entities/user.entity';
 
 @ObjectType()
 @Entity('organizations')
@@ -49,17 +50,18 @@ export class OrganizationEntity {
   @Column({ nullable: true })
   url: string;
 
+  @Field(() => ID)
+  @Column({ name: 'creator_id' })
+  creatorId: number;
+
   @Field(() => GraphQLISODateTime)
   @CreateDateColumn({ name: 'create_date' })
   createDate: Date;
 
-  @Field(() => GraphQLISODateTime)
-  @UpdateDateColumn({ name: 'edit_date' })
-  editDate: Date;
-
-  @Field(() => ID)
-  @Column({ name: 'creator_id' })
-  creatorId: number;
+  @Field(() => UserEntity)
+  @ManyToOne(() => UserEntity, { nullable: false })
+  @JoinColumn({ name: 'creator_id' })
+  creator: UserEntity;
 
   @Field(() => ID, { nullable: true })
   @Column({
@@ -68,23 +70,36 @@ export class OrganizationEntity {
   })
   editorId: number;
 
+  @Field(() => GraphQLISODateTime)
+  @UpdateDateColumn({ name: 'edit_date' })
+  editDate: Date;
+
+  @Field(() => UserEntity, { nullable: true })
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({
+    name: 'editor_id',
+  })
+  editor: UserEntity;
+
   @Field(() => ID, { nullable: true })
   @Column({ nullable: true, name: 'parent_id' })
   parentId: number;
 
   @Field(() => OrganizationEntity, { nullable: true })
-  @ManyToOne(() => OrganizationEntity)
+  @ManyToOne(() => OrganizationEntity, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'parent_id' })
   parent: OrganizationEntity;
 
   @Field(() => [OrganizationEntity], { nullable: true })
   @OneToMany(() => OrganizationEntity, (organization) => organization.parent, {
-    cascade: true,
+    onDelete: 'CASCADE',
   })
   subOrganizations: OrganizationEntity[];
 
   @Field(() => [UserEntity], { nullable: true })
-  @ManyToMany(() => UserEntity, (user) => user.organizations, { cascade: true })
+  @ManyToMany(() => UserEntity, (user) => user.organizations, {
+    onDelete: 'CASCADE',
+  })
   @JoinTable({
     name: 'users_organizations',
     joinColumn: {
@@ -100,7 +115,7 @@ export class OrganizationEntity {
 
   @Field(() => [EntEntity], { nullable: true })
   @ManyToMany(() => EntEntity, (ent) => ent.organizations, {
-    cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable({
     name: 'ents_organizations',

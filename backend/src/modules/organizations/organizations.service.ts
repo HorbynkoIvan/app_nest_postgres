@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityNotFoundError, In, Repository } from 'typeorm';
+import { FindOneOptions, In, Repository } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { EntEntity } from '../ents/entities/ent.entity';
 import { OrganizationEntity } from './entities/organization.entity';
@@ -11,17 +11,19 @@ import {
   OrganizationsFilterInput,
   OrganizationOutput,
 } from './dto';
+import { UsersService } from '../users';
 
 @Injectable()
 export class OrganizationsService {
-  @InjectRepository(OrganizationEntity)
-  private readonly organizationRepository: Repository<OrganizationEntity>;
-
-  @InjectRepository(UserEntity)
-  private readonly userRepository: Repository<UserEntity>;
-
-  @InjectRepository(EntEntity)
-  private readonly entRepository: Repository<EntEntity>;
+  constructor(
+    @InjectRepository(OrganizationEntity)
+    private readonly organizationRepository: Repository<OrganizationEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(EntEntity)
+    private readonly entRepository: Repository<EntEntity>,
+    private readonly userService: UsersService,
+  ) {}
 
   async createOrganization({
     entsIds,
@@ -32,14 +34,21 @@ export class OrganizationsService {
     const dataUsers = usersIds
       ? await this.userRepository.findBy({ id: In(usersIds) })
       : [];
+
     const dataEnts = entsIds
       ? await this.entRepository.findBy({ id: In(entsIds) })
       : [];
+
+    // todo: Get user from request after authorization will be implemented
+    const creator = await this.userService.getUser({
+      email: 'admin@gmail.com',
+    });
 
     const newOrganization = this.organizationRepository.create({
       ...newOrganizationFields,
       users: dataUsers,
       ents: dataEnts,
+      creator,
     });
 
     await this.organizationRepository.save(newOrganization);
@@ -48,33 +57,29 @@ export class OrganizationsService {
       where: {
         id: newOrganization.id,
       },
-      relations: ['parent', 'users', 'subOrganizations'],
+      relations: [
+        'parent',
+        'users',
+        'ents',
+        'subOrganizations',
+        'creator',
+        'editor',
+      ],
     });
   }
 
   async updateOrganization({
     id,
-    title,
-    image,
-    description,
-    status,
-    parentId,
-    creatorId,
-    entsIds,
     usersIds,
+    entsIds,
+    ...updateData
   }: UpdateOrganizationsInput) {
     const organization = await this.organizationRepository.findOneOrFail({
       where: { id },
-      relations: ['users', 'ents'],
+      relations: ['users', 'ents', 'creator', 'editor'],
     });
 
-    // Update organization fields
-    organization.title = title ?? organization.title;
-    organization.image = image ?? organization.image;
-    organization.description = description ?? organization.description;
-    organization.status = status ?? organization.status;
-    organization.parentId = parentId ?? organization.parentId;
-    organization.creatorId = creatorId ?? organization.creatorId;
+    Object.assign(organization, updateData);
 
     // Related users and ents update
     const dataUsers = usersIds
@@ -87,6 +92,10 @@ export class OrganizationsService {
 
     organization.users = dataUsers;
     organization.ents = dataEnts;
+
+    organization.editor = await this.userService.getUser({
+      email: 'admin@gmail.com',
+    });
 
     await this.organizationRepository.save(organization);
 
@@ -102,7 +111,9 @@ export class OrganizationsService {
       .leftJoinAndSelect('org.parent', 'parent')
       .leftJoinAndSelect('org.subOrganizations', 'subOrganizations')
       .leftJoinAndSelect('org.users', 'users')
-      .leftJoinAndSelect('org.ents', 'ents');
+      .leftJoinAndSelect('org.ents', 'ents')
+      .leftJoinAndSelect('org.creator', 'creator')
+      .leftJoinAndSelect('org.editor', 'editor');
 
     if (id) {
       queryBuilder.andWhere('org.id = :id', { id });
@@ -125,24 +136,25 @@ export class OrganizationsService {
   }
 
   async getOrganization(id: number): Promise<OrganizationEntity | null> {
-    try {
-      return await this.organizationRepository.findOne({
-        where: {
-          id,
-        },
-        relations: {
-          parent: true,
-          users: true,
-          subOrganizations: true,
-          ents: true,
-        },
-      });
-    } catch (error) {
-      if (error instanceof EntityNotFoundError) {
-        return null;
-      }
-      throw error;
+    const options: FindOneOptions<OrganizationEntity> = {
+      where: { id },
+      relations: [
+        'parent',
+        'users',
+        'subOrganizations',
+        'ents',
+        'creator',
+        'editor',
+      ],
+    };
+
+    const organization = await this.organizationRepository.findOne(options);
+
+    if (!organization) {
+      return null;
     }
+
+    return organization;
   }
 
   async deleteOrganization(id: number) {

@@ -30,7 +30,7 @@ export const mockTestAdmins = [
 ];
 
 export const mockUsers = new Array(MOCK_USERS_SIZE).fill(1).map(() => ({
-  username: faker.name.firstName(),
+  username: faker.helpers.unique(faker.person.firstName),
   email: faker.internet.email(),
   password: '1111',
   loginType: faker.helpers.arrayElement(Object.values(LoginType)),
