@@ -10,4 +10,8 @@ export class GetUserInput {
   @IsEmail()
   @IsOptional()
   email?: string;
+
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  username?: string;
 }

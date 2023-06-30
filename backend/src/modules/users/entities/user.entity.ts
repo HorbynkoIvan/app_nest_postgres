@@ -3,6 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToMany,
+  OneToOne,
   CreateDateColumn,
 } from 'typeorm';
 import {
@@ -13,6 +14,7 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { UserStatus, LoginType } from '../users.enums';
+import { UserProfileEntity } from './user-profile.entity';
 import { OrganizationEntity } from 'src/modules/organizations/entities/organization.entity';
 
 @ObjectType()
@@ -23,7 +25,7 @@ export class UserEntity {
   id: number;
 
   @Field(() => String)
-  @Column()
+  @Column({ unique: true })
   username: string;
 
   @Field(() => UserStatus)
@@ -54,6 +56,12 @@ export class UserEntity {
   @Field(() => GraphQLISODateTime)
   @CreateDateColumn({ name: 'create_date' })
   createDate: Date;
+
+  @Field(() => UserProfileEntity, { nullable: true })
+  @OneToOne(() => UserProfileEntity, (profile) => profile.user, {
+    nullable: true,
+  })
+  profile: UserProfileEntity;
 
   @Field(() => [OrganizationEntity], { nullable: true })
   @ManyToMany(() => OrganizationEntity, (organization) => organization.users, {

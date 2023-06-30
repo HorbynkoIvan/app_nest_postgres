@@ -101,10 +101,7 @@ type GetEntsOutput {
 input GetUserInput {
   email: String
   id: ID
-}
-
-input GetUsersFiltersInput {
-  loginTypes: [LoginType!]
+  username: String
 }
 
 type GetUsersOutput {
@@ -157,9 +154,11 @@ type Mutation {
 
 type OrganizationEntity {
   createDate: DateTime!
+  creator: UserEntity!
   creatorId: ID!
   description: String
   editDate: DateTime!
+  editor: UserEntity
   editorId: ID
   ents: [EntEntity!]
   id: ID!
@@ -211,7 +210,7 @@ type Query {
   getUser(userInput: GetUserInput!): UserEntity!
 
   """This graphql method for getting all users"""
-  getUsers(filtersInput: GetUsersFiltersInput, paginationInput: PaginationInput!): GetUsersOutput!
+  getUsers(filterInput: UsersFilterInput, paginationInput: PaginationInput): GetUsersOutput!
 
   """This graphql method for login user by email"""
   loginUser(loginInput: LoginInput!): LoginModel!
@@ -267,8 +266,19 @@ type UserEntity {
   loginType: LoginType!
   organizations: [OrganizationEntity!]
   password: String!
+  profile: UserProfileEntity
   status: UserStatus!
   username: String!
+}
+
+type UserProfileEntity {
+  createDate: DateTime!
+  firstName: String
+  id: ID!
+  lastName: String
+  picture: String
+  user: UserEntity
+  userId: ID!
 }
 
 enum UserStatus {
@@ -276,4 +286,12 @@ enum UserStatus {
   BLOCKED
   DISABLED
   RESTRICTED
+}
+
+input UsersFilterInput {
+  id: Int
+  loginTypes: [LoginType!]
+  organizationId: Int
+  status: UserStatus
+  username: String
 }

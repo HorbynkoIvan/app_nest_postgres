@@ -1,13 +1,10 @@
-//import { UseGuards } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-//import { GqlAuthGuard } from '../auth/guards';
-
 import { UsersService } from './users.service';
 import { UserEntity } from './entities/user.entity';
 import {
   CreateUserInput,
   GetUserInput,
-  GetUsersFiltersInput,
+  UsersFilterInput,
   UpdateUserInput,
 } from './dto';
 import { PaginationInput } from '../commons/dto';
@@ -20,7 +17,6 @@ export class UsersResolver {
   @Query(() => UserEntity, {
     description: 'This graphql method for getting user by email or id',
   })
-  // @UseGuards(GqlAuthGuard)
   async getUser(
     @Args('userInput')
     userInput: GetUserInput,
@@ -31,20 +27,18 @@ export class UsersResolver {
   @Query(() => GetUsersOutput, {
     description: 'This graphql method for getting all users',
   })
-  // @UseGuards(GqlAuthGuard)
   async getUsers(
-    @Args('paginationInput')
-    paginationInput: PaginationInput,
-    @Args('filtersInput', { nullable: true })
-    filtersInput: GetUsersFiltersInput,
+    @Args('paginationInput', { nullable: true })
+    paginationInput?: PaginationInput,
+    @Args('filterInput', { nullable: true })
+    filterInput?: UsersFilterInput,
   ): Promise<GetUsersOutput> {
-    return this.usersService.getUsers(paginationInput, filtersInput);
+    return this.usersService.getUsers(paginationInput, filterInput);
   }
 
   @Mutation(() => UserEntity, {
     description: 'This graphql method for registration new user',
   })
-  // @UseGuards(GqlAuthGuard)
   async createUser(
     @Args('userInput')
     userInput: CreateUserInput,
@@ -55,7 +49,6 @@ export class UsersResolver {
   @Mutation(() => UserEntity, {
     description: 'This graphql method for update user data',
   })
-  // @UseGuards(GqlAuthGuard)
   async updateUser(
     @Args('userInput')
     userInput: UpdateUserInput,
@@ -66,7 +59,6 @@ export class UsersResolver {
   @Mutation(() => Int, {
     description: 'This graphql method for delete user',
   })
-  // @UseGuards(GqlAuthGuard)
   async deleteUser(
     @Args('id')
     id: number,

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { CryptoService } from '../crypto/service';
@@ -6,7 +6,7 @@ import { UserEntity } from './entities/user.entity';
 import {
   CreateUserInput,
   GetUserInput,
-  GetUsersFiltersInput,
+  UsersFilterInput,
   UpdateUserInput,
 } from './dto';
 import { PaginationInput } from '../commons/dto';
@@ -20,31 +20,60 @@ export class UsersService {
     private readonly repository: Repository<UserEntity>,
   ) {}
 
-  async getUser({ id, email }: GetUserInput): Promise<UserEntity> {
-    return await this.repository
-      .createQueryBuilder('user')
-      .leftJoinAndSelect('user.organizations', 'organizations')
-      .where('user.id = :id OR user.email = :email', { id, email })
-      .getOne();
+  private async checkUniqueField(
+    field: string,
+    value: string | number,
+  ): Promise<void> {
+    const exists = await this.getUser({ [field]: value });
+    if (exists) {
+      throw new ConflictException(`A user with this ${field} already exists.`);
+    }
+  }
+
+  async getUser({ id, email, username }: GetUserInput): Promise<UserEntity> {
+    return this.repository.findOne({
+      where: [{ id }, { email }, { username }],
+      relations: ['organizations', 'profile'],
+    });
   }
 
   async getUsers(
-    { page, pageSize }: PaginationInput,
-    { loginTypes }: GetUsersFiltersInput,
+    { page, pageSize }: PaginationInput = {},
+    { id, username, loginTypes, organizationId, status }: UsersFilterInput = {},
   ): Promise<GetUsersOutput> {
-    const queryBuilder: SelectQueryBuilder<UserEntity> =
-      this.repository.createQueryBuilder('user');
-
-    queryBuilder.leftJoinAndSelect('user.organizations', 'organizations');
+    const queryBuilder: SelectQueryBuilder<UserEntity> = this.repository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.organizations', 'organizations');
 
     if (loginTypes?.length > 0) {
       queryBuilder.where('user.loginType IN (:...loginTypes)', { loginTypes });
     }
 
-    const [users, totalCount] = await queryBuilder
-      .skip((page - 1) * pageSize)
-      .take(pageSize)
-      .getManyAndCount();
+    if (username) {
+      queryBuilder.andWhere('user.username ILIKE :username', {
+        username: `%${username}%`,
+      });
+    }
+
+    if (id) {
+      queryBuilder.andWhere('user.id = :id', { id });
+    }
+
+    if (organizationId) {
+      queryBuilder
+        .leftJoin('user.organizations', 'org')
+        .andWhere('org.id = :organizationId', { organizationId });
+    }
+
+    if (status) {
+      queryBuilder.andWhere('user.status = :status', { status });
+    }
+
+    if (page && pageSize) {
+      queryBuilder.skip((page - 1) * pageSize).take(pageSize);
+    }
+
+    const [users, totalCount] = await queryBuilder.getManyAndCount();
 
     return { users, totalCount };
   }
@@ -55,6 +84,14 @@ export class UsersService {
     loginType,
     password,
   }: CreateUserInput): Promise<UserEntity> {
+    if (username) {
+      await this.checkUniqueField('username', username);
+    }
+
+    if (email) {
+      await this.checkUniqueField('email', email);
+    }
+
     const passwordHash = await this.cryptoService.cryptoPassword(password);
 
     const user = this.repository.create({
