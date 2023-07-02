@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { EntType } from "common/interfaces";
-import { GET_ENTS_QUERY } from "common/graphql";
+import { EntType } from "common/types";
+import { GET_ENTS_QUERY } from "common/gql";
 
 type FilterOptions = {
   searchedName: string;

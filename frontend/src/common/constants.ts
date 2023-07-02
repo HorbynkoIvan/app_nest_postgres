@@ -1,3 +1,5 @@
+import { UserStatus, LoginStatus } from "./enums";
+
 export const DRAWER_WIDTH = 300;
 
 export const ROLES = {
@@ -17,10 +19,12 @@ export const ORG_STATUS = {
   HIDDEN: "hidden",
 };
 
-export const ORG_STATUS_OPTIONS = Object.entries(ORG_STATUS).map(([key, value]) => ({
-  id: key as string,
-  name: value as string,
-}));
+export const ORG_STATUS_OPTIONS: { id: string; name: string }[] = Object.entries(ORG_STATUS).map(
+  ([key, value]) => ({
+    id: key,
+    name: value,
+  })
+);
 
 export const ORGANIZATION_TYPE = {
   SCHOOL: "school",
@@ -47,4 +51,29 @@ export const ENT_TYPES = {
 export const ENT_TYPES_OPTIONS = Object.entries(ENT_TYPES).map(([key, value]) => ({
   id: key as string,
   name: value as string,
+}));
+
+export const FILTER_TYPES = {
+  ALL: "all",
+  SYSTEM: "system",
+  STATE: "state",
+  DISTRICT: "district",
+  SCHOOL: "school",
+  COHORT: "cohort",
+  OTHER: "other",
+};
+
+export const FILTER_TYPES_OPTIONS = Object.entries(FILTER_TYPES).map(([key, value]) => ({
+  id: key as string,
+  name: value as string,
+}));
+
+export const USERS_STATUS_OPTIONS = Object.entries(UserStatus).map(([key, value]) => ({
+  id: key as string,
+  name: value.toLowerCase() as string,
+}));
+
+export const LOGIN_STATUS_OPTIONS = Object.entries(LoginStatus).map(([key, value]) => ({
+  id: key as string,
+  name: value.toLowerCase() as string,
 }));

@@ -4,12 +4,12 @@ import { Stack, TableContainer } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { MdClear, MdModeEdit, MdPlayArrow } from "react-icons/md";
 import { IconButton, DataGrid } from "common/ui";
-import { EntType } from "common/interfaces";
+// import { EntType } from "common/types";
 
 const TABLE_TOOLBAR_HEIGHT = 38;
 
 type EntsTableProps = {
-  ents: EntType[];
+  ents: any;
   loading: boolean;
   page: number;
   pageSize: number;

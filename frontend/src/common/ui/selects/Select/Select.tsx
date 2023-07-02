@@ -106,6 +106,9 @@ export const Select = ({
         error={error}
         onBlur={onBlur}
         displayEmpty>
+        <MenuItem value="">
+          <em>None</em>
+        </MenuItem>
         {options.map((option) => {
           return (
             <MenuItem
