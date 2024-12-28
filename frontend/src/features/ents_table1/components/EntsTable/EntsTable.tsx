@@ -26,7 +26,7 @@ export const EntsTable = ({
   totalCount,
   handlePageSizeChange,
   handlePageChange,
-}: EntsTableProps): JSX.Element => {
+}: EntsTableProps) => {
   const navigate = useNavigate();
 
   const columns: GridColDef[] = [

@@ -7,7 +7,7 @@ const contents = [
   { type: "School", title: "AB # 411" },
 ];
 
-export const TableDependent = (): JSX.Element => {
+export const TableDependent = () => {
   return (
     <TableContainer>
       <Table aria-label="simple table">

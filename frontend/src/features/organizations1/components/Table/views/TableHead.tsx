@@ -7,12 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export const TableHead = ({
-  headLabel,
-  orderDirection,
-  orderBy,
-  onRequestSort,
-}: any): JSX.Element => {
+export const TableHead = ({ headLabel, orderDirection, orderBy, onRequestSort }: any) => {
   const createSortHandler = (property: any) => (event: MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };

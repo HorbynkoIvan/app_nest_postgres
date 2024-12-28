@@ -8,7 +8,7 @@ type Props = BoxProps & {
   withScrollBar?: boolean;
 };
 
-export const BoxScrolled = ({ children, height, withScrollBar }: Props): JSX.Element => (
+export const BoxScrolled = ({ children, height, withScrollBar }: Props) => (
   <Box
     sx={{
       position: "relative",

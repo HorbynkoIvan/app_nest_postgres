@@ -6,7 +6,7 @@ type Props = {
   dependents: EntType[] | null;
 };
 
-export const TableDependent = ({ dependents }: Props): JSX.Element => {
+export const TableDependent = ({ dependents }: Props) => {
   return (
     <TableContainer>
       <Table aria-label="simple table">

@@ -14,7 +14,7 @@ export const EntityDetails = () => {
   const { values, handleChange, handleBlur, errors, touched } = useFormikContext<Context>();
   const { isShowedParentIdField, showParentIdField } = useShowParentIdField();
 
-  const renderTextField = (label: string, name: string, value: string): JSX.Element => (
+  const renderTextField = (label: string, name: string, value: string) => (
     <TextFieldPrimary
       label={label}
       placeholder={label}

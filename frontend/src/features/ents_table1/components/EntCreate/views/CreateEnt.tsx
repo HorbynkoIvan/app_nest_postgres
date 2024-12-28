@@ -4,10 +4,10 @@ import { MdMode } from "react-icons/md";
 import { ENT_TYPES_OPTIONS } from "common/constants";
 import { useFormikContext } from "formik";
 
-export const CreateEnt = (): JSX.Element => {
+export const CreateEnt = () => {
   const { values, handleChange, handleBlur, errors, touched } = useFormikContext<any>();
 
-  const renderTextField = (label: string, name: string, value: string): JSX.Element => (
+  const renderTextField = (label: string, name: string, value: string) => (
     <TextFieldPrimary
       label={label}
       placeholder={label}

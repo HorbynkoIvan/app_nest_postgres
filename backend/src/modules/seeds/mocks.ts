@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { UniqueEnforcer } from 'enforce-unique';
 import { OrganizationStatus } from '../organizations';
 import { EntType } from '../ents';
 import { LoginType } from '../users';
@@ -7,6 +8,8 @@ import {
   MOCK_ORGANIZATIONS_SIZE,
   MOCK_USERS_SIZE,
 } from './constants';
+
+const uniqueEnforcer = new UniqueEnforcer();
 
 export const mockTestAdmins = [
   {
@@ -30,7 +33,7 @@ export const mockTestAdmins = [
 ];
 
 export const mockUsers = new Array(MOCK_USERS_SIZE).fill(1).map(() => ({
-  username: faker.helpers.unique(faker.person.firstName),
+  username: uniqueEnforcer.enforce(() => faker.person.firstName()),
   email: faker.internet.email(),
   password: '1111',
   loginType: faker.helpers.arrayElement(Object.values(LoginType)),

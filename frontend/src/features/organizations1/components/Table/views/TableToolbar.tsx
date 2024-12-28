@@ -2,11 +2,7 @@ import { Stack, Button, Typography } from "@mui/material";
 import { MdAdd } from "react-icons/md";
 import { Search } from "../../Search";
 
-export const TableToolbar = ({
-  searched,
-  handleChangeSearch,
-  handleClearSearch,
-}: any): JSX.Element => {
+export const TableToolbar = ({ searched, handleChangeSearch, handleClearSearch }: any) => {
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
       <Typography noWrap variant="h3">

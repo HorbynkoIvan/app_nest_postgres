@@ -4,7 +4,7 @@ type Props = {
   searched: string;
 };
 
-export const TableBodyEmpty = ({ searched }: Props): JSX.Element => (
+export const TableBodyEmpty = ({ searched }: Props) => (
   <TableBody>
     <TableRow>
       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>

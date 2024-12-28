@@ -11,7 +11,6 @@ import {
 } from './mocks';
 import { EntService } from '../ents';
 import { MOCK_ENTS_SIZE } from './constants';
-import { SortDirection } from '../commons/enums';
 
 @Injectable()
 export class SeedsService {

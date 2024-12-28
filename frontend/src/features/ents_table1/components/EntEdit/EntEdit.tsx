@@ -5,7 +5,7 @@ import { palette } from "theme";
 import { useEntAPI } from "./hooks";
 import { Loader } from "common/components";
 
-export const EntEdit = (): JSX.Element => {
+export const EntEdit = () => {
   const { ent, loading } = useEntAPI();
 
   if (loading) return <Loader />;

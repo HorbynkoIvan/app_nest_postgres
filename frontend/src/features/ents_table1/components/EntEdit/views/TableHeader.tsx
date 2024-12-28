@@ -8,7 +8,7 @@ type Props = {
   description: string;
 };
 
-export const TableHeader = ({ symbol, category, description }: Props): JSX.Element => (
+export const TableHeader = ({ symbol, category, description }: Props) => (
   <TableHead>
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
       <TableCell>{symbol}</TableCell>

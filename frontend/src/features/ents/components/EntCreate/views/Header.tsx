@@ -2,7 +2,7 @@ import { IconButton, Stack, Typography } from "@mui/material";
 import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-export const Header = (): JSX.Element => {
+export const Header = () => {
   const navigate = useNavigate();
 
   return (

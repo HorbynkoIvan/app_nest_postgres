@@ -1,5 +1,5 @@
 import { PaperWrapper } from "common/ui";
 
-export const OrgCreate = (): JSX.Element => {
+export const OrgCreate = () => {
   return <PaperWrapper>OrgCreate</PaperWrapper>;
 };

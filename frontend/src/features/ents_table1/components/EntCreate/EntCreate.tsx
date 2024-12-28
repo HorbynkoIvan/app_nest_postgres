@@ -3,7 +3,7 @@ import { Form, Header } from "./views";
 import { PaperWrapper, BoxScrolled } from "common/ui";
 import { palette } from "theme";
 
-export const EntCreate = (): JSX.Element => (
+export const EntCreate = () => (
   <PaperWrapper>
     <Header />
 

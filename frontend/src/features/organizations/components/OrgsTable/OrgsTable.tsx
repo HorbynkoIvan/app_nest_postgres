@@ -26,7 +26,7 @@ export const OrgsTable = ({
   totalCount,
   handlePageSizeChange,
   handlePageChange,
-}: OrgsTableProps): JSX.Element => {
+}: OrgsTableProps) => {
   const navigate = useNavigate();
 
   const columns: GridColDef[] = [

@@ -5,7 +5,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const Table = ({ children }: Props): JSX.Element => (
+export const Table = ({ children }: Props) => (
   <TableContainer sx={{ minWidth: 800 }}>
     <TableMui>{children}</TableMui>
   </TableContainer>

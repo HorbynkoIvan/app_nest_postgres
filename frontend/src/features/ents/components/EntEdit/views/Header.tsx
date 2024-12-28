@@ -8,7 +8,7 @@ type Props = {
   name: string;
 };
 
-export const Header = ({ name, id }: Props): JSX.Element => {
+export const Header = ({ name, id }: Props) => {
   const navigate = useNavigate();
   const { deleteEntById } = useDeleteEntById();
 

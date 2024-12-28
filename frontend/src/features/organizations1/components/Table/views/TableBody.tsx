@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { IconButtonRouter, IconButton } from "../../IconButton";
 import { OrgNameCell } from "./OrgNameCell";
 
-export const TableBody = ({ rows }: any): JSX.Element => {
+export const TableBody = ({ rows }: any) => {
   const navigate = useNavigate();
 
   return (

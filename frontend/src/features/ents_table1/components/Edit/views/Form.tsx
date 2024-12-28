@@ -5,7 +5,7 @@ import { EntDetails, DependentEntities } from "./index";
 import { useDetailsForm } from "../hooks";
 import { BoxScrolled } from "common/ui";
 
-export const Form = (): JSX.Element => {
+export const Form = () => {
   const formik = useDetailsForm();
 
   return (

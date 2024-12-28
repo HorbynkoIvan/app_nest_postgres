@@ -24,7 +24,7 @@ export const Toolbar = ({
   handleChangeSearchID,
   handleClearSearchName,
   handleClearSearchID,
-}: Props): JSX.Element => {
+}: Props) => {
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
       <Typography noWrap variant="h3">

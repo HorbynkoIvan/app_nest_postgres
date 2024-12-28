@@ -11,7 +11,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export default function App(): JSX.Element {
+export default function App() {
   const store = useStore({});
 
   return (

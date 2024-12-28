@@ -26,7 +26,7 @@ export const EntsTable = ({
   totalCount,
   handlePageSizeChange,
   handlePageChange,
-}: AgenciesTableProps): JSX.Element => {
+}: AgenciesTableProps) => {
   const navigate = useNavigate();
 
   const columns: GridColDef[] = [

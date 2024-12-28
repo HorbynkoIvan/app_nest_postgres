@@ -25,7 +25,7 @@ export const Toolbar = ({
   handleChangeSearchID,
   handleClearSearchName,
   handleClearSearchID,
-}: Props): JSX.Element => {
+}: Props) => {
   const navigate = useNavigate();
 
   return (

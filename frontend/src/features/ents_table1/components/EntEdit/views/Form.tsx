@@ -9,7 +9,7 @@ type Props = {
   ent: EntType;
 };
 
-export const Form = ({ ent }: Props): JSX.Element => {
+export const Form = ({ ent }: Props) => {
   const formik = useDetailsForm(ent);
 
   return (

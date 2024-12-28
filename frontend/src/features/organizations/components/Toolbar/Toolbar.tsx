@@ -10,11 +10,7 @@ type Props = {
   handleClearSearchID: () => void;
 };
 
-export const Toolbar = ({
-  searchedId,
-  handleChangeSearchID,
-  handleClearSearchID,
-}: Props): JSX.Element => {
+export const Toolbar = ({ searchedId, handleChangeSearchID, handleClearSearchID }: Props) => {
   const navigate = useNavigate();
 
   return (

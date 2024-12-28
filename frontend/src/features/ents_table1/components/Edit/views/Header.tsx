@@ -6,7 +6,7 @@ type Props = {
   name: string;
 };
 
-export const Header = ({ name }: Props): JSX.Element => {
+export const Header = ({ name }: Props) => {
   const navigate = useNavigate();
 
   return (

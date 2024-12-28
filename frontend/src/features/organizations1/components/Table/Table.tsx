@@ -11,7 +11,7 @@ type Props = {
 
 const TABLE_PAGINATION_HEIGHT = 60;
 
-export const Table = ({ organizations }: Props): JSX.Element => {
+export const Table = ({ organizations }: Props) => {
   const { rows, searched, isNotFound, handleChangeSearch, handleClearSearch } =
     useSearchTable(organizations);
   const { orderDirection, orderBy, handleRequestSort } = useSortTableHead();

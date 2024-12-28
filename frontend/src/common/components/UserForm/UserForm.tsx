@@ -7,7 +7,7 @@ type UserFormType = {
   formik: FormikProps<any>;
 };
 
-export const UserForm = ({ formik }: UserFormType): JSX.Element => {
+export const UserForm = ({ formik }: UserFormType) => {
   const { values, handleChange, handleBlur, errors, touched } = formik;
 
   const renderTextField = (label: string, name: string, value: string) => (

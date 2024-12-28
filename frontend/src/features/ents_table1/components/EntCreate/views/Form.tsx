@@ -6,7 +6,7 @@ import { FormikProvider } from "formik";
 import { CreateEnt } from "./CreateEnt";
 import { palette } from "theme";
 
-export const Form = (): JSX.Element => {
+export const Form = () => {
   const navigate = useNavigate();
   const formik = useEntCreateForm();
 

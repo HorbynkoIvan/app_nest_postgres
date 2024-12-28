@@ -4,7 +4,7 @@ import { Form, Header } from "./views";
 import { palette } from "theme";
 import { useParams } from "react-router-dom";
 
-export const Edit = (): JSX.Element => {
+export const Edit = () => {
   const { entityId } = useParams();
 
   return (

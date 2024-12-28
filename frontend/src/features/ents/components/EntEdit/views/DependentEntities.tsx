@@ -6,7 +6,7 @@ type Props = {
   dependents: EntType[] | null;
 };
 
-export const DependentEntities = ({ dependents }: Props): JSX.Element => (
+export const DependentEntities = ({ dependents }: Props) => (
   <Box flex={1}>
     <Stack spacing={4} maxWidth={450}>
       <Typography variant="h4" textTransform="initial" fontWeight={700}>
