@@ -23,6 +23,7 @@
     "spaced-comment": "error",
     "no-duplicate-imports": "error",
     "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true }],
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [
       "warn",

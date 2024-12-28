@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { MdExpandMore } from "react-icons/md";
 
-type Props = SelectProps & { options: string[] };
+type Props = SelectProps & { options: string[]; placeholder?: string | undefined };
 
 const OutlinedInputRoot = styled(OutlinedInput)(({ theme }) => ({
   marginTop: "6px",

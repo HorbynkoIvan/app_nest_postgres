@@ -21,6 +21,7 @@ type Props = SelectProps & {
   helperText?: string;
   error?: boolean;
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+  placeholder?: string | undefined;
 };
 
 const OutlinedInputRoot = styled(OutlinedInput)(({ theme }) => ({

@@ -106,18 +106,18 @@ export const EntsTable = ({
     <TableContainer sx={{ minWidth: 800, height: `calc(100% - ${TABLE_TOOLBAR_HEIGHT}px)` }}>
       <DataGrid
         rows={ents}
-        rowCount={totalCount}
-        loading={loading}
-        rowsPerPageOptions={[10, 20, 50]}
-        pagination
-        page={page}
-        pageSize={pageSize}
-        paginationMode="server"
-        onPageSizeChange={handlePageSizeChange}
-        onPageChange={handlePageChange}
         columns={columns}
-        checkboxSelection={false}
-        disableSelectionOnClick
+        // rowCount={totalCount}
+        // loading={loading}
+        // rowsPerPageOptions={[10, 20, 50]}
+        // pagination
+        // page={page}
+        // pageSize={pageSize}
+        // paginationMode="server"
+        // onPageSizeChange={handlePageSizeChange}
+        // onPageChange={handlePageChange}
+        // checkboxSelection={false}
+        // disableSelectionOnClick
       />
     </TableContainer>
   );
