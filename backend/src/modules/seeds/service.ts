@@ -22,7 +22,7 @@ export class SeedsService {
     private entService: EntService,
     private organizationsService: OrganizationsService,
   ) {
-    if (this.configService.get<boolean>('IS_USE_SEEDS')) {
+    if (this.configService.get<boolean>('USE_SEEDS')) {
       this.logger.verbose('RUN SEEDS');
 
       (async () => {

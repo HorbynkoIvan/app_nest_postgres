@@ -12,6 +12,9 @@ import { SeedsService } from './service';
 import { EntService } from '../ents';
 import { EntEntity } from '../ents/entities/ent.entity';
 
+// TODO: Import feature modules instead of registering their services here.
+// This keeps module boundaries and avoids duplicating providers.
+
 @Module({
   imports: [
     ConfigModule,
