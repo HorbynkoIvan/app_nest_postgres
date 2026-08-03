@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OrganizationsService } from '../organizations';
 import { LoginType, UsersService } from '../users';
@@ -13,7 +13,7 @@ import { EntService } from '../ents';
 import { MOCK_ENTS_SIZE } from './constants';
 
 @Injectable()
-export class SeedsService {
+export class SeedsService implements OnModuleInit {
   private readonly logger = new Logger();
 
   constructor(
@@ -21,23 +21,28 @@ export class SeedsService {
     private usersService: UsersService,
     private entService: EntService,
     private organizationsService: OrganizationsService,
-  ) {
-    if (this.configService.get<boolean>('USE_SEEDS')) {
-      this.logger.verbose('RUN SEEDS');
+  ) {}
 
-      (async () => {
-        await this.seedUsers();
-        await this.seedEnts();
-        await this.seedOrganizations();
-      })();
-    }
+  async onModuleInit() {
+    if (!this.configService.getOrThrow<boolean>('USE_SEEDS')) return;
+
+    await this.runSeeds();
+  }
+
+  private async runSeeds() {
+    this.logger.verbose('RUN SEEDS');
+    await this.seedUsers();
+    await this.seedEnts();
+    await this.seedOrganizations();
   }
 
   async seedUsers() {
     for (const admin of mockTestAdmins) {
       const isAdmin = await this.usersService.getUser({ email: admin.email });
 
-      isAdmin ?? (await this.usersService.createUser(admin));
+      if (isAdmin) {
+        await this.usersService.createUser(admin);
+      }
     }
 
     const isUsersLength = (
