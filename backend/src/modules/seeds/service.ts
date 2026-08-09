@@ -14,7 +14,7 @@ import { MOCK_ENTS_SIZE } from './constants';
 
 @Injectable()
 export class SeedsService implements OnModuleInit {
-  private readonly logger = new Logger();
+  private readonly logger = new Logger(SeedsService.name);
 
   constructor(
     private configService: ConfigService,
@@ -24,7 +24,7 @@ export class SeedsService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    if (!this.configService.getOrThrow<boolean>('USE_SEEDS')) return;
+    if (!this.configService.get<boolean>('isUseSeeds')) return;
 
     await this.runSeeds();
   }
@@ -34,22 +34,26 @@ export class SeedsService implements OnModuleInit {
     await this.seedUsers();
     await this.seedEnts();
     await this.seedOrganizations();
+    this.logger.verbose('FINISHED SEEDS');
   }
 
   async seedUsers() {
-    for (const admin of mockTestAdmins) {
-      const isAdmin = await this.usersService.getUser({ email: admin.email });
-
-      if (isAdmin) {
-        await this.usersService.createUser(admin);
-      }
-    }
-
-    const isUsersLength = (
+    const totalUsers = (
       await this.usersService.getUsers({ page: 1, pageSize: 1 }, {})
     ).totalCount;
 
-    if (isUsersLength > 50) return;
+    if (totalUsers > 50) {
+      this.logger.verbose('Users already exist. Skipping seeds.');
+      return;
+    }
+
+    for (const admin of mockTestAdmins) {
+      const isAdmin = await this.usersService.getUser({ email: admin.email });
+
+      if (!isAdmin) {
+        await this.usersService.createUser(admin);
+      }
+    }
 
     for (const user of mockUsers) {
       await this.usersService.createUser(user);
@@ -96,7 +100,10 @@ export class SeedsService implements OnModuleInit {
         {},
       );
 
-    if (totalCount > 30) return;
+    if (totalCount > 30) {
+      this.logger.verbose('Organizations already exist. Skipping seeds.');
+      return;
+    }
 
     // get data user admins
     const dataAdmins = (
