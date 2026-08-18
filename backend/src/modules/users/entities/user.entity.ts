@@ -49,7 +49,6 @@ export class UserEntity {
   })
   loginType: LoginType;
 
-  @Field(() => String)
   @Column()
   password: string;
 

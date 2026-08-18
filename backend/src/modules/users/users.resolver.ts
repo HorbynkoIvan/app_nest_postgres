@@ -10,7 +10,7 @@ import {
 import { PaginationInput } from '../commons/dto';
 import { GetUsersOutput } from './dto/list-user.output';
 
-@Resolver()
+@Resolver(() => UserEntity)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 

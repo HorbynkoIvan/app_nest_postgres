@@ -36,7 +36,7 @@ import {
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       sortSchema: true,
-      playground: false,
+      playground: true,
     }),
     UsersModule,
     AuthModule,
