@@ -10,7 +10,11 @@ import { CryptoService } from '../crypto/service';
 import { UsersService } from '../users/users.service';
 import { LoginInput } from './inputs';
 import { UserEntity } from '../users/entities/user.entity';
-import { EMAIL_OR_USERNAME_NOT_FOUND, PROVIDE_EMAIL_OR_USERNAME, WRONG_PASSWORD } from './constants';
+import {
+  EMAIL_OR_USERNAME_NOT_FOUND,
+  PROVIDE_EMAIL_OR_USERNAME,
+  WRONG_PASSWORD,
+} from './constants';
 
 @Injectable()
 export class AuthService {

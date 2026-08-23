@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { matcherResult } from "./interfaces";
+import { matcherResult } from './interfaces';
 
 declare global {
   namespace jest {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { matcherResult } from "./interfaces";
+import { matcherResult } from './interfaces';
 
 declare global {
   namespace jest {
@@ -14,15 +14,15 @@ declare global {
 
 export default (value: any, ...types: ReadonlyArray<any>): matcherResult => {
   const pass = !!types.find((T) => {
-    if (T === "Null" && value === null) {
+    if (T === 'Null' && value === null) {
       return true;
     }
 
-    if (T.name === "Array" && value instanceof Array) {
+    if (T.name === 'Array' && value instanceof Array) {
       return true;
     }
 
-    if (T.name === "Date" && value instanceof Date) {
+    if (T.name === 'Date' && value instanceof Date) {
       return true;
     }
 

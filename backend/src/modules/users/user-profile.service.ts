@@ -63,7 +63,7 @@ export class UserProfileService {
       const result = await this.repository.delete(id);
 
       return (result.affected ?? 0) > 0;
-    } catch{
+    } catch {
       // TODO: Review error handling here.
       // Decide whether to preserve the original error or let repository errors propagate.
       throw new Error('Error deleting user profile');

@@ -13,7 +13,9 @@ input CreateOrganizationsInput {
   creatorId: ID!
   description: String
 
-  """Array of ents IDs"""
+  """
+  Array of ents IDs
+  """
   entsIds: [ID!]
   image: String
   parentId: ID
@@ -21,7 +23,9 @@ input CreateOrganizationsInput {
   title: String!
   url: String
 
-  """Array of users IDs"""
+  """
+  Array of users IDs
+  """
   usersIds: [ID!]
 }
 
@@ -119,27 +123,45 @@ enum LoginType {
 type Mutation {
   createEnt(createEntInput: CreateEntInput!): GetEntOutput!
 
-  """This graphql method for create organizations"""
-  createOrganization(organizationInput: CreateOrganizationsInput!): OrganizationEntity!
+  """
+  This graphql method for create organizations
+  """
+  createOrganization(
+    organizationInput: CreateOrganizationsInput!
+  ): OrganizationEntity!
 
-  """This graphql method for registration new user"""
+  """
+  This graphql method for registration new user
+  """
   createUser(userInput: CreateUserInput!): UserEntity!
   deleteEnt(id: Int!): Int!
 
-  """This graphql method for deletting one organization by id"""
+  """
+  This graphql method for deletting one organization by id
+  """
   deleteOrganization(
-    """This graphql method for getting all organization by id """
+    """
+    This graphql method for getting all organization by id
+    """
     id: Int!
   ): OrganizationEntity!
 
-  """This graphql method for delete user"""
+  """
+  This graphql method for delete user
+  """
   deleteUser(id: Float!): Int!
   updateEnt(updateEntInput: UpdateEntInput!): GetEntOutput!
 
-  """This graphql method for update organization data"""
-  updateOrganization(organizationInput: UpdateOrganizationsInput!): OrganizationEntity!
+  """
+  This graphql method for update organization data
+  """
+  updateOrganization(
+    organizationInput: UpdateOrganizationsInput!
+  ): OrganizationEntity!
 
-  """This graphql method for update user data"""
+  """
+  This graphql method for update user data
+  """
   updateUser(userInput: UpdateUserInput!): UserEntity!
 }
 
@@ -180,28 +202,50 @@ input OrganizationsFilterInput {
 }
 
 input PaginationInput {
-  """The page number (minimum: 1)"""
+  """
+  The page number (minimum: 1)
+  """
   page: Int!
 
-  """The number of items per page (minimum: 1, maximum: 100)"""
+  """
+  The number of items per page (minimum: 1, maximum: 100)
+  """
   pageSize: Int!
 }
 
 type Query {
   getEnt(id: Int!): GetEntOutput!
-  getEnts(filterInput: FilterInput, paginationInput: PaginationInput, sortInput: SortInput): GetEntsOutput!
+  getEnts(
+    filterInput: FilterInput
+    paginationInput: PaginationInput
+    sortInput: SortInput
+  ): GetEntsOutput!
 
-  """This graphql method for getting one organization by id"""
+  """
+  This graphql method for getting one organization by id
+  """
   getOrganization(id: Int!): OrganizationEntity
 
-  """This graphql method for getting organizations"""
-  getOrganizations(filterInput: OrganizationsFilterInput, paginationInput: PaginationInput): OrganizationOutput!
+  """
+  This graphql method for getting organizations
+  """
+  getOrganizations(
+    filterInput: OrganizationsFilterInput
+    paginationInput: PaginationInput
+  ): OrganizationOutput!
 
-  """This graphql method for getting user by email or id"""
+  """
+  This graphql method for getting user by email or id
+  """
   getUser(userInput: GetUserInput!): UserEntity!
 
-  """This graphql method for getting all users"""
-  getUsers(filterInput: UsersFilterInput, paginationInput: PaginationInput): GetUsersOutput!
+  """
+  This graphql method for getting all users
+  """
+  getUsers(
+    filterInput: UsersFilterInput
+    paginationInput: PaginationInput
+  ): GetUsersOutput!
 }
 
 enum SortDirection {
@@ -210,7 +254,9 @@ enum SortDirection {
 }
 
 input SortInput {
-  """Sort asc/desc"""
+  """
+  Sort asc/desc
+  """
   sortOrderById: SortDirection! = ASC
 }
 
@@ -226,7 +272,9 @@ input UpdateOrganizationsInput {
   creatorId: ID
   description: String
 
-  """Array of ents IDs"""
+  """
+  Array of ents IDs
+  """
   entsIds: [ID!]
   id: ID!
   image: String
@@ -235,7 +283,9 @@ input UpdateOrganizationsInput {
   title: String
   url: String
 
-  """Array of users IDs"""
+  """
+  Array of users IDs
+  """
   usersIds: [ID!]
 }
 
