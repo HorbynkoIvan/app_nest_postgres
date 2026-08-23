@@ -9,7 +9,7 @@ import {
   OrganizationsModule,
   CryptoModule,
   SeedsModule,
-  AuthModule,
+  // AuthModule,
 } from './modules';
 
 @Module({
@@ -39,7 +39,7 @@ import {
       playground: true,
     }),
     UsersModule,
-    AuthModule,
+    // AuthModule,
     EntsModule,
     OrganizationsModule,
     CryptoModule,
@@ -49,3 +49,8 @@ import {
   providers: [],
 })
 export class AppModule {}
+
+// TODO:
+//   - Перевірити, чи @nestjs/apollo 13 можна використовувати без
+// @apollo/server-plugin-landing-page-graphql-playground.
+// - Видалити старий Playground plugin з dependency tree, якщо він більше не потрібен.

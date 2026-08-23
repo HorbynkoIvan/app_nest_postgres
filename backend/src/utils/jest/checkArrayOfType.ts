@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { matcherResult } from "./interfaces";
 
 declare global {

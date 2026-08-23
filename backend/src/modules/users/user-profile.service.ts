@@ -15,7 +15,7 @@ export class UserProfileService {
   ) {}
 
   async getUserProfile(id: number): Promise<UserProfileEntity> {
-    return await this.repository.findOne({
+    return this.repository.findOne({
       relations: ['user'],
       where: { user: { id } },
     });
@@ -61,8 +61,11 @@ export class UserProfileService {
 
     try {
       const result = await this.repository.delete(id);
-      return result.affected > 0;
-    } catch (e) {
+
+      return (result.affected ?? 0) > 0;
+    } catch{
+      // TODO: Review error handling here.
+      // Decide whether to preserve the original error or let repository errors propagate.
       throw new Error('Error deleting user profile');
     }
   }

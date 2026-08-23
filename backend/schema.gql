@@ -109,20 +109,6 @@ type GetUsersOutput {
   users: [UserEntity!]!
 }
 
-input LoginInput {
-  email: String
-  password: String!
-  username: String
-}
-
-type LoginModel {
-  access_token: String!
-  email: String!
-  role: String!
-  sub: Int!
-  username: String!
-}
-
 enum LoginType {
   ADMIN
   STAFF
@@ -216,10 +202,6 @@ type Query {
 
   """This graphql method for getting all users"""
   getUsers(filterInput: UsersFilterInput, paginationInput: PaginationInput): GetUsersOutput!
-
-  """This graphql method for login user by email"""
-  loginUser(loginInput: LoginInput!): LoginModel!
-  validateToken: Boolean!
 }
 
 enum SortDirection {
