@@ -9,7 +9,7 @@ import {
   OrganizationsModule,
   CryptoModule,
   SeedsModule,
-  // AuthModule,
+  AuthModule,
 } from './modules';
 
 @Module({
@@ -39,7 +39,7 @@ import {
       playground: true,
     }),
     UsersModule,
-    // AuthModule,
+    AuthModule,
     EntsModule,
     OrganizationsModule,
     CryptoModule,
