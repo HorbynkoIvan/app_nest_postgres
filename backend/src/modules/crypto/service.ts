@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CryptoService {
-  async cryptoPassword(password: string) {
+  async hashPassword(password: string) {
     const saltOrRounds = 10;
 
     const result = await bcrypt.hash(password, saltOrRounds);
@@ -11,7 +11,7 @@ export class CryptoService {
     return result;
   }
 
-  async checkPassword(password: string, hash: string) {
+  async comparePassword(password: string, hash: string) {
     const isMatch = await bcrypt.compare(password, hash);
 
     return isMatch;

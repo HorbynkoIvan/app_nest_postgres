@@ -109,6 +109,11 @@ type GetUsersOutput {
   users: [UserEntity!]!
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
 enum LoginType {
   ADMIN
   STAFF
@@ -134,6 +139,7 @@ type Mutation {
 
   """This graphql method for delete user"""
   deleteUser(id: Float!): Int!
+  login(input: LoginInput!): UserEntity!
   register(input: RegisterInput!): UserEntity!
   updateEnt(updateEntInput: UpdateEntInput!): GetEntOutput!
 

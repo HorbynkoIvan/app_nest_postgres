@@ -15,3 +15,4 @@ export class RegisterInput {
   @MinLength(6)
   password: string;
 }
+

@@ -33,7 +33,7 @@ export class AuthService {
 
     if (!user) throw new NotFoundException(EMAIL_OR_USERNAME_NOT_FOUND);
 
-    const isValid = await this.cryptoService.checkPassword(
+    const isValid = await this.cryptoService.comparePassword(
       password,
       user.password,
     );

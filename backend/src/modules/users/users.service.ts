@@ -92,7 +92,7 @@ export class UsersService {
       await this.checkUniqueField('email', email);
     }
 
-    const passwordHash = await this.cryptoService.cryptoPassword(password);
+    const passwordHash = await this.cryptoService.hashPassword(password);
 
     const user = this.repository.create({
       username,
