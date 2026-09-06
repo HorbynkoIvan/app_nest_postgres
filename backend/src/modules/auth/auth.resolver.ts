@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { RegisterInput } from "./dto/register.input";
 import { UserEntity } from "../users/entities/user.entity";
 import { LoginInput } from "./dto/login.input";
+import { AuthPayload } from './dto/auth.payload';
 
 @Resolver()
 export class AuthResolver {
@@ -18,7 +19,7 @@ export class AuthResolver {
   @Mutation(() => UserEntity)
   async login(
     @Args('input') input: LoginInput,
-  ): Promise<UserEntity> {
+  ): Promise<AuthPayload> {
     return this.authService.login(input);
   }
 }
