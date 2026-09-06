@@ -27,6 +27,8 @@ export class AuthService {
       email: input.email,
     });
 
+    console.log('LOGIN USER:', user);
+    
     if (!user) {
       throw new UnauthorizedException('Invalid email or password');
     }

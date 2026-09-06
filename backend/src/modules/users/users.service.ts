@@ -31,6 +31,11 @@ export class UsersService {
   }
 
   async getUser({ id, email, username }: GetUserInput): Promise<UserEntity> {
+    const count = await this.repository.count();
+
+    console.log('USERS COUNT FROM BACKEND:', count);
+    console.log('GET USER INPUT:', { id, email, username });
+
     return this.repository.findOne({
       where: [{ id }, { email }, { username }],
       relations: ['organizations', 'profile'],

@@ -56,13 +56,14 @@ export class UsersResolver {
     return this.usersService.updateUser(userInput);
   }
 
-  @Mutation(() => Int, {
+  @Mutation(() => Boolean, {
     description: 'This graphql method for delete user',
   })
   async deleteUser(
-    @Args('id')
-    id: number,
-  ) {
-    return this.usersService.deleteUser(id);
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<boolean> {
+    const result = await this.usersService.deleteUser(id);
+
+    return (result.affected ?? 0) > 0;
   }
 }
