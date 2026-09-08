@@ -9,6 +9,8 @@ import {
 } from './dto';
 import { PaginationInput } from '../commons/dto';
 import { GetUsersOutput } from './dto/list-user.output';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
@@ -24,9 +26,8 @@ export class UsersResolver {
     return this.usersService.getUser(userInput);
   }
 
-  @Query(() => GetUsersOutput, {
-    description: 'This graphql method for getting all users',
-  })
+  @UseGuards(JwtAuthGuard)
+  @Query(() => GetUsersOutput)
   async getUsers(
     @Args('paginationInput', { nullable: true })
     paginationInput?: PaginationInput,

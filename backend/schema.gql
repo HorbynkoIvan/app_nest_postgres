@@ -211,8 +211,6 @@ type Query {
 
   """This graphql method for getting user by email or id"""
   getUser(userInput: GetUserInput!): UserEntity!
-
-  """This graphql method for getting all users"""
   getUsers(filterInput: UsersFilterInput, paginationInput: PaginationInput): GetUsersOutput!
 }
 
