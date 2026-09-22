@@ -212,6 +212,9 @@ type Query {
   """This graphql method for getting user by email or id"""
   getUser(userInput: GetUserInput!): UserEntity!
   getUsers(filterInput: UsersFilterInput, paginationInput: PaginationInput): GetUsersOutput!
+
+  """Returns the currently authenticated user."""
+  me: UserEntity!
 }
 
 input RegisterInput {
