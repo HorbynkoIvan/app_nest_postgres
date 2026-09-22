@@ -13,7 +13,7 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { UserStatus, LoginType } from '../users.enums';
+import { UserStatus, UserRole } from '../users.enums';
 import { UserProfileEntity } from './user-profile.entity';
 import { OrganizationEntity } from 'src/modules/organizations/entities/organization.entity';
 
@@ -40,14 +40,14 @@ export class UserEntity {
   @Column({ unique: true })
   email: string;
 
-  @Field(() => LoginType)
+  @Field(() => UserRole)
   @Column({
     type: 'enum',
-    enum: LoginType,
-    default: LoginType.STAFF,
+    enum: UserRole,
+    default: UserRole.STAFF,
     name: 'login_type',
   })
-  loginType: LoginType;
+  userRole: UserRole;
 
   @Column()
   password: string;
@@ -61,16 +61,10 @@ export class UserEntity {
     nullable: true,
   })
   profile: UserProfileEntity;
-
-  @Field(() => [OrganizationEntity], { nullable: true })
-  @ManyToMany(() => OrganizationEntity, (organization) => organization.users, {
-    onDelete: 'CASCADE',
-  })
-  organizations: OrganizationEntity[];
 }
 
-registerEnumType(LoginType, {
-  name: 'LoginType',
+registerEnumType(UserRole, {
+  name: 'UserRole',
 });
 
 registerEnumType(UserStatus, {

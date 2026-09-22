@@ -44,14 +44,14 @@ export class UsersService {
 
   async getUsers(
     { page, pageSize }: PaginationInput = {},
-    { id, username, loginTypes, organizationId, status }: UsersFilterInput = {},
+    { id, username, userRoles, organizationId, status }: UsersFilterInput = {},
   ): Promise<GetUsersOutput> {
     const queryBuilder: SelectQueryBuilder<UserEntity> = this.repository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.organizations', 'organizations');
 
-    if (loginTypes?.length > 0) {
-      queryBuilder.where('user.loginType IN (:...loginTypes)', { loginTypes });
+    if (userRoles?.length > 0) {
+      queryBuilder.where('user.userRole IN (:...userRoles)', { userRoles });
     }
 
     if (username) {
@@ -86,7 +86,7 @@ export class UsersService {
   async createUser({
     username,
     email,
-    loginType,
+    userRole,
     password,
   }: CreateUserInput): Promise<UserEntity> {
     if (username) {
@@ -102,7 +102,7 @@ export class UsersService {
     const user = this.repository.create({
       username,
       email,
-      loginType,
+      userRole,
       password: passwordHash,
     });
 

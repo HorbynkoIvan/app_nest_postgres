@@ -24,7 +24,6 @@ export class EntService {
       relations: {
         parent: true,
         dependents: true,
-        organizations: true,
         creator: true,
         editor: true,
       },

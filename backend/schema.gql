@@ -32,8 +32,8 @@ input CreateOrganizationsInput {
 
 input CreateUserInput {
   email: String!
-  loginType: LoginType!
   password: String!
+  userRole: UserRole!
   username: String!
 }
 
@@ -49,7 +49,6 @@ type EntEntity {
   editDate: DateTime
   editor: UserEntity
   id: Int!
-  organizations: [OrganizationEntity!]
   parent: EntEntity
   title: String!
   type: EntType!
@@ -63,7 +62,6 @@ type EntOutput {
   editDate: DateTime
   editor: UserEntity
   id: Int!
-  organizations: [OrganizationEntity!]
   parent: EntEntity
   title: String!
   type: EntType!
@@ -92,7 +90,6 @@ type GetEntOutput {
   editDate: DateTime
   editor: UserEntity
   id: Int!
-  organizations: [OrganizationEntity!]
   parent: EntEntity
   title: String!
   type: EntType!
@@ -117,13 +114,6 @@ type GetUsersOutput {
 input LoginInput {
   email: String!
   password: String!
-}
-
-enum LoginType {
-  ADMIN
-  STAFF
-  SUPER_ADMIN
-  VISITOR
 }
 
 type Mutation {
@@ -156,23 +146,15 @@ type Mutation {
 }
 
 type OrganizationEntity {
-  createDate: DateTime!
-  creator: UserEntity!
-  creatorId: ID!
+  createdAt: DateTime!
   description: String
-  editDate: DateTime!
-  editor: UserEntity
-  editorId: ID
-  ents: [EntEntity!]
   id: ID!
-  image: String
-  parent: OrganizationEntity
-  parentId: ID
+  logo: String
+  name: String!
+  projects: [ProjectEntity!]!
+  slug: String!
   status: OrganizationStatus!
-  subOrganizations: [OrganizationEntity!]
-  title: String!
-  url: String
-  users: [UserEntity!]
+  updatedAt: DateTime!
 }
 
 type OrganizationOutput {
@@ -181,9 +163,9 @@ type OrganizationOutput {
 }
 
 enum OrganizationStatus {
-  ACTIVE
-  HIDDEN
-  LIMITED
+  ARCHIVED
+  DRAFT
+  PUBLISHED
 }
 
 input OrganizationsFilterInput {
@@ -197,6 +179,24 @@ input PaginationInput {
 
   """The number of items per page (minimum: 1, maximum: 100)"""
   pageSize: Int!
+}
+
+type ProjectEntity {
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  image: String
+  organization: OrganizationEntity!
+  slug: String!
+  status: ProjectStatus!
+  title: String!
+  updatedAt: DateTime!
+}
+
+enum ProjectStatus {
+  ARCHIVED
+  DRAFT
+  PUBLISHED
 }
 
 type Query {
@@ -261,8 +261,8 @@ input UpdateOrganizationsInput {
 input UpdateUserInput {
   email: String
   id: ID!
-  loginType: LoginType
   password: String
+  userRole: UserRole
   username: String
 }
 
@@ -270,10 +270,9 @@ type UserEntity {
   createDate: DateTime!
   email: String!
   id: ID!
-  loginType: LoginType!
-  organizations: [OrganizationEntity!]
   profile: UserProfileEntity
   status: UserStatus!
+  userRole: UserRole!
   username: String!
 }
 
@@ -287,6 +286,13 @@ type UserProfileEntity {
   userId: ID!
 }
 
+enum UserRole {
+  ADMIN
+  STAFF
+  SUPER_ADMIN
+  VISITOR
+}
+
 enum UserStatus {
   ACTIVE
   BLOCKED
@@ -296,8 +302,8 @@ enum UserStatus {
 
 input UsersFilterInput {
   id: Int
-  loginTypes: [LoginType!]
   organizationId: Int
   status: UserStatus
+  userRoles: [UserRole!]
   username: String
 }

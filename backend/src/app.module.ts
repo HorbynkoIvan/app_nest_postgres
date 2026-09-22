@@ -9,7 +9,7 @@ import {
   OrganizationsModule,
   CryptoModule,
   SeedsModule,
-  AuthModule,
+  AuthModule, ProjectsModule
 } from './modules';
 
 @Module({
@@ -40,6 +40,7 @@ import {
     }),
     UsersModule,
     AuthModule,
+    ProjectsModule,
     EntsModule,
     OrganizationsModule,
     CryptoModule,

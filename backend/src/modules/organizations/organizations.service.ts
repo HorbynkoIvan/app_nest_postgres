@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOneOptions, In, Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { EntEntity } from '../ents/entities/ent.entity';
 import { OrganizationEntity } from './entities/organization.entity';
@@ -26,29 +26,24 @@ export class OrganizationsService {
   ) {}
 
   async createOrganization({
-    entsIds,
-    usersIds,
     ...newOrganizationFields
   }: CreateOrganizationsInput) {
     // Related users and ents
-    const dataUsers = usersIds
-      ? await this.userRepository.findBy({ id: In(usersIds) })
-      : [];
-
-    const dataEnts = entsIds
-      ? await this.entRepository.findBy({ id: In(entsIds) })
-      : [];
+    // const dataUsers = usersIds
+    //   ? await this.userRepository.findBy({ id: In(usersIds) })
+    //   : [];
+    //
+    // const dataEnts = entsIds
+    //   ? await this.entRepository.findBy({ id: In(entsIds) })
+    //   : [];
 
     // todo: Get user from request after authorization will be implemented
-    const creator = await this.userService.getUser({
-      email: 'admin@gmail.com',
-    });
+    // const creator = await this.userService.getUser({
+    //   email: 'admin@gmail.com',
+    // });
 
     const newOrganization = this.organizationRepository.create({
-      ...newOrganizationFields,
-      users: dataUsers,
-      ents: dataEnts,
-      creator,
+      ...newOrganizationFields
     });
 
     await this.organizationRepository.save(newOrganization);
@@ -70,8 +65,6 @@ export class OrganizationsService {
 
   async updateOrganization({
     id,
-    usersIds,
-    entsIds,
     ...updateData
   }: UpdateOrganizationsInput) {
     const organization = await this.organizationRepository.findOneOrFail({
@@ -82,20 +75,20 @@ export class OrganizationsService {
     Object.assign(organization, updateData);
 
     // Related users and ents update
-    const dataUsers = usersIds
-      ? await this.userRepository.findBy({ id: In(usersIds) })
-      : [];
+    // const dataUsers = usersIds
+    //   ? await this.userRepository.findBy({ id: In(usersIds) })
+    //   : [];
+    //
+    // const dataEnts = entsIds
+    //   ? await this.entRepository.findBy({ id: In(entsIds) })
+    //   : [];
 
-    const dataEnts = entsIds
-      ? await this.entRepository.findBy({ id: In(entsIds) })
-      : [];
-
-    organization.users = dataUsers;
-    organization.ents = dataEnts;
-
-    organization.editor = await this.userService.getUser({
-      email: 'admin@gmail.com',
-    });
+    // organization.users = dataUsers;
+    // organization.ents = dataEnts;
+    //
+    // organization.editor = await this.userService.getUser({
+    //   email: 'admin@gmail.com',
+    // });
 
     await this.organizationRepository.save(organization);
 

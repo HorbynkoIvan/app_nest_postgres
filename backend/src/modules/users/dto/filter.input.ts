@@ -1,6 +1,6 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsArray, IsEnum, IsOptional } from 'class-validator';
-import { LoginType, UserStatus } from '../users.enums';
+import { UserRole, UserStatus } from '../users.enums';
 
 @InputType()
 export class UsersFilterInput {
@@ -12,14 +12,14 @@ export class UsersFilterInput {
   @IsOptional()
   id?: number;
 
-  @Field(() => [LoginType], { nullable: true })
+  @Field(() => [UserRole], { nullable: true })
   @IsArray()
-  @IsEnum(LoginType, {
+  @IsEnum(UserRole, {
     each: true,
-    message: `Value loginType must be one of ${Object.values(LoginType)}`,
+    message: `Value userRole must be one of ${Object.values(UserRole)}`,
   })
   @IsOptional()
-  loginTypes?: LoginType[];
+  userRoles?: UserRole[];
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
@@ -27,7 +27,7 @@ export class UsersFilterInput {
 
   @Field(() => UserStatus, { nullable: true })
   @IsEnum(UserStatus, {
-    message: `Value loginType must be one of ${Object.values(UserStatus)}`,
+    message: `Value userRole must be one of ${Object.values(UserStatus)}`,
   })
   @IsOptional()
   status?: UserStatus;

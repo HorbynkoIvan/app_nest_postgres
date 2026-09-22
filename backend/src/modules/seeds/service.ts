@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OrganizationsService } from '../organizations';
-import { LoginType, UsersService } from '../users';
+import { UserRole, UsersService } from '../users';
 import { shuffleArray } from './hanglers';
 import {
   mockOrganizations,
@@ -109,7 +109,7 @@ export class SeedsService implements OnModuleInit {
     const dataAdmins = (
       await this.usersService.getUsers(
         { page: 1, pageSize: 50 },
-        { loginTypes: [LoginType.ADMIN] },
+        { userRoles: [UserRole.ADMIN] },
       )
     ).users.map(({ id }) => id);
 
@@ -117,7 +117,7 @@ export class SeedsService implements OnModuleInit {
     const dataUsers = (
       await this.usersService.getUsers(
         { page: 1, pageSize: 50 },
-        { loginTypes: [LoginType.STAFF] },
+        { userRoles: [UserRole.STAFF] },
       )
     ).users.map(({ id }) => id);
 

@@ -64,8 +64,4 @@ export class EntEntity {
     name: 'editor_id',
   })
   editor: UserEntity;
-
-  @Field(() => [OrganizationEntity], { nullable: true, defaultValue: [] })
-  @ManyToMany(() => OrganizationEntity, (organization) => organization.ents)
-  organizations: OrganizationEntity[];
 }

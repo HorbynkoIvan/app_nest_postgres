@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
-import { LoginType } from '../users.enums';
+import { UserRole } from '../users.enums';
 
 @InputType()
 export class CreateUserInput {
@@ -12,12 +12,12 @@ export class CreateUserInput {
   @IsEmail()
   email: string;
 
-  @Field(() => LoginType)
+  @Field(() => UserRole)
   @IsNotEmpty()
-  @IsEnum(LoginType, {
-    message: `Value roles must be one of ${Object.values(LoginType)}`,
+  @IsEnum(UserRole, {
+    message: `Value roles must be one of ${Object.values(UserRole)}`,
   })
-  loginType: LoginType;
+  userRole: UserRole;
 
   @Field(() => String)
   password: string;
