@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ProjectEntity } from './entities/project.entity';
+import { ProjectsOutput } from './dto';
 
 @Injectable()
 export class ProjectsService {
@@ -11,10 +12,12 @@ export class ProjectsService {
     private readonly repository: Repository<ProjectEntity>,
   ) {}
 
-  async getProjects(): Promise<ProjectEntity[]> {
-    return this.repository.find({
+  async getProjects(): Promise<ProjectsOutput> {
+    const [projects, totalCount] = await this.repository.findAndCount({
       relations: ['organization'],
     });
+
+    return { projects, totalCount };
   }
 
   async getProjectById(id: number): Promise<ProjectEntity> {
