@@ -1,3 +1,4 @@
+import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
 import {
   Entity,
   Column,
@@ -6,9 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
 import { OrganizationStatus } from '../organizations.enums';
-import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
 import { ProjectEntity } from '../../projects/entities/project.entity';
 
 @ObjectType()
