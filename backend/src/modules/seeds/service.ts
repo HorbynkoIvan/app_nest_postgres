@@ -5,12 +5,9 @@ import { UserRole, UsersService } from '../users';
 import { shuffleArray } from './hanglers';
 import {
   mockOrganizations,
-  mockEnts,
   mockTestAdmins,
   mockUsers,
 } from './mocks';
-import { EntService } from '../ents';
-import { MOCK_ENTS_SIZE } from './constants';
 
 @Injectable()
 export class SeedsService implements OnModuleInit {
@@ -19,7 +16,6 @@ export class SeedsService implements OnModuleInit {
   constructor(
     private configService: ConfigService,
     private usersService: UsersService,
-    private entService: EntService,
     private organizationsService: OrganizationsService,
   ) {}
 
@@ -32,7 +28,6 @@ export class SeedsService implements OnModuleInit {
   private async runSeeds() {
     this.logger.verbose('RUN SEEDS');
     await this.seedUsers();
-    await this.seedEnts();
     await this.seedOrganizations();
     this.logger.verbose('FINISHED SEEDS');
   }
@@ -57,36 +52,6 @@ export class SeedsService implements OnModuleInit {
 
     for (const user of mockUsers) {
       await this.usersService.createUser(user);
-    }
-  }
-
-  async seedEnts() {
-    const existingEntsCount = (
-      await this.entService.getEnts({ page: 1, pageSize: 1 })
-    ).totalCount;
-
-    if (existingEntsCount > 50) {
-      this.logger.verbose('Ents data already exists. Skipping seeds.');
-      return;
-    }
-
-    // create half of entities without parents
-    for (const ent of mockEnts.slice(0, mockEnts.length / 2)) {
-      await this.entService.create({
-        ...ent,
-      });
-    }
-
-    const savedEnts = (
-      await this.entService.getEnts({ page: 1, pageSize: MOCK_ENTS_SIZE })
-    ).ents.map(({ id }) => id);
-
-    // create half of entities with parents
-    for (const ent of mockEnts.slice(mockEnts.length / 2)) {
-      await this.entService.create({
-        ...ent,
-        parentId: savedEnts[Math.floor(Math.random() * savedEnts.length)],
-      });
     }
   }
 
@@ -121,16 +86,11 @@ export class SeedsService implements OnModuleInit {
       )
     ).users.map(({ id }) => id);
 
-    const entsIds = (
-      await this.entService.getEnts({ page: 1, pageSize: MOCK_ENTS_SIZE })
-    ).ents.map(({ id }) => id);
-
     // create organizations with users and entities
     for (const organization of mockOrganizations) {
       await this.organizationsService.createOrganization({
         ...organization,
         usersIds: shuffleArray([...dataUsers, ...dataAdmins]).slice(0, 10),
-        entsIds: shuffleArray(entsIds).slice(0, 5),
         creatorId: dataAdmins[Math.floor(Math.random() * dataAdmins.length)],
       });
     }

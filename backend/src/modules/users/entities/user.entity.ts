@@ -2,7 +2,6 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToMany,
   OneToOne,
   CreateDateColumn,
 } from 'typeorm';
@@ -15,7 +14,6 @@ import {
 } from '@nestjs/graphql';
 import { UserStatus, UserRole } from '../users.enums';
 import { UserProfileEntity } from './user-profile.entity';
-import { OrganizationEntity } from 'src/modules/organizations/entities/organization.entity';
 
 @ObjectType()
 @Entity('users')

@@ -5,7 +5,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import {
   UsersModule,
-  EntsModule,
   OrganizationsModule,
   CryptoModule,
   SeedsModule,
@@ -41,7 +40,6 @@ import {
     UsersModule,
     AuthModule,
     ProjectsModule,
-    EntsModule,
     OrganizationsModule,
     CryptoModule,
     SeedsModule,

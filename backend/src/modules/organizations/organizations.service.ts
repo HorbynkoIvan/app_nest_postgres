@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, Repository } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
-import { EntEntity } from '../ents/entities/ent.entity';
 import { OrganizationEntity } from './entities/organization.entity';
 import { PaginationInput } from '../commons/dto';
 import {
@@ -20,8 +19,6 @@ export class OrganizationsService {
     private readonly organizationRepository: Repository<OrganizationEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    @InjectRepository(EntEntity)
-    private readonly entRepository: Repository<EntEntity>,
     private readonly userService: UsersService,
   ) {}
 

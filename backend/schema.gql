@@ -7,13 +7,6 @@ type AuthPayload {
   user: UserEntity!
 }
 
-input CreateEntInput {
-  description: String
-  parentId: Int
-  title: String!
-  type: EntType!
-}
-
 input CreateOrganizationsInput {
   creatorId: ID!
   description: String
@@ -42,64 +35,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type EntEntity {
-  createDate: DateTime!
-  creator: UserEntity!
-  description: String!
-  editDate: DateTime
-  editor: UserEntity
-  id: Int!
-  parent: EntEntity
-  title: String!
-  type: EntType!
-}
-
-type EntOutput {
-  createDate: DateTime!
-  creator: UserEntity!
-  dependentCount: Int
-  description: String!
-  editDate: DateTime
-  editor: UserEntity
-  id: Int!
-  parent: EntEntity
-  title: String!
-  type: EntType!
-}
-
-enum EntType {
-  COHORT
-  DISTRICT
-  OTHER
-  SCHOOL
-  STATE
-  SYSTEM
-}
-
-input FilterInput {
-  id: Int
-  title: String
-  types: [EntType!]
-}
-
-type GetEntOutput {
-  createDate: DateTime!
-  creator: UserEntity!
-  dependents: [GetEntOutput!]
-  description: String!
-  editDate: DateTime
-  editor: UserEntity
-  id: Int!
-  parent: EntEntity
-  title: String!
-  type: EntType!
-}
-
-type GetEntsOutput {
-  ents: [EntOutput!]!
-  totalCount: Int!
-}
-
 input GetUserInput {
   email: String
   id: ID
@@ -117,14 +52,11 @@ input LoginInput {
 }
 
 type Mutation {
-  createEnt(createEntInput: CreateEntInput!): GetEntOutput!
-
   """This graphql method for create organizations"""
   createOrganization(organizationInput: CreateOrganizationsInput!): OrganizationEntity!
 
   """This graphql method for registration new user"""
   createUser(userInput: CreateUserInput!): UserEntity!
-  deleteEnt(id: Int!): Int!
 
   """This graphql method for deletting one organization by id"""
   deleteOrganization(
@@ -136,7 +68,6 @@ type Mutation {
   deleteUser(id: Int!): Boolean!
   login(input: LoginInput!): AuthPayload!
   register(input: RegisterInput!): UserEntity!
-  updateEnt(updateEntInput: UpdateEntInput!): GetEntOutput!
 
   """This graphql method for update organization data"""
   updateOrganization(organizationInput: UpdateOrganizationsInput!): OrganizationEntity!
@@ -200,9 +131,6 @@ enum ProjectStatus {
 }
 
 type Query {
-  getEnt(id: Int!): GetEntOutput!
-  getEnts(filterInput: FilterInput, paginationInput: PaginationInput, sortInput: SortInput): GetEntsOutput!
-
   """This graphql method for getting one organization by id"""
   getOrganization(id: Int!): OrganizationEntity
 
@@ -221,24 +149,6 @@ input RegisterInput {
   email: String!
   password: String!
   username: String!
-}
-
-enum SortDirection {
-  ASC
-  DESC
-}
-
-input SortInput {
-  """Sort asc/desc"""
-  sortOrderById: SortDirection! = ASC
-}
-
-input UpdateEntInput {
-  description: String
-  id: Int!
-  parentId: Int
-  title: String
-  type: EntType
 }
 
 input UpdateOrganizationsInput {

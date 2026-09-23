@@ -1,10 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { UniqueEnforcer } from 'enforce-unique';
 import { OrganizationStatus } from '../organizations';
-import { EntType } from '../ents';
 import { UserRole } from '../users';
 import {
-  MOCK_ENTS_SIZE,
   MOCK_ORGANIZATIONS_SIZE,
   MOCK_USERS_SIZE,
 } from './constants';
@@ -47,9 +45,3 @@ export const mockOrganizations = new Array(MOCK_ORGANIZATIONS_SIZE)
     description: faker.lorem.text(),
     status: faker.helpers.arrayElement(Object.values(OrganizationStatus)),
   }));
-
-export const mockEnts = new Array(MOCK_ENTS_SIZE).fill(1).map(() => ({
-  type: faker.helpers.arrayElement(Object.values(EntType)),
-  title: faker.company.name(),
-  description: faker.lorem.text(),
-}));

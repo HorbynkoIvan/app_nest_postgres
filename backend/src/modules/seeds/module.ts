@@ -9,8 +9,6 @@ import { OrganizationEntity } from '../organizations/entities/organization.entit
 import { UsersService } from '../users';
 import { UserEntity } from '../users/entities/user.entity';
 import { SeedsService } from './service';
-import { EntService } from '../ents';
-import { EntEntity } from '../ents/entities/ent.entity';
 
 // TODO: Import feature modules instead of registering their services here.
 // This keeps module boundaries and avoids duplicating providers.
@@ -18,13 +16,12 @@ import { EntEntity } from '../ents/entities/ent.entity';
 @Module({
   imports: [
     ConfigModule,
-    TypeOrmModule.forFeature([UserEntity, EntEntity, OrganizationEntity]),
+    TypeOrmModule.forFeature([UserEntity, OrganizationEntity]),
     CryptoModule,
   ],
   providers: [
     SeedsService,
     UsersService,
-    EntService,
     OrganizationsService,
     HttpService,
   ],
