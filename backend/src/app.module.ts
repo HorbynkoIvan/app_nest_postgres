@@ -7,7 +7,7 @@ import {
   UsersModule,
   OrganizationsModule,
   CryptoModule,
-  SeedsModule,
+  // SeedsModule,
   AuthModule, ProjectsModule
 } from './modules';
 
@@ -42,7 +42,7 @@ import {
     ProjectsModule,
     OrganizationsModule,
     CryptoModule,
-    SeedsModule,
+    // SeedsModule,
   ],
   controllers: [],
   providers: [],

@@ -1,6 +1,6 @@
 import { Args, Mutation, Resolver, Query, Int } from '@nestjs/graphql';
 import {
-  CreateOrganizationsInput,
+  CreateOrganizationInput,
   OrganizationsFilterInput,
   OrganizationOutput,
   UpdateOrganizationsInput,
@@ -14,7 +14,7 @@ export class OrganizationsResolver {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
   @Query(() => OrganizationOutput, {
-    description: 'This graphql method for getting organizations',
+    description: 'Returns organizations.',
   })
   async getOrganizations(
     @Args('paginationInput', { nullable: true })
@@ -30,7 +30,7 @@ export class OrganizationsResolver {
 
   @Query(() => OrganizationEntity, {
     nullable: true,
-    description: 'This graphql method for getting one organization by id',
+    description: 'Returns organization by id',
   })
   async getOrganization(
     @Args('id', {
@@ -42,17 +42,17 @@ export class OrganizationsResolver {
   }
 
   @Mutation(() => OrganizationEntity, {
-    description: 'This graphql method for create organizations',
+    description: 'Create organization',
   })
   async createOrganization(
     @Args('organizationInput')
-    organizationInput: CreateOrganizationsInput,
+    organizationInput: CreateOrganizationInput,
   ) {
     return this.organizationsService.createOrganization(organizationInput);
   }
 
   @Mutation(() => OrganizationEntity, {
-    description: 'This graphql method for update organization data',
+    description: 'Update organization',
   })
   async updateOrganization(
     @Args('organizationInput')
@@ -62,12 +62,11 @@ export class OrganizationsResolver {
   }
 
   @Mutation(() => OrganizationEntity, {
-    description: 'This graphql method for deletting one organization by id',
+    description: 'Deletes an organization by id.',
   })
   async deleteOrganization(
     @Args('id', {
       type: () => Int,
-      description: 'This graphql method for getting all organization by id ',
     })
     id: number,
   ) {

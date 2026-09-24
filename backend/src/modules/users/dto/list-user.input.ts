@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsArray, IsEnum, IsOptional } from 'class-validator';
-import { UserRole } from '../users.enums';
+import { UserRole } from '../enums/user-role.enum';
 
 @InputType()
 export class GetUsersFiltersInput {

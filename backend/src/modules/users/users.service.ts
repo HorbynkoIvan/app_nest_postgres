@@ -38,7 +38,7 @@ export class UsersService {
 
     return this.repository.findOne({
       where: [{ id }, { email }, { username }],
-      relations: ['organizations', 'profile'],
+      relations: ['profile'],
     });
   }
 

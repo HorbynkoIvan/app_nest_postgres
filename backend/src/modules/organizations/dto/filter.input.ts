@@ -10,5 +10,5 @@ export class OrganizationsFilterInput {
   @Field(() => String, { nullable: true })
   @IsOptional()
   @MaxLength(100)
-  title?: string;
+  name?: string;
 }

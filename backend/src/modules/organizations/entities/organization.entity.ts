@@ -7,7 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { OrganizationStatus } from '../organizations.enums';
+import { OrganizationStatus } from '../enums/organization-status.enum';
 import { ProjectEntity } from '../../projects/entities/project.entity';
 
 @ObjectType()

@@ -1,3 +1,3 @@
 export * from './organizations.module';
 export * from './organizations.service';
-export * from './organizations.enums';
+export * from './enums/organization-status.enum';

@@ -10,9 +10,9 @@ import {
   GraphQLISODateTime,
   ID,
   ObjectType,
-  registerEnumType,
 } from '@nestjs/graphql';
-import { UserStatus, UserRole } from '../users.enums';
+import { UserStatus } from '../enums/user-status.enum';
+import { UserRole } from '../enums/user-role.enum';
 import { UserProfileEntity } from './user-profile.entity';
 
 @ObjectType()
@@ -60,11 +60,3 @@ export class UserEntity {
   })
   profile: UserProfileEntity;
 }
-
-registerEnumType(UserRole, {
-  name: 'UserRole',
-});
-
-registerEnumType(UserStatus, {
-  name: 'UserStatus',
-});

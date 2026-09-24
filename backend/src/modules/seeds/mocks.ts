@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { UniqueEnforcer } from 'enforce-unique';
 import { OrganizationStatus } from '../organizations';
-import { UserRole } from '../users';
+import { UserRole } from '../users/enums/user-role.enum';
 import {
   MOCK_ORGANIZATIONS_SIZE,
   MOCK_USERS_SIZE,

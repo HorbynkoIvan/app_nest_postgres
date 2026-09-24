@@ -7,7 +7,7 @@ type AuthPayload {
   user: UserEntity!
 }
 
-input CreateOrganizationsInput {
+input CreateOrganizationInput {
   creatorId: ID!
   description: String
 
@@ -53,7 +53,7 @@ input LoginInput {
 
 type Mutation {
   """This graphql method for create organizations"""
-  createOrganization(organizationInput: CreateOrganizationsInput!): OrganizationEntity!
+  createOrganization(organizationInput: CreateOrganizationInput!): OrganizationEntity!
 
   """This graphql method for registration new user"""
   createUser(userInput: CreateUserInput!): UserEntity!

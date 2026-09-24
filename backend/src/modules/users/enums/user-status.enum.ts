@@ -1,9 +1,4 @@
-export enum UserRole {
-  SUPER_ADMIN = 'superAdmin',
-  ADMIN = 'admin',
-  STAFF = 'staff',
-  VISITOR = 'visitor',
-}
+import { registerEnumType } from '@nestjs/graphql';
 
 export enum UserStatus {
   ACTIVE = 'active',
@@ -11,3 +6,7 @@ export enum UserStatus {
   BLOCKED = 'blocked',
   DISABLED = 'disabled',
 }
+
+registerEnumType(UserStatus, {
+  name: 'UserStatus',
+});

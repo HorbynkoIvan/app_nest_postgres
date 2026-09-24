@@ -1,10 +1,11 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OrganizationsService } from '../organizations';
-import { UserRole, UsersService } from '../users';
-import { shuffleArray } from './hanglers';
+import { UsersService } from '../users';
+// import { UserRole } from '../users/enums/user-role.enum';
+// import { shuffleArray } from './hanglers';
 import {
-  mockOrganizations,
+  // mockOrganizations,
   mockTestAdmins,
   mockUsers,
 } from './mocks';
@@ -56,7 +57,7 @@ export class SeedsService implements OnModuleInit {
   }
 
   async seedOrganizations() {
-    const { organizations, totalCount } =
+    const {  totalCount } =
       await this.organizationsService.getOrganizations(
         {
           page: 1,
@@ -71,41 +72,41 @@ export class SeedsService implements OnModuleInit {
     }
 
     // get data user admins
-    const dataAdmins = (
-      await this.usersService.getUsers(
-        { page: 1, pageSize: 50 },
-        { userRoles: [UserRole.ADMIN] },
-      )
-    ).users.map(({ id }) => id);
+    // const dataAdmins = (
+    //   await this.usersService.getUsers(
+    //     { page: 1, pageSize: 50 },
+    //     { userRoles: [UserRole.ADMIN] },
+    //   )
+    // ).users.map(({ id }) => id);
 
     // get data user staffs
-    const dataUsers = (
-      await this.usersService.getUsers(
-        { page: 1, pageSize: 50 },
-        { userRoles: [UserRole.STAFF] },
-      )
-    ).users.map(({ id }) => id);
-
-    // create organizations with users and entities
-    for (const organization of mockOrganizations) {
-      await this.organizationsService.createOrganization({
-        ...organization,
-        usersIds: shuffleArray([...dataUsers, ...dataAdmins]).slice(0, 10),
-        creatorId: dataAdmins[Math.floor(Math.random() * dataAdmins.length)],
-      });
-    }
+    // const dataUsers = (
+    //   await this.usersService.getUsers(
+    //     { page: 1, pageSize: 50 },
+    //     { userRoles: [UserRole.STAFF] },
+    //   )
+    // ).users.map(({ id }) => id);
+    //
+    // // create organizations with users and entities
+    // for (const organization of mockOrganizations) {
+    //   await this.organizationsService.createOrganization({
+    //     ...organization,
+    //     usersIds: shuffleArray([...dataUsers, ...dataAdmins]).slice(0, 10),
+    //     creatorId: dataAdmins[Math.floor(Math.random() * dataAdmins.length)],
+    //   });
+    // }
 
     // get organizations for set parents
-    const organizationIds = organizations.map(({ id }) => id);
+    // const organizationIds = organizations.map(({ id }) => id);
 
-    const organizationsL1 = organizationIds.slice(0, 15);
-    const organizationsL2 = organizationIds.slice(16);
+    // const organizationsL1 = organizationIds.slice(0, 15);
+    // const organizationsL2 = organizationIds.slice(16);
 
-    for (const id of organizationsL2) {
-      await this.organizationsService.updateOrganization({
-        id,
-        parentId: shuffleArray(organizationsL1)[0],
-      });
-    }
+    // for (const id of organizationsL2) {
+    //   await this.organizationsService.updateOrganization({
+    //     id,
+    //     parentId: shuffleArray(organizationsL1)[0],
+    //   });
+    // }
   }
 }

@@ -1,10 +1,12 @@
 import { PartialType, Field, ID, InputType } from '@nestjs/graphql';
-import { CreateOrganizationsInput } from './create-organization.input';
+import { IsInt } from 'class-validator';
+import { CreateOrganizationInput } from './create-organization.input';
 
 @InputType()
 export class UpdateOrganizationsInput extends PartialType(
-  CreateOrganizationsInput,
+  CreateOrganizationInput,
 ) {
   @Field(() => ID)
+  @IsInt()
   id: number;
 }

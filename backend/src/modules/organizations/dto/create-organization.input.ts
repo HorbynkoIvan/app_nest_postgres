@@ -1,43 +1,32 @@
-import { Field, ID, InputType, registerEnumType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
-import { OrganizationStatus } from '../organizations.enums';
+import { OrganizationStatus } from '../enums/organization-status.enum';
 
 @InputType()
-export class CreateOrganizationsInput {
+export class CreateOrganizationInput {
   @Field(() => String)
   @IsNotEmpty()
-  title: string;
+  name: string;
+
+  @Field(() => String)
+  @IsNotEmpty()
+  slug: string;
 
   @Field(() => String, { nullable: true })
+  @IsOptional()
   description?: string;
 
-  @Field(() => OrganizationStatus)
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  logo?: string;
+
+  @Field(() => OrganizationStatus, {
+    nullable: true,
+    defaultValue: OrganizationStatus.DRAFT,
+  })
+  @IsOptional()
   @IsEnum(OrganizationStatus, {
     message: `Status must be one of: ${Object.values(OrganizationStatus)}`,
   })
-  status: OrganizationStatus;
-
-  @Field(() => String, { nullable: true })
-  image?: string;
-
-  @Field(() => String, { nullable: true })
-  url?: string;
-
-  @Field(() => ID, { nullable: true })
-  parentId?: number;
-
-  @Field(() => [ID], { nullable: true, description: 'Array of users IDs' })
-  @IsOptional()
-  usersIds?: number[];
-
-  @Field(() => [ID], { nullable: true, description: 'Array of ents IDs' })
-  @IsOptional()
-  entsIds?: number[];
-
-  @Field(() => ID)
-  creatorId: number;
+  status?: OrganizationStatus;
 }
-
-registerEnumType(OrganizationStatus, {
-  name: 'OrganizationStatus',
-});
