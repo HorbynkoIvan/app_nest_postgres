@@ -17,7 +17,7 @@ export class CreateUserInput {
   @IsEnum(UserRole, {
     message: `Value roles must be one of ${Object.values(UserRole)}`,
   })
-  userRole: UserRole;
+  role: UserRole;
 
   @Field(() => String)
   password: string;

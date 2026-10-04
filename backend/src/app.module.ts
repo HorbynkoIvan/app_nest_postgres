@@ -10,6 +10,7 @@ import {
   // SeedsModule,
   AuthModule, ProjectsModule
 } from './modules';
+import { UserProfileModule } from './modules/user-profile';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import {
       playground: true,
     }),
     UsersModule,
+    UserProfileModule,
     AuthModule,
     ProjectsModule,
     OrganizationsModule,

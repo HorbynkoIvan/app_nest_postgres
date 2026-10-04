@@ -17,18 +17,14 @@ export class UsersFilterInput {
   @IsArray()
   @IsEnum(UserRole, {
     each: true,
-    message: `Value userRole must be one of ${Object.values(UserRole)}`,
+    message: `Value role must be one of ${Object.values(UserRole)}`,
   })
   @IsOptional()
-  userRoles?: UserRole[];
-
-  @Field(() => Int, { nullable: true })
-  @IsOptional()
-  organizationId?: number;
+  roles?: UserRole[];
 
   @Field(() => UserStatus, { nullable: true })
   @IsEnum(UserStatus, {
-    message: `Value userRole must be one of ${Object.values(UserStatus)}`,
+    message: `Value role must be one of ${Object.values(UserStatus)}`,
   })
   @IsOptional()
   status?: UserStatus;

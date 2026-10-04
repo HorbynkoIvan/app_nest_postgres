@@ -8,8 +8,8 @@ export class GetUsersFiltersInput {
   @IsArray()
   @IsEnum(UserRole, {
     each: true,
-    message: `Value userRole must be one of ${Object.values(UserRole)}`,
+    message: `Value role must be one of ${Object.values(UserRole)}`,
   })
   @IsOptional()
-  userRoles?: UserRole[];
+  roles?: UserRole[];
 }

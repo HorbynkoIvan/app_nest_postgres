@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
-import { UserEntity } from './user.entity';
+import { UserEntity } from '../../users/entities/user.entity';
 
 @ObjectType()
 @Entity('user_profile')
@@ -20,9 +20,9 @@ export class UserProfileEntity {
   @Column({ name: 'user_id' })
   userId: number;
 
-  @Field(() => UserEntity, { nullable: true })
+  @Field(() => UserEntity)
   @OneToOne(() => UserEntity, (user) => user.profile, {
-    nullable: true,
+    nullable: false,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })

@@ -1,6 +1,6 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 import { CryptoService } from '../crypto/service';
 import { UserEntity } from './entities/user.entity';
 import {
@@ -15,27 +15,27 @@ import { GetUsersOutput } from './dto/list-user.output';
 @Injectable()
 export class UsersService {
   constructor(
-    private cryptoService: CryptoService,
+    private readonly cryptoService: CryptoService,
     @InjectRepository(UserEntity)
     private readonly repository: Repository<UserEntity>,
   ) {}
 
   private async checkUniqueField(
-    field: string,
-    value: string | number,
+    field: 'username' | 'email',
+    value: string,
   ): Promise<void> {
     const exists = await this.getUser({ [field]: value });
+
     if (exists) {
       throw new ConflictException(`A user with this ${field} already exists.`);
     }
   }
 
-  async getUser({ id, email, username }: GetUserInput): Promise<UserEntity> {
-    const count = await this.repository.count();
-
-    console.log('USERS COUNT FROM BACKEND:', count);
-    console.log('GET USER INPUT:', { id, email, username });
-
+  async getUser({
+    id,
+    email,
+    username,
+  }: GetUserInput): Promise<UserEntity | null> {
     return this.repository.findOne({
       where: [{ id }, { email }, { username }],
       relations: ['profile'],
@@ -44,49 +44,33 @@ export class UsersService {
 
   async getUsers(
     { page, pageSize }: PaginationInput = {},
-    { id, username, userRoles, organizationId, status }: UsersFilterInput = {},
+    { id, username, roles, status }: UsersFilterInput = {},
   ): Promise<GetUsersOutput> {
-    const queryBuilder: SelectQueryBuilder<UserEntity> = this.repository
-      .createQueryBuilder('user')
-      .leftJoinAndSelect('user.organizations', 'organizations');
+    const [users, totalCount] = await this.repository.findAndCount({
+      where: {
+        ...(id !== undefined && { id }),
+        ...(username && { username: ILike(`%${username}%`) }),
+        ...(status !== undefined && { status }),
+        ...(roles?.length && { role: In(roles) }),
+      },
+      relations: ['profile'],
+      ...(page !== undefined &&
+        pageSize !== undefined && {
+          skip: (page - 1) * pageSize,
+          take: pageSize,
+        }),
+    });
 
-    if (userRoles?.length > 0) {
-      queryBuilder.where('user.userRole IN (:...userRoles)', { userRoles });
-    }
-
-    if (username) {
-      queryBuilder.andWhere('user.username ILIKE :username', {
-        username: `%${username}%`,
-      });
-    }
-
-    if (id) {
-      queryBuilder.andWhere('user.id = :id', { id });
-    }
-
-    if (organizationId) {
-      queryBuilder
-        .leftJoin('user.organizations', 'org')
-        .andWhere('org.id = :organizationId', { organizationId });
-    }
-
-    if (status) {
-      queryBuilder.andWhere('user.status = :status', { status });
-    }
-
-    if (page && pageSize) {
-      queryBuilder.skip((page - 1) * pageSize).take(pageSize);
-    }
-
-    const [users, totalCount] = await queryBuilder.getManyAndCount();
-
-    return { users, totalCount };
+    return {
+      users,
+      totalCount,
+    };
   }
 
   async createUser({
     username,
     email,
-    userRole,
+    role,
     password,
   }: CreateUserInput): Promise<UserEntity> {
     if (username) {
@@ -102,7 +86,7 @@ export class UsersService {
     const user = this.repository.create({
       username,
       email,
-      userRole,
+      role,
       password: passwordHash,
     });
 
@@ -117,7 +101,9 @@ export class UsersService {
     return this.getUser({ id });
   }
 
-  async deleteUser(id: number) {
-    return this.repository.delete(id);
+  async deleteUser(id: number):Promise<boolean> {
+    const result = await this.repository.delete(id);
+
+    return (result.affected ?? 0) > 0;
   }
 }

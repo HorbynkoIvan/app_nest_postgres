@@ -19,7 +19,7 @@ export class AuthService {
   async register(input: RegisterInput): Promise<UserEntity> {
     return this.usersService.createUser({
       ...input,
-      userRole: UserRole.STAFF,
+      role: UserRole.STAFF,
     });
   }
 
@@ -45,7 +45,7 @@ export class AuthService {
 
     const payload = {
       sub: user.id,
-      role: user.userRole,
+      role: user.role,
     };
 
     const accessToken = await this.jwtService.signAsync(payload);

@@ -13,7 +13,7 @@ import {
 } from '@nestjs/graphql';
 import { UserStatus } from '../enums/user-status.enum';
 import { UserRole } from '../enums/user-role.enum';
-import { UserProfileEntity } from './user-profile.entity';
+import { UserProfileEntity } from '../../user-profile/entities/user-profile.entity';
 
 @ObjectType()
 @Entity('users')
@@ -22,7 +22,7 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => String)
+  @Field()
   @Column({ unique: true })
   username: string;
 
@@ -34,7 +34,7 @@ export class UserEntity {
   })
   status: UserStatus;
 
-  @Field(() => String)
+  @Field()
   @Column({ unique: true })
   email: string;
 
@@ -43,9 +43,8 @@ export class UserEntity {
     type: 'enum',
     enum: UserRole,
     default: UserRole.STAFF,
-    name: 'login_type',
   })
-  userRole: UserRole;
+  role: UserRole;
 
   @Column()
   password: string;
@@ -58,5 +57,5 @@ export class UserEntity {
   @OneToOne(() => UserProfileEntity, (profile) => profile.user, {
     nullable: true,
   })
-  profile: UserProfileEntity;
+  profile: UserProfileEntity | null;
 }

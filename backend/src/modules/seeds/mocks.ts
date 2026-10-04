@@ -14,19 +14,19 @@ export const mockTestAdmins = [
     username: 'Super Admin',
     email: 'superadmin@gmail.com',
     password: '1111',
-    userRole: UserRole.SUPER_ADMIN,
+    role: UserRole.SUPER_ADMIN,
   },
   {
     username: 'Admin',
     email: 'admin@gmail.com',
     password: '1111',
-    userRole: UserRole.ADMIN,
+    role: UserRole.ADMIN,
   },
   {
     username: 'Staff',
     email: 'staff@gmail.com',
     password: '1111',
-    userRole: UserRole.STAFF,
+    role: UserRole.STAFF,
   },
 ];
 
@@ -34,7 +34,7 @@ export const mockUsers = new Array(MOCK_USERS_SIZE).fill(1).map(() => ({
   username: uniqueEnforcer.enforce(() => faker.person.firstName()),
   email: faker.internet.email(),
   password: '1111',
-  userRole: faker.helpers.arrayElement(Object.values(UserRole)),
+  role: faker.helpers.arrayElement(Object.values(UserRole)),
 }));
 
 export const mockOrganizations = new Array(MOCK_ORGANIZATIONS_SIZE)

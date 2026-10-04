@@ -75,7 +75,7 @@ export class SeedsService implements OnModuleInit {
     // const dataAdmins = (
     //   await this.usersService.getUsers(
     //     { page: 1, pageSize: 50 },
-    //     { userRoles: [UserRole.ADMIN] },
+    //     { roles: [UserRole.ADMIN] },
     //   )
     // ).users.map(({ id }) => id);
 
@@ -83,7 +83,7 @@ export class SeedsService implements OnModuleInit {
     // const dataUsers = (
     //   await this.usersService.getUsers(
     //     { page: 1, pageSize: 50 },
-    //     { userRoles: [UserRole.STAFF] },
+    //     { roles: [UserRole.STAFF] },
     //   )
     // ).users.map(({ id }) => id);
     //

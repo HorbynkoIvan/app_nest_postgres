@@ -8,26 +8,25 @@ type AuthPayload {
 }
 
 input CreateOrganizationInput {
-  creatorId: ID!
   description: String
-
-  """Array of ents IDs"""
-  entsIds: [ID!]
-  image: String
-  parentId: ID
-  status: OrganizationStatus!
-  title: String!
-  url: String
-
-  """Array of users IDs"""
-  usersIds: [ID!]
+  logo: String
+  name: String!
+  slug: String!
+  status: OrganizationStatus = DRAFT
 }
 
 input CreateUserInput {
   email: String!
   password: String!
-  userRole: UserRole!
+  role: UserRole!
   username: String!
+}
+
+input CreateUserProfileInput {
+  firstName: String
+  lastName: String
+  picture: String
+  userId: ID!
 }
 
 """
@@ -52,28 +51,37 @@ input LoginInput {
 }
 
 type Mutation {
-  """This graphql method for create organizations"""
+  """Create organization"""
   createOrganization(organizationInput: CreateOrganizationInput!): OrganizationEntity!
 
   """This graphql method for registration new user"""
   createUser(userInput: CreateUserInput!): UserEntity!
 
-  """This graphql method for deletting one organization by id"""
-  deleteOrganization(
-    """This graphql method for getting all organization by id """
-    id: Int!
-  ): OrganizationEntity!
+  """This graphql method for creating user profile"""
+  createUserProfile(userProfileInput: CreateUserProfileInput!): UserProfileEntity!
 
-  """This graphql method for delete user"""
-  deleteUser(id: Int!): Boolean!
+  """Deletes an organization by id."""
+  deleteOrganization(id: Int!): OrganizationEntity!
+
+  """Deletes a user by id."""
+  deleteUser(
+    """User id."""
+    id: Int!
+  ): Boolean!
+
+  """This graphql method for delete user profile"""
+  deleteUserProfile(userId: Float!): Boolean!
   login(input: LoginInput!): AuthPayload!
   register(input: RegisterInput!): UserEntity!
 
-  """This graphql method for update organization data"""
+  """Update organization"""
   updateOrganization(organizationInput: UpdateOrganizationsInput!): OrganizationEntity!
 
   """This graphql method for update user data"""
   updateUser(userInput: UpdateUserInput!): UserEntity!
+
+  """This graphql method for update user profile"""
+  updateUserProfile(userProfileInput: UpdateUserProfileInput!): UserProfileEntity!
 }
 
 type OrganizationEntity {
@@ -101,7 +109,7 @@ enum OrganizationStatus {
 
 input OrganizationsFilterInput {
   id: ID
-  title: String
+  name: String
 }
 
 input PaginationInput {
@@ -131,14 +139,17 @@ enum ProjectStatus {
 }
 
 type Query {
-  """This graphql method for getting one organization by id"""
+  """Returns organization by id"""
   getOrganization(id: Int!): OrganizationEntity
 
-  """This graphql method for getting organizations"""
+  """Returns organizations."""
   getOrganizations(filterInput: OrganizationsFilterInput, paginationInput: PaginationInput): OrganizationOutput!
 
   """This graphql method for getting user by email or id"""
   getUser(userInput: GetUserInput!): UserEntity!
+
+  """This graphql method for getting user profile by id"""
+  getUserProfile(id: Int!): UserProfileEntity!
   getUsers(filterInput: UsersFilterInput, paginationInput: PaginationInput): GetUsersOutput!
 
   """Returns the currently authenticated user."""
@@ -152,28 +163,27 @@ input RegisterInput {
 }
 
 input UpdateOrganizationsInput {
-  creatorId: ID
   description: String
-
-  """Array of ents IDs"""
-  entsIds: [ID!]
   id: ID!
-  image: String
-  parentId: ID
-  status: OrganizationStatus
-  title: String
-  url: String
-
-  """Array of users IDs"""
-  usersIds: [ID!]
+  logo: String
+  name: String
+  slug: String
+  status: OrganizationStatus = DRAFT
 }
 
 input UpdateUserInput {
   email: String
   id: ID!
   password: String
-  userRole: UserRole
+  role: UserRole
   username: String
+}
+
+input UpdateUserProfileInput {
+  firstName: String
+  lastName: String
+  picture: String
+  userId: ID!
 }
 
 type UserEntity {
@@ -181,8 +191,8 @@ type UserEntity {
   email: String!
   id: ID!
   profile: UserProfileEntity
+  role: UserRole!
   status: UserStatus!
-  userRole: UserRole!
   username: String!
 }
 
@@ -192,7 +202,7 @@ type UserProfileEntity {
   id: ID!
   lastName: String
   picture: String
-  user: UserEntity
+  user: UserEntity!
   userId: ID!
 }
 
@@ -212,8 +222,7 @@ enum UserStatus {
 
 input UsersFilterInput {
   id: Int
-  organizationId: Int
+  roles: [UserRole!]
   status: UserStatus
-  userRoles: [UserRole!]
   username: String
 }
