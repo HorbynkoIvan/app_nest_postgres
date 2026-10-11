@@ -138,12 +138,23 @@ enum ProjectStatus {
   PUBLISHED
 }
 
+type ProjectsOutput {
+  projects: [ProjectEntity!]!
+  totalCount: Int!
+}
+
 type Query {
   """Returns organization by id"""
   getOrganization(id: Int!): OrganizationEntity
 
   """Returns organizations."""
   getOrganizations(filterInput: OrganizationsFilterInput, paginationInput: PaginationInput): OrganizationOutput!
+
+  """Returns one project by id"""
+  getProjectById(id: Int!): ProjectEntity!
+
+  """Returns all projects"""
+  getProjects: ProjectsOutput!
 
   """This graphql method for getting user by email or id"""
   getUser(userInput: GetUserInput!): UserEntity!
